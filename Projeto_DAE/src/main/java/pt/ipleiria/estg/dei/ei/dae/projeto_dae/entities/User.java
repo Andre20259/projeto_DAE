@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class SuperUser {
+public class User {
     @Id
     private String username;
 
@@ -24,10 +24,10 @@ public class SuperUser {
     @Version
     private int version;
 
-    public SuperUser() {
+    public User() {
     }
 
-    public SuperUser(String username, String password, String email, String name) {
+    public User(String username, String password, String email, String name) {
         setUsername(username);
         setPassword(password);
         setEmail(email);
