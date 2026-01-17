@@ -1,0 +1,8 @@
+package pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions;
+
+public class MyEntityExistsException extends Exception {
+
+    public MyEntityExistsException(String e) {
+        super (e);
+    }
+}

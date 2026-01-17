@@ -1,7 +1,20 @@
 package pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities;
 
-import java.io.Serializable;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
 
+import java.io.Serializable;
+@Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllResponsibles",
+                query = "SELECT r FROM Responsible r ORDER BY r.username"
+        )
+    }
+)
+@DiscriminatorValue("RESPONSIBLE")
 public class Responsible extends User implements Serializable {
 
     public Responsible() {
