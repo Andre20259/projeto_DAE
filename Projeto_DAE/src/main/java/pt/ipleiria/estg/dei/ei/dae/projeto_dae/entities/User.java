@@ -4,9 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 public class User {
     @Id
     private String username;
@@ -23,6 +27,12 @@ public class User {
 
     @Version
     private int version;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Publication> publications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     public User() {
     }
@@ -64,5 +74,29 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void addPublication(Publication publication) {
+        this.publications.add(publication);
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
+
+    public void removePublication(Publication publication) {
+        this.publications.remove(publication);
+    }
+
+    public void removeComment(Comment comment) {
+        this.comments.remove(comment);
+    }
+
+    public List<Publication> getPublications() {
+        return publications;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
     }
 }

@@ -1,7 +1,23 @@
 package pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.NamedQueries;
+import jakarta.persistence.NamedQuery;
+
 import java.io.Serializable;
 
+@Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllColaborators",
+                query = "SELECT c FROM Colaborator c"
+        )
+}
+
+)
+
+@DiscriminatorValue("COLABORATOR")
 public class Colaborator extends User implements Serializable {
 
     public Colaborator() {
