@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs;
 
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
@@ -7,12 +8,17 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 
 import java.util.List;
 
+@Stateless
 public class TagBean {
     @PersistenceContext
     private EntityManager entityManager;
 
     public void create(String name){
-        Tag tag = new Tag();
+        Tag existing = entityManager.find(Tag.class, name);
+        if (existing != null) {
+            throw new RuntimeException("Tag " + name + " already exists");
+        }
+        Tag tag = new Tag(name, true);
         entityManager.persist(tag);
     }
 
@@ -28,20 +34,61 @@ public class TagBean {
         return tag;
     }
 
+    public void delete(String name){
+        Tag tag = find(name);
+        entityManager.remove(tag);
+    }
+
+    public void setVisible(String tagName, boolean visible) {
+        Tag tag = find(tagName);
+        tag.setVisible(visible);
+    }
+
+    public List<Tag> findHidden() {
+        return entityManager.createQuery(
+                "SELECT t FROM Tag t WHERE t.visible = false",
+                Tag.class
+        ).getResultList();
+    }
+
     public void subscribeUserToTag(String userName, String tagName) {
-        Tag tag = entityManager.find(Tag.class, tagName);
+        //Tag tag = entityManager.find(Tag.class, tagName);
+        Tag tag = find(tagName);
         if(tag == null) {
             throw new RuntimeException("Tag " + tagName + " not found");
         }
-        UserBean userBean = new UserBean();
+        //UserBean userBean = new UserBean();
         //User user = userBean.find(userName);
         User user = entityManager.find(User.class, userName);
         if (user == null) {
             throw new RuntimeException("User " + userName + " not found");
         }
-        user.getSubscribedTags().add(tag);
-        tag.getSubscriptions().add(user);
-        entityManager.merge(user);
-        entityManager.merge(tag);
+        if(!user.getSubscribedTags().contains(tag)) {
+            user.getSubscribedTags().add(tag);
+            tag.getSubscriptions().add(user);
+            entityManager.merge(user);
+            entityManager.merge(tag);
+        }
     }
+
+    public void unsubscribeUserFromTag(String userName, String tagName) {
+        Tag tag = entityManager.find(Tag.class, tagName);
+        if(tag == null) {
+            throw new RuntimeException("Tag " + tagName + " not found");
+        }
+        //UserBean userBean = new UserBean();
+        //User user = userBean.find(userName);
+        User user = entityManager.find(User.class, userName);
+        if (user == null) {
+            throw new RuntimeException("User " + userName + " not found");
+        }
+        if(user.getSubscribedTags().contains(tag)) {
+            user.getSubscribedTags().remove(tag);
+            tag.getSubscriptions().remove(user);
+            entityManager.merge(user);
+            entityManager.merge(tag);
+        }
+    }
+
+
 }

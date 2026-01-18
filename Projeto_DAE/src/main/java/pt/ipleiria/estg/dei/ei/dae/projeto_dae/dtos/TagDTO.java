@@ -7,18 +7,21 @@ import java.util.stream.Collectors;
 
 public class TagDTO {
     private String name;
+    private boolean visible;
     private int numSubscriptions;
 
     public TagDTO() {}
 
-    public TagDTO(String name, int numSubscriptions) {
+    public TagDTO(String name, boolean visible, int numSubscriptions) {
         this.name = name;
+        this.visible = visible;
         this.numSubscriptions = numSubscriptions;
     }
 
     public static TagDTO from(Tag tag){
         return new TagDTO(
                 tag.getName(),
+                tag.isVisible(),
                 tag.getSubscriptions().size()
         );
     }
@@ -33,6 +36,13 @@ public class TagDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public int getNumSubscriptions() {

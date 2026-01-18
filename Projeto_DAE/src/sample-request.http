@@ -1,0 +1,16 @@
+### Create Tag
+POST http://localhost:8081/Projeto_DAE/api/tags
+Content-Type: application/json
+
+{ "name": "AI" }
+
+### Get All Tags
+GET http://localhost:8081/Projeto_DAE/api/tags
+Accept: application/json
+
+### Get Specific Tag by Name
+GET http://localhost:8081/Projeto_DAE/api/tags/AI
+Accept: application/json
+
+
+
