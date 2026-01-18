@@ -36,7 +36,7 @@ public class PublicationService {
     @POST
     @Path("upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response upload(MultipartFormDataInput form) throws IOException {
+    public Response upload(MultipartFormDataInput form) throws IOException, MyEntityNotFoundException {
 
         var map = form.getFormDataMap();
 
@@ -51,10 +51,10 @@ public class PublicationService {
         PublicationCreateDTO dto =
                 jsonb.fromJson(publicationJson, PublicationCreateDTO.class);
 
-        PublicationBean.create(fileName, fileStream, dto);
+        publicationBean.create(fileName, fileStream, dto);
 
         return Response.status(Response.Status.CREATED)
-                .entity(new PublicationDTO(dto))
+                .entity(new PublicationDTO())
                 .build();
     }
 }
