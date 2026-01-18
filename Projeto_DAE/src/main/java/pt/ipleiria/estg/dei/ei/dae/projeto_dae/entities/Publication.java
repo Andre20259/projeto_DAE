@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllPublications",
+                query = "SELECT pub FROM Publication pub ORDER BY pub.title" // JPQL
+        )
+})
 @Table(name = "publications")
 public class Publication {
 
@@ -55,6 +61,8 @@ public class Publication {
     @OneToMany(mappedBy = "publication")
     private List<Rating> ratings;
 
+    private float averageRating;
+
     public Publication() {
     }
 
@@ -70,6 +78,7 @@ public class Publication {
         this.tags = tags;
         this.comments = new ArrayList<>();
         this.ratings = new ArrayList<>();
+        averageRating = 0.0f;
     }
 
     // getters & setters
@@ -173,6 +182,12 @@ public class Publication {
     // add Rating
     public void addRating(Rating rating) {
         this.ratings.add(rating);
+        // update average rating
+        float total = 0.0f;
+        for (Rating r : ratings) {
+            total += r.getScore();
+        }
+        this.averageRating = total / ratings.size();
     }
 
     // get Ratings
@@ -180,8 +195,7 @@ public class Publication {
         return ratings;
     }
 
-    // remove Rating
-    public void removeRating(Rating rating) {
-        this.ratings.remove(rating);
+    public float getAverageRating() {
+        return averageRating;
     }
 }

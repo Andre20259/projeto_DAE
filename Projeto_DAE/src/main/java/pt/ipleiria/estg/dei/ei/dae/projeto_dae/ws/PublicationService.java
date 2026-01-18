@@ -4,10 +4,7 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -22,6 +19,7 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Path("publications")
 @Produces(MediaType.APPLICATION_JSON)
@@ -34,7 +32,7 @@ public class PublicationService {
     private PublicationBean publicationBean;
 
     @POST
-    @Path("upload")
+    @Path("/")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response upload(MultipartFormDataInput form) throws IOException, MyEntityNotFoundException {
 
@@ -54,8 +52,14 @@ public class PublicationService {
         Publication publication = publicationBean.create(fileName, fileStream, dto);
 
         return Response.status(Response.Status.CREATED)
-                .entity(new PublicationDTO(publication))
+                .entity(PublicationDTO.from(publication))
                 .build();
+    }
+
+    @GET
+    @Path("/")
+    public List<PublicationDTO> getAllPublications() {
+        return PublicationDTO.from(publicationBean.findAll());
     }
 }
 

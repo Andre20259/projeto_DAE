@@ -73,6 +73,7 @@ public class PublicationBean {
         entityManager.persist(publication);
 
         // Update the relationships
+        /*
         for (User author : authorEntities) {
             author.addPublication(publication);
         }
@@ -80,8 +81,14 @@ public class PublicationBean {
         for (Tag tag : tagEntities) {
             tag.addPublication(publication);
         }
-
+        */
         return  publication;
+    }
+
+    public List<Publication> findAll() {
+        return entityManager
+                .createNamedQuery("getAllPublications", Publication.class)
+                .getResultList();
     }
 
     public Publication find(Long id) {
