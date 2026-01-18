@@ -2,47 +2,6 @@
 <project version="4">
   <component name="AgentMigrationStateService">
     <option name="migrationStatus" value="IN_PROGRESS" />
-    <option name="pendingSessionIds">
-      <option value="07073809-7790-4036-9250-c415b565a4d2" />
-      <option value="29af79f0-6ada-46cd-9927-1b7a1c56c608" />
-      <option value="d3278e1c-02ea-4377-b8fa-a64744dfcd63" />
-      <option value="fcd2bf34-c093-4b76-9da8-2bd00a2fedd4" />
-    </option>
-    <option name="pendingTurns">
-      <map>
-        <entry key="07073809-7790-4036-9250-c415b565a4d2">
-          <value>
-            <set>
-              <option value="a8c6254c-a988-4fce-97d4-aff9f77c5fd5" />
-            </set>
-          </value>
-        </entry>
-        <entry key="29af79f0-6ada-46cd-9927-1b7a1c56c608">
-          <value>
-            <set>
-              <option value="502da630-fef5-4f47-99b9-5429d3f9e991" />
-              <option value="7039e0ab-9d80-486a-a42b-bee08739e7b5" />
-              <option value="b5120ef5-da6c-4878-bf70-32c2ba72d343" />
-              <option value="e007f6ca-785a-43e7-90cf-51fc3da6f020" />
-              <option value="ed415687-b8ef-46cb-975b-938970a794ab" />
-            </set>
-          </value>
-        </entry>
-        <entry key="fcd2bf34-c093-4b76-9da8-2bd00a2fedd4">
-          <value>
-            <set>
-              <option value="19ddfa9b-2573-4d29-93d6-cb832502ff7d" />
-              <option value="39eae357-6674-4ba0-98d8-5aa57f406a27" />
-              <option value="421ceedb-354c-4c9d-9a8d-1cde56121788" />
-              <option value="4279a39f-c372-416c-94a5-57b5e4dd23fd" />
-              <option value="744756d7-eba5-4fc3-8e6b-48e354fa972c" />
-              <option value="8a3bbace-b2fa-4e5a-b08d-be62efd20bc3" />
-              <option value="caa05519-f3f1-41a6-b618-8370ccf8c8ee" />
-            </set>
-          </value>
-        </entry>
-      </map>
-    </option>
     <pendingWorkingSetItems>
       <entry key="29af79f0-6ada-46cd-9927-1b7a1c56c608" />
       <entry key="49715636-d7e4-434d-ae09-92f42c3bcd21" />
