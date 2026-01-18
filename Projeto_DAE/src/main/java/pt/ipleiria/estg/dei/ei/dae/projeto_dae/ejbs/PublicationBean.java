@@ -63,6 +63,7 @@ public class PublicationBean {
                 targetFilePath.toString(),
                 java.time.LocalDateTime.now(),
                 dto.getDescription(),
+                dto.getArea(),
                 authorEntities,
                 tagEntities
         );

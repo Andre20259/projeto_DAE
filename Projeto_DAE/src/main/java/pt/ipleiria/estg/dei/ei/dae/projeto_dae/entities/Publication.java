@@ -30,6 +30,9 @@ public class Publication {
 
     private String description;
 
+    @NotBlank
+    private String area;
+
     @ManyToMany
     @JoinTable(
             name = "publication_authors",
@@ -53,12 +56,13 @@ public class Publication {
     }
 
     public Publication(String title, String filename, String filePath,
-                       LocalDateTime uploadDate, String description, List<User> authors, List<Tag> tags) {
+                       LocalDateTime uploadDate, String description, String area, List<User> authors, List<Tag> tags) {
         this.title = title;
         this.filename = filename;
         this.filePath = filePath;
         this.uploadDate = uploadDate;
         this.description = description;
+        this.area = area;
         this.authors = authors;
         this.tags = tags;
         this.comments = new ArrayList<>();
@@ -111,6 +115,14 @@ public class Publication {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public List<User> getAuthors() {

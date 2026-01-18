@@ -8,6 +8,8 @@ public class PublicationCreateDTO {
 
     private String description;
 
+    private String area;
+
     // send author usernames
     private List<String> authors;
 
@@ -17,9 +19,10 @@ public class PublicationCreateDTO {
     public PublicationCreateDTO() {
     }
 
-    public PublicationCreateDTO(String title, String description, List<String> authors, List<String> tags) {
+    public PublicationCreateDTO(String title, String description,String area, List<String> authors, List<String> tags) {
         this.title = title;
         this.description = description;
+        this.area = area;
         this.authors = authors;
         this.tags = tags;
     }
@@ -30,6 +33,7 @@ public class PublicationCreateDTO {
     public String getDescription() {
         return description;
     }
+    public String getArea() {return area;}
     public List<String> getAuthors() {
         return authors;
     }
