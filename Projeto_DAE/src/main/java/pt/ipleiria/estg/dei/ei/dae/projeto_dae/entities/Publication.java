@@ -52,6 +52,9 @@ public class Publication {
     @OneToMany(mappedBy = "publication")
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "publication")
+    private List<Rating> ratings;
+
     public Publication() {
     }
 
@@ -66,6 +69,7 @@ public class Publication {
         this.authors = authors;
         this.tags = tags;
         this.comments = new ArrayList<>();
+        this.ratings = new ArrayList<>();
     }
 
     // getters & setters
@@ -154,5 +158,30 @@ public class Publication {
     // add Comment
     public void addComment(Comment comment) {
         this.comments.add(comment);
+    }
+
+    // get Comments
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    // remove Comment
+    public void removeComment(Comment comment) {
+        this.comments.remove(comment);
+    }
+
+    // add Rating
+    public void addRating(Rating rating) {
+        this.ratings.add(rating);
+    }
+
+    // get Ratings
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    // remove Rating
+    public void removeRating(Rating rating) {
+        this.ratings.remove(rating);
     }
 }

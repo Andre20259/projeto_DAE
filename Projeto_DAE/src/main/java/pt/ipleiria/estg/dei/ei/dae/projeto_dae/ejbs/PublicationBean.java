@@ -30,9 +30,10 @@ public class PublicationBean {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public void create(String filename, InputStream stream, PublicationCreateDTO dto)
+    public Publication create(String filename, InputStream stream, PublicationCreateDTO dto)
             throws MyEntityNotFoundException, IOException {
 
+        // Retrieve author and tag entities
         List<String> authors = dto.getAuthors();
         List<String> tags = dto.getTags();
 
@@ -49,6 +50,7 @@ public class PublicationBean {
             tagEntities.add(tag);
         }
 
+        // Store the file
         var targetDirectoryPath = Paths.get(PUBLICATION_DIR);
         if (!Files.exists(targetDirectoryPath)) {
             Files.createDirectories(targetDirectoryPath);
@@ -57,6 +59,7 @@ public class PublicationBean {
                 .resolve("file_" + UUID.randomUUID());
         Files.copy(stream, targetFilePath, StandardCopyOption.REPLACE_EXISTING);
 
+        // Create and persist the publication
         var publication = new Publication(
                 dto.getTitle(),
                 filename,
@@ -68,6 +71,17 @@ public class PublicationBean {
                 tagEntities
         );
         entityManager.persist(publication);
+
+        // Update the relationships
+        for (User author : authorEntities) {
+            author.addPublication(publication);
+        }
+
+        for (Tag tag : tagEntities) {
+            tag.addPublication(publication);
+        }
+
+        return  publication;
     }
 
     public Publication find(Long id) {

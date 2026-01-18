@@ -51,10 +51,10 @@ public class PublicationService {
         PublicationCreateDTO dto =
                 jsonb.fromJson(publicationJson, PublicationCreateDTO.class);
 
-        publicationBean.create(fileName, fileStream, dto);
+        Publication publication = publicationBean.create(fileName, fileStream, dto);
 
         return Response.status(Response.Status.CREATED)
-                .entity(new PublicationDTO())
+                .entity(new PublicationDTO(publication))
                 .build();
     }
 }

@@ -53,4 +53,8 @@ public class Tag {
     public void setSubscriptions(List<User> subscriptions) {
         this.subscriptions = subscriptions;
     }
+
+    public void addPublication(Publication publication) {
+        this.publications.add(publication);
+    }
 }
