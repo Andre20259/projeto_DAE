@@ -63,6 +63,8 @@ public class Publication {
 
     private float averageRating;
 
+    private boolean isVisible;
+
     public Publication() {
     }
 
@@ -78,7 +80,8 @@ public class Publication {
         this.tags = tags;
         this.comments = new ArrayList<>();
         this.ratings = new ArrayList<>();
-        averageRating = 0.0f;
+        this.averageRating = 0.0f;
+        this.isVisible = true;
     }
 
     // getters & setters
@@ -197,5 +200,12 @@ public class Publication {
 
     public float getAverageRating() {
         return averageRating;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }
