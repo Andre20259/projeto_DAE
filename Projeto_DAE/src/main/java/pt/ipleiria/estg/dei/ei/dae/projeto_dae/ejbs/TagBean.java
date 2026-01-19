@@ -39,9 +39,10 @@ public class TagBean {
         entityManager.remove(tag);
     }
 
-    public void setVisible(String tagName, boolean visible) {
+    public Tag setVisible(String tagName, boolean visible) {
         Tag tag = find(tagName);
         tag.setVisible(visible);
+        return tag;
     }
 
     public List<Tag> findHidden() {

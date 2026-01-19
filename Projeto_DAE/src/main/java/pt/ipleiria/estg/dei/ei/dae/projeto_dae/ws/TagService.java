@@ -72,8 +72,8 @@ public class TagService {
     @Path("{name}")
     @RolesAllowed({"Administrator", "Responsible"})
     public Response setVisibility(@PathParam("name") String name, TagDTO tagDTO) {
-        tagBean.setVisible(name, tagDTO.isVisible());
-        return Response.ok().build();
+        Tag updatedTag = tagBean.setVisible(name, tagDTO.isVisible());
+        return Response.ok(TagDTO.from(updatedTag)).build();
     }
 
     @POST
