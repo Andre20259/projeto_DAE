@@ -3,9 +3,12 @@ package pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserActivityDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Hasher;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Hasher;
+
+import java.time.LocalDateTime;
 
 @Stateless
 public class UserBean {
@@ -40,5 +43,36 @@ public class UserBean {
         User user = find(username);
         if (user == null) throw new MyEntityNotFoundException("Utilizador não encontrado");
         entityManager.remove(user);
+    }
+
+    // very simple activity aggregation for 3.1 and 3.13
+    public UserActivityDTO getActivity(String username) throws MyEntityNotFoundException {
+        User user = find(username);
+        if (user == null) throw new MyEntityNotFoundException("Utilizador não encontrado");
+
+        long uploads = user.getPublications().size();
+        long commentsPosted = user.getComments().size();
+
+        long ratingsGiven = entityManager.createQuery(
+                        "SELECT COUNT(r) FROM Rating r WHERE r.user.username = :u",
+                        Long.class)
+                .setParameter("u", username)
+                .getSingleResult();
+
+        // we only have uploadDate in Publication, so use latest upload as last_activity
+        LocalDateTime last = user.getPublications().stream()
+                .map(p -> p.getUploadDate())
+                .max(LocalDateTime::compareTo)
+                .orElse(null);
+
+        String lastActivity = last != null ? last.toString() : null;
+
+        return new UserActivityDTO(
+                uploads,
+                0,                 
+                ratingsGiven,
+                commentsPosted,
+                lastActivity
+        );
     }
 }
