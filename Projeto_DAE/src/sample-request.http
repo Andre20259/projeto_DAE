@@ -1,0 +1,38 @@
+### Create Tag
+POST http://localhost:8081/Projeto_DAE/api/tags
+Content-Type: application/json
+
+{ "name": "AI" }
+
+### Get All Tags
+GET http://localhost:8081/Projeto_DAE/api/tags
+Accept: application/json
+
+### Get Specific Tag by Name
+GET http://localhost:8081/Projeto_DAE/api/tags/AI
+Accept: application/json
+
+### Remove tags
+DELETE http://localhost:8081/Projeto_DAE/api/tags/AI
+Accept: application/json
+
+### Hidden Tag
+PUT http://localhost:8081/Projeto_DAE/api/tags/AI
+Content-Type: application/json
+
+{ "visible": "true" }
+
+### Subscribe to Tag
+POST http://localhost:8081/Projeto_DAE/api/tags/AI/subscribe
+Content-Type: application/json
+
+{ "user": "Maria" }
+
+### Unsubscribe from Tag
+POST http://localhost:8081/Projeto_DAE/api/tags/AI/unsubscribe
+Content-Type: application/json
+
+{ "user": "Maria" }
+
+
+

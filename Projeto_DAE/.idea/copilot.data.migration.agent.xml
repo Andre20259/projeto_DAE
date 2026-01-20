@@ -2,6 +2,20 @@
 <project version="4">
   <component name="AgentMigrationStateService">
     <option name="migrationStatus" value="IN_PROGRESS" />
+    <option name="pendingSessionIds">
+      <option value="d3278e1c-02ea-4377-b8fa-a64744dfcd63" />
+    </option>
+    <option name="pendingTurns">
+      <map>
+        <entry key="d3278e1c-02ea-4377-b8fa-a64744dfcd63">
+          <value>
+            <set>
+              <option value="cf5b2c17-f2be-4b34-9f3e-3ebaebaa1ea6" />
+            </set>
+          </value>
+        </entry>
+      </map>
+    </option>
     <pendingWorkingSetItems>
       <entry key="29af79f0-6ada-46cd-9927-1b7a1c56c608" />
       <entry key="49715636-d7e4-434d-ae09-92f42c3bcd21" />

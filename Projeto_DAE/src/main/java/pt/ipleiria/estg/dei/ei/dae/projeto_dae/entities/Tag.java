@@ -16,18 +16,24 @@ public class Tag {
     @Id
     private String name;
 
+    private boolean visible = true;
+
     @ManyToMany(mappedBy = "tags")
     private List<Publication> publications;
 
-    @ManyToMany(mappedBy = "subscriptions")
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscribed_tags",
+            joinColumns = @JoinColumn(name = "tag_name"),
+            inverseJoinColumns = @JoinColumn(name = "user_username")
+    )
     private List<User> subscriptions;
 
     public Tag() {}
 
-    public Tag(String name, List<Publication> publications, List<User> subscriptions) {
+    public Tag(String name, boolean visible) {
         this.name = name;
-        this.publications = publications;
-        this.subscriptions = subscriptions;
+        this.visible = visible;
     }
 
     public String getName() {
@@ -37,6 +43,11 @@ public class Tag {
     public void setName(String name) {
         this.name = name;
     }
+
+    public boolean isVisible() { return visible; }
+
+    public void setVisible(boolean visible) { this.visible = visible; }
+
 
     public List<Publication> getPublications() {
         return publications;

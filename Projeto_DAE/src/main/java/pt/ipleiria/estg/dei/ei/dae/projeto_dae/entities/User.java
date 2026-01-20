@@ -28,11 +28,14 @@ public class User {
     @Version
     private int version;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToMany(mappedBy = "authors")
     private List<Publication> publications = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "subscriptions")
+    private List<Tag> subscribedTags = new ArrayList<>();
 
     public User() {
     }
@@ -98,5 +101,9 @@ public class User {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public List<Tag> getSubscribedTags() {
+        return subscribedTags;
     }
 }
