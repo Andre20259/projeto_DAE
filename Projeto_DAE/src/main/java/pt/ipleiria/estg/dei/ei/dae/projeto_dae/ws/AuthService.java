@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.AuthDTO;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserDTO;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserCreateDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.ColaboratorBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.UserBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityExistsException;
@@ -48,19 +48,19 @@ public class AuthService {
         return Response.ok("{\"message\": \"Password recovery link sent to " + email + "\"}").build();
     }
 
-    @POST
-    @Path("/register")
-    public Response register(@Valid UserDTO userDTO) throws MyEntityExistsException {
+        @POST
+        @Path("/register")
+        public Response register(@Valid UserCreateDTO userCreateDTO) throws MyEntityExistsException {
         // Cria o utilizador como Colaborador por defeito
         colaboratorBean.create(
-                userDTO.getUsername(),
-                userDTO.getPassword(),
-                userDTO.getName(),
-                userDTO.getEmail()
+            userCreateDTO.getUsername(),
+            userCreateDTO.getPassword(),
+            userCreateDTO.getName(),
+            userCreateDTO.getEmail()
         );
         return Response.status(Response.Status.CREATED)
-                .entity("{\"message\": \"Utilizador registado com sucesso\"}")
-                .build();
-    }
+            .entity("{\"message\": \"Utilizador registado com sucesso\"}")
+            .build();
+        }
 
 }
