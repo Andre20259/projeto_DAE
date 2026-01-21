@@ -10,14 +10,13 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.CommentDTO;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.PublicationCreateDTO;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.PublicationDTO;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.TagDTO;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.*;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.CommentBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.PublicationBean;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.RatingBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Comment;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Rating;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
@@ -38,6 +37,8 @@ public class PublicationService {
     private PublicationBean publicationBean;
     @EJB
     private CommentBean commentBean;
+    @EJB
+    private RatingBean ratingBean;
 
 
     @POST
@@ -94,7 +95,6 @@ public class PublicationService {
         PublicationDTO dto = PublicationDTO.from(publication);
 
         if (!privileged && dto.getComments() != null) {
-            // assume CommentDTO has an `isVisible()` method; keep only visible comments for non-privileged users
             dto.setComments(dto.getComments().stream()
                     .filter(c -> c.isVisible())
                     .collect(Collectors.toList()));
@@ -126,5 +126,14 @@ public class PublicationService {
         Comment updatedComment = commentBean.setVisible(commentId, publicationId, dto.isVisible());
         return Response.ok(CommentDTO.from(updatedComment)).build();
     }
+
+    @POST
+    @Path("/{id}/ratings")
+    public Response addRating(@PathParam("id") Long publicationId, RatingDTO dto) throws MyEntityNotFoundException {
+        String username = securityContext.getUserPrincipal().getName();
+        Rating rating = ratingBean.create(username, publicationId, dto.score);
+        return Response.status(Response.Status.CREATED).entity(RatingDTO.from(rating)).build();
+    }
+    
 }
 
