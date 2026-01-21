@@ -1,0 +1,6 @@
+### POST new user
+POST http://localhost:8081/Projeto_DAE/api/users
+Content-Type: application/json
+
+{ "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe123" }
+###

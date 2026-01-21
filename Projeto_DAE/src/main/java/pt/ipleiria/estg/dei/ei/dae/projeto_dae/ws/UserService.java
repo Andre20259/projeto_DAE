@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.projeto_dae.ws;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
@@ -23,7 +24,6 @@ import java.util.Map;
 @Path("users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Authenticated
 public class UserService {
 
     @EJB
@@ -56,6 +56,7 @@ public class UserService {
     // 3.1 - own activity /api/users/{id}/activity
     @GET
     @Path("{id}/activity")
+    @Authenticated
     public Response getOwnActivity(@PathParam("id") String id) throws MyEntityNotFoundException {
         if (!isSelf(id) && !isAdmin()) {
             return Response.status(Response.Status.FORBIDDEN).build();
@@ -67,6 +68,7 @@ public class UserService {
     // 3.2 - edit own profile /api/users/{id}
     @PUT
     @Path("{id}")
+    @Authenticated
     public Response updateProfile(@PathParam("id") String id, Map<String, String> body)
             throws MyEntityNotFoundException {
         if (!isSelf(id) && !isAdmin()) {
@@ -81,6 +83,7 @@ public class UserService {
     // 3.3 - change own password /api/users/{id}/change-password
     @PUT
     @Path("{id}/change-password")
+    @Authenticated
     public Response changePassword(@PathParam("id") String id, Map<String, String> body)
             throws Exception {
         if (!isSelf(id) && !isAdmin()) {
@@ -95,6 +98,7 @@ public class UserService {
     // 3.6 - get own data /api/users/{id}
     @GET
     @Path("{id}")
+    @Authenticated
     public Response getUser(@PathParam("id") String id) throws MyEntityNotFoundException {
         if (!isSelf(id) && !isAdmin()) {
             return Response.status(Response.Status.FORBIDDEN).build();
@@ -104,13 +108,11 @@ public class UserService {
         return Response.ok(UserDTO.from(user)).build();
     }
 
-    // ===== ADMIN‑ONLY ENDPOINTS =====
-
+    // ===== PUBLIC endpoint: anyone can create users /api/users =====
     // 3.7 - admin creates users /api/users
     @POST
-    @RolesAllowed("Administrator")
+    @PermitAll
     public Response createUser(UserCreateDTO dto) throws MyEntityExistsException {
-        // by default create as Colaborator; you can extend to choose type
         colaboratorBean.create(dto.getUsername(), dto.getPassword(), dto.getName(), dto.getEmail());
         return Response.status(Response.Status.CREATED)
                 .entity(UserDTO.from(userBean.find(dto.getUsername())))
