@@ -61,5 +61,16 @@ public class PublicationService {
     public List<PublicationDTO> getAllPublications() {
         return PublicationDTO.from(publicationBean.findAll());
     }
+
+    @POST
+    @Path("/{id}/summary")
+    public Response generateSummary(@PathParam("id") Long id) {
+
+        Publication pub = publicationBean.generateAndStoreSummary(id);
+
+        return Response.ok()
+                .entity(pub.getSummary())
+                .build();
+    }
 }
 

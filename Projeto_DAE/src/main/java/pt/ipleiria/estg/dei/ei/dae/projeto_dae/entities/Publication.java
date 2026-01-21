@@ -36,6 +36,8 @@ public class Publication {
 
     private String description;
 
+    private String summary;
+
     @NotBlank
     private String area;
 
@@ -82,6 +84,16 @@ public class Publication {
         this.ratings = new ArrayList<>();
         this.averageRating = 0.0f;
         this.isVisible = true;
+        this.summary = null;
+    }
+
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     // getters & setters
