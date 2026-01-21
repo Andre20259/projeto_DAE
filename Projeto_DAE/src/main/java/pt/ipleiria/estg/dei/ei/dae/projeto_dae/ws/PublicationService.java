@@ -10,10 +10,15 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.CommentDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.PublicationCreateDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.PublicationDTO;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.TagDTO;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.CommentBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.PublicationBean;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Comment;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
 
@@ -31,6 +36,9 @@ public class PublicationService {
     private SecurityContext securityContext;
     @EJB
     private PublicationBean publicationBean;
+    @EJB
+    private CommentBean commentBean;
+
 
     @POST
     @Path("/")
@@ -82,6 +90,30 @@ public class PublicationService {
         }
 
         return dto;
+    }
+
+    @POST
+    @Path("/{id}/comments")
+    public Response addComment(@PathParam("id") Long publicationId, CommentDTO dto) throws MyEntityNotFoundException {
+        String username = securityContext.getUserPrincipal().getName();
+        Comment comment = commentBean.create(username, publicationId, dto.content);
+        return Response.status(Response.Status.CREATED).entity(CommentDTO.from(comment)).build();
+    }
+
+    @PUT
+    @Path("/{id}/comments/{commentId}")
+    public Response editComment(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
+        String username = securityContext.getUserPrincipal().getName();
+        Comment comment = commentBean.editComment(commentId, username, dto.content);
+        return Response.ok(CommentDTO.from(comment)).build();
+    }
+
+    @PUT
+    @Path("/{id}/comments/{commentId}/visibility")
+    @RolesAllowed({"Administrator", "Responsible"})
+    public Response setVisibility(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
+        Comment updatedComment = commentBean.setVisible(commentId, publicationId, dto.isVisible());
+        return Response.ok(CommentDTO.from(updatedComment)).build();
     }
 }
 
