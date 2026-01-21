@@ -9,6 +9,7 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundExcept
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Hasher;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Stateless
 public class UserBean {
@@ -17,6 +18,10 @@ public class UserBean {
 
     public User find(String username) {
         return entityManager.find(User.class, username);
+    }
+
+    public List<User> findAll() {
+        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
     public boolean canLogin(String username, String password) {

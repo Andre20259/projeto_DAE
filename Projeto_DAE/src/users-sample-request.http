@@ -4,3 +4,34 @@ Content-Type: application/json
 
 { "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe123" }
 ###
+
+### GET all users
+GET http://localhost:8081/Projeto_DAE/api/users
+Accept: application/json
+###
+
+### GET specific user by username
+GET http://localhost:8081/Projeto_DAE/api/users/johndoe123
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTAyMzg2MCwiZXhwIjoxNzY5MDI3NDYwfQ.s19p1ZzTyeQZKjHfrVwU1hK1VYzkoxJICqiLmrf9RROFq_JI1_oGSyygSUCj0Ybk
+
+###
+
+### DELETE user by username
+DELETE http://localhost:8081/Projeto_DAE/api/users/johndoe123
+Accept: application/json
+###
+
+### PUT update user by username
+PUT http://localhost:8081/Projeto_DAE/api/users/johndoe123
+Content-Type: application/json
+
+{ "name": "JohnDoeUpdated", "email": "test1@mail.pt", "password": "newpassword123", "username": "johndoe123" }
+###
+
+### POST login user
+POST http://localhost:8081/Projeto_DAE/api/auth/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "admin" }
+###

@@ -183,4 +183,12 @@ public class UserService {
         UserActivityDTO dto = userBean.getActivity(id);
         return Response.ok(dto).build();
     }
+
+    @GET
+    @RolesAllowed("Administrator")
+    public Response getAllUsers() {
+        var users = userBean.findAll();
+        var usersDTO = users.stream().map(UserDTO::from).toList();
+        return Response.ok(usersDTO).build();
+    }
 }
