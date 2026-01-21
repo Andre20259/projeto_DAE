@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e99c7e8e-bcc3-4dcc-bbe7-93785b6ed165" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ejbs/PublicationBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ejbs/PublicationBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/entities/Publication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/entities/Publication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ws/PublicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ws/PublicationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto_DAE/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto_DAE/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/docker-compose.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +92,7 @@
       <option name="presentableId" value="Default" />
       <updated>1768945587581</updated>
       <workItem from="1768945591005" duration="5491000" />
-      <workItem from="1769018718733" duration="5979000" />
+      <workItem from="1769018718733" duration="6280000" />
     </task>
     <servers />
   </component>

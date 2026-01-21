@@ -8,7 +8,7 @@ endif
 
 up:
 	docker compose up -d
-	docker exec projeto_dae-ollama-1 ollama pull qwen2.5:3b
+#	docker exec projeto_dae-ollama-1 ollama pull qwen2.5:3b
 
 down:
 	docker compose down --rmi local --volumes
