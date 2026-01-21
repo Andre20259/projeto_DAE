@@ -20,6 +20,7 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("publications")
 @Produces(MediaType.APPLICATION_JSON)
@@ -60,6 +61,27 @@ public class PublicationService {
     @Path("/")
     public List<PublicationDTO> getAllPublications() {
         return PublicationDTO.from(publicationBean.findAll());
+    }
+
+    @GET
+    @Path("/{id}")
+    public PublicationDTO getPublication(@PathParam("id") long id) throws MyEntityNotFoundException {
+        Publication publication = publicationBean.find(id);
+
+        // determine if caller is privileged; adjust role names if different in your app
+        boolean privileged = securityContext.isUserInRole("RESPONSIBLE")
+                || securityContext.isUserInRole("ADMINISTRATOR");
+
+        PublicationDTO dto = PublicationDTO.from(publication);
+
+        if (!privileged && dto.getComments() != null) {
+            // assume CommentDTO has an `isVisible()` method; keep only visible comments for non-privileged users
+            dto.setComments(dto.getComments().stream()
+                    .filter(c -> c.isVisible())
+                    .collect(Collectors.toList()));
+        }
+
+        return dto;
     }
 }
 
