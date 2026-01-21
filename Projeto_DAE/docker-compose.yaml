@@ -30,7 +30,7 @@ services:
       - db
       - smtp
 #      - ollama
-#
+
 #  ollama:
 #    image: ollama/ollama:latest
 #    ports:
@@ -40,6 +40,5 @@ services:
 #    volumes:
 #      - ollama_data:/root/.ollama
 #    restart: unless-stopped
-#
 #volumes:
 #  ollama_data:

@@ -71,6 +71,17 @@ public class PublicationService {
         return PublicationDTO.from(publicationBean.findAll());
     }
 
+    @POST
+    @Path("/{id}/summary")
+    public Response generateSummary(@PathParam("id") Long id) {
+
+        Publication pub = publicationBean.generateAndStoreSummary(id);
+
+        return Response.ok()
+                .entity(pub.getSummary())
+                .build();
+    }
+
     @GET
     @Path("/{id}")
     public PublicationDTO getPublication(@PathParam("id") long id) throws MyEntityNotFoundException {
