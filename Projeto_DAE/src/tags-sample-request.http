@@ -9,28 +9,38 @@ Accept: application/json
 ### Create Tag
 POST http://localhost:8081/Projeto_DAE/api/tags
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyMjcwMiwiZXhwIjoxNzY5MTI2MzAyfQ.0yOJw4WX2Cfc8Cok86hUT2e6gH9NMMeyNubhxCtG-vBg9QIFIra8caV5MSYoiniw
 
 { "name": "AI" }
 
 ### Get All Tags
 GET http://localhost:8081/Projeto_DAE/api/tags
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTE5NzYzLCJleHAiOjE3NjkxMjMzNjN9.wyoo5uHZqfHpG7qOETIYjvGSTB56tkw16beGl8hqtz74KFqnienRFS58aFFbNRu6
+
 
 ### Get Specific Tag by Name
 GET http://localhost:8081/Projeto_DAE/api/tags/AI
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTE5NzYzLCJleHAiOjE3NjkxMjMzNjN9.wyoo5uHZqfHpG7qOETIYjvGSTB56tkw16beGl8hqtz74KFqnienRFS58aFFbNRu6
+
 
 ###Get Hidden Tags
 GET http://localhost:8081/Projeto_DAE/api/tags/hidden
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyMjcwMiwiZXhwIjoxNzY5MTI2MzAyfQ.0yOJw4WX2Cfc8Cok86hUT2e6gH9NMMeyNubhxCtG-vBg9QIFIra8caV5MSYoiniw
+
 
 ### Remove tags
 DELETE http://localhost:8081/Projeto_DAE/api/tags/AI
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTE5NzYzLCJleHAiOjE3NjkxMjMzNjN9.wyoo5uHZqfHpG7qOETIYjvGSTB56tkw16beGl8hqtz74KFqnienRFS58aFFbNRu6
+
 
 ### Hidden Tag
 PUT http://localhost:8081/Projeto_DAE/api/tags/AI
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyMjcwMiwiZXhwIjoxNzY5MTI2MzAyfQ.0yOJw4WX2Cfc8Cok86hUT2e6gH9NMMeyNubhxCtG-vBg9QIFIra8caV5MSYoiniw
 
 { "visible": "false" }
 

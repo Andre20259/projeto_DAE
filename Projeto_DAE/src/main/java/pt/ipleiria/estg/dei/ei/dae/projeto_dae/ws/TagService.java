@@ -28,22 +28,24 @@ public class TagService {
     private SecurityContext securityContext;
 
     @GET
-    //@Path("/")
+    @Path("/")
+    @Authenticated
     public List<TagDTO> getAllTags() {
         return TagDTO.from(tagBean.findAll());
     }
 
     @GET
     @Path("/hidden")
+    @Authenticated
     @RolesAllowed({"Administrator", "Responsible"})
     public List<TagDTO> getHiddenTags() {
         return TagDTO.from(tagBean.findHidden());
     }
 
     @POST
-    //@Path("/")
-    //@Authenticated
-    //@RolesAllowed({"Administrator", "Responsible"})
+    @Path("/")
+    @Authenticated
+    @RolesAllowed({"Administrator", "Responsible"})
     public Response createNewTag (TagDTO tagDTO) {
         tagBean.create(tagDTO.getName());
         return Response.status(Response.Status.CREATED).entity(tagDTO).build();
@@ -51,6 +53,7 @@ public class TagService {
 
     @GET
     @Path("{name}")
+    @Authenticated
     public Response getTag(@PathParam("name") String name) throws MyEntityNotFoundException {
         var tag = tagBean.find(name);
         if (tag == null) {
@@ -61,6 +64,7 @@ public class TagService {
 
     @DELETE
     @Path("{name}")
+    @Authenticated
     @RolesAllowed({"Administrator", "Responsible"})
     public Response deleteTag(@PathParam("name") String name) {
         tagBean.delete(name);
@@ -69,6 +73,7 @@ public class TagService {
 
     @PUT
     @Path("{name}")
+    @Authenticated
     @RolesAllowed({"Administrator", "Responsible"})
     public Response setVisibility(@PathParam("name") String name, TagDTO tagDTO) {
         Tag updatedTag = tagBean.setVisible(name, tagDTO.isVisible());
