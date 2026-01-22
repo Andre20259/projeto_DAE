@@ -1,12 +1,14 @@
 package pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs;
 
 import jakarta.ejb.EJB;
+import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Comment;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 
+@Stateless
 public class CommentBean {
     @PersistenceContext
     private EntityManager entityManager;

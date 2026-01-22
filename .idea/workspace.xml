@@ -8,6 +8,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto_DAE/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ejbs/CommentBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ejbs/CommentBean.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +94,8 @@
       <option name="presentableId" value="Default" />
       <updated>1768945587581</updated>
       <workItem from="1768945591005" duration="5491000" />
-      <workItem from="1769018718733" duration="6280000" />
+      <workItem from="1769018718733" duration="6643000" />
+      <workItem from="1769032104689" duration="3913000" />
     </task>
     <servers />
   </component>
