@@ -74,6 +74,24 @@ public class PublicationService {
         return PublicationDTO.from(publication);
     }
 
+    @PUT
+    @Path("/{id}")
+    public PublicationDTO updatePublication(@PathParam("id") Long id, PublicationCreateDTO dto) throws MyEntityNotFoundException {
+        Publication publication = publicationBean.find(id);
+        String username = securityContext.getUserPrincipal().getName();
+
+        boolean isAuthor = publication.getAuthors() != null &&
+                publication.getAuthors().stream()
+                        .anyMatch(a -> username.equals(a.getUsername()));
+
+        if (!isAuthor) {
+            throw new ForbiddenException("Only authors can update this publication");
+        }
+
+        publication = publicationBean.updatePublication(id, dto);
+        return PublicationDTO.from(publication);
+    }
+
     @GET
     @Path("/")
     public List<PublicationDTO> getAllPublications() {

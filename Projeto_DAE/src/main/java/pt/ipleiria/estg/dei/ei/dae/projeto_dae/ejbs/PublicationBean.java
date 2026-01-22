@@ -110,6 +110,17 @@ public class PublicationBean {
         return publication;
     }
 
+    public Publication updatePublication(Long id, PublicationCreateDTO dto) throws MyEntityNotFoundException {
+        Publication publication = entityManager.find(Publication.class, id);
+        if (publication == null) {
+            throw new MyEntityNotFoundException("Publication not found");
+        }
+        publication.setTitle(dto.getTitle());
+        publication.setDescription(dto.getDescription());
+        publication.setArea(dto.getArea());
+        return publication;
+    }
+
     public Publication generateAndStoreSummary(Long publicationId) {
 
         Publication pub = entityManager.find(Publication.class, publicationId);
