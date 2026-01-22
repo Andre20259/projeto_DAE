@@ -120,66 +120,20 @@ public class UserService {
                 .build();
     }
 
-    // 3.8 - admin edits user name/email /api/users/{id}
-    @PUT
-    @Path("{id}/admin-edit")
-    @RolesAllowed("Administrator")
-    public Response adminEditUser(@PathParam("id") String id, Map<String, String> body)
-            throws MyEntityNotFoundException {
-        String name = body.get("name");
-        String email = body.get("email");
-        boolean isActive = Boolean.parseBoolean(body.get("isActive"));
-        userBean.update(id, name, email, isActive);
-        return Response.ok(Map.of("message", "User edited")).build();
-    }
-
     // 3.9 - admin deletes user /api/users/{id}
     @DELETE
     @Path("{id}")
+    @Authenticated
     @RolesAllowed("Administrator")
     public Response deleteUser(@PathParam("id") String id) throws MyEntityNotFoundException {
         userBean.delete(id);
         return Response.ok(Map.of("message", "User deleted")).build();
     }
 
-    // 3.12 - admin changes user role /api/users/{id}/role
-    @POST
-    @Path("{id}/role")
-    @RolesAllowed("Administrator")
-    public Response changeUserRole(@PathParam("id") String id, Map<String, Integer> body)
-            throws MyEntityNotFoundException, MyEntityExistsException {
-        int roles = body.get("roles"); // e.g.: 1=Colaborator, 2=Responsible, 3=Administrator
-
-        // very simple implementation: delete and recreate with same credentials
-        var user = userBean.find(id);
-        if (user == null) throw new MyEntityNotFoundException("Utilizador não encontrado");
-
-        String username = user.getUsername();
-        String name = user.getName();
-        String email = user.getEmail();
-        String hashedPassword = user.getPassword(); // already hashed
-
-        // remove old instance
-        userBean.delete(username);
-
-        // re‑create with same data in the new role
-        switch (roles) {
-            case 1 -> {
-                // Colaborator
-                // password is already hashed, so use persist directly
-                colaboratorBean.create(username, name, email, ""); // or adjust create to accept hashed
-            }
-            case 2 -> responsibleBean.create(username, hashedPassword, name, email);
-            case 3 -> administratorBean.create(username, hashedPassword, name, email);
-            default -> throw new BadRequestException("Invalid role");
-        }
-
-        return Response.ok(Map.of("message", "User updated")).build();
-    }
-
     // 3.13 - admin gets any user's history /api/users/{id}/history
     @GET
     @Path("{id}/history")
+    @Authenticated
     @RolesAllowed("Administrator")
     public Response getUserHistory(@PathParam("id") String id) throws MyEntityNotFoundException {
         UserActivityDTO dto = userBean.getActivity(id);
@@ -187,6 +141,7 @@ public class UserService {
     }
 
     @GET
+    @Authenticated
     @RolesAllowed("Administrator")
     public Response getAllUsers() {
         var users = userBean.findAll();

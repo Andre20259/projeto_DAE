@@ -8,7 +8,6 @@ Content-Type: application/json
 ### GET all users
 GET http://localhost:8081/Projeto_DAE/api/users
 Accept: application/json
-#Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTAyMzg2MCwiZXhwIjoxNzY5MDI3NDYwfQ.s19p1ZzTyeQZKjHfrVwU1hK1VYzkoxJICqiLmrf9RROFq_JI1_oGSyygSUCj0Ybk
 
 ###
 
@@ -31,14 +30,14 @@ PUT http://localhost:8081/Projeto_DAE/api/users/johndoe123
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MDQyMDE2LCJleHAiOjE3NjkwNDU2MTZ9.tbMUqmOplbnZ4KGgR-mUqdhmljjph8RhPi3NpIXN1MUdWbF7iPBtpemSiF-RlxLS
 
-{ "name": "JohnDoeUpdated", "email": "test1@mail.pt", "password": "password123", "username": "johndoe123", "isActive": true}
+{ "name": "JohnDoeUpdated", "email": "test1@mail.pt", "username": "johndoe123", "isActive": true}
 ###
 
 ### POST login user
 POST http://localhost:8081/Projeto_DAE/api/auth/login
 Content-Type: application/json
 
-{ "username": "johndoe123", "password": "password123" }
+{ "username": "admin", "password": "admin" }
 ###
 
 ### POST change password
@@ -47,4 +46,11 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MDgxMjU1LCJleHAiOjE3NjkwODQ4NTV9.Ycml4YcuQTqoD6LrBHltciH4qWFcC6x0IY2MRDopZlJM3rQBP4UxnGV_e46H0o63
 
 { "oldPassword": "password123", "newPassword": "newpassword123" }
+###
+
+### GET user activity
+GET http://localhost:8081/Projeto_DAE/api/users/johndoe123/activity
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTA4MjQ2MSwiZXhwIjoxNzY5MDg2MDYxfQ.xHzmQyUf41HMZ5HVBB2Cz1-s3lcCG532vYdBR9aRissuaMK4aNNnpTEanb0cAxFV
+
 ###
