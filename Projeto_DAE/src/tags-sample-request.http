@@ -42,7 +42,7 @@ PUT http://localhost:8081/Projeto_DAE/api/tags/AI
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyMjcwMiwiZXhwIjoxNzY5MTI2MzAyfQ.0yOJw4WX2Cfc8Cok86hUT2e6gH9NMMeyNubhxCtG-vBg9QIFIra8caV5MSYoiniw
 
-{ "visible": "false" }
+{ "visible": "true" }
 
 ### Subscribe to Tag
 POST http://localhost:8081/Projeto_DAE/api/tags/AI/subscribe

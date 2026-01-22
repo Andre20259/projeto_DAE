@@ -11,14 +11,14 @@ public class CommentDTO {
     public Long id;
     public String author;
     public String content;
-    public LocalDateTime created_at;
+    public String created_at;
     public boolean visible;
 
 
     public CommentDTO() {
     }
 
-    public CommentDTO(Long id, String author, String content, LocalDateTime created_at, boolean visible) {
+    public CommentDTO(Long id, String author, String content, String created_at, boolean visible) {
         this.id = id;
         this.author = author;
         this.content = content;
@@ -31,7 +31,7 @@ public class CommentDTO {
                 comment.getId(),
                 comment.getUser().getUsername(),
                 comment.getContent(),
-                comment.getCreated_at(),
+                comment.getCreated_at().toString(),
                 comment.isVisible());
     }
 
@@ -63,11 +63,11 @@ public class CommentDTO {
         this.content = content;
     }
 
-    public LocalDateTime getCreated_at() {
+    public String getCreated_at() {
         return created_at;
     }
 
-    public void setCreated_at(LocalDateTime created_at) {
+    public void setCreated_at(String created_at) {
         this.created_at = created_at;
     }
 

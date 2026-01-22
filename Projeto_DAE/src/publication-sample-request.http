@@ -1,6 +1,6 @@
 ### Upload publication
 POST http://localhost:8081/Projeto_DAE/api/publications HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTExMzc3NSwiZXhwIjoxNzY5MTE3Mzc1fQ.um8p84hmA5WTstAJRUtXbaXxJRUdfkFoeyUWxAXrJzsiQPsSZqZTTt3yKCHtDkan
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTIzMTYyLCJleHAiOjE3NjkxMjY3NjJ9._Jyb1SRukgyiG_0EhgY0OJLdw1HQM9Np65vsklB5Hi-7IsdqzuLStzYR51WQfZ6k
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -28,4 +28,31 @@ Accept: application/json
 ### Get publication by id
 GET http://localhost:8081/Projeto_DAE/api/publications/1
 Accept: application/json
+
+### Create comment on publication
+POST http://localhost:8081/Projeto_DAE/api/publications/1/comments
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTIzMTYyLCJleHAiOjE3NjkxMjY3NjJ9._Jyb1SRukgyiG_0EhgY0OJLdw1HQM9Np65vsklB5Hi-7IsdqzuLStzYR51WQfZ6k
+
+{
+  "content": "Great publication!"
+}
+
+###Update comment on publication
+PUT http://localhost:8081/Projeto_DAE/api/publications/1/comments/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTIzMTYyLCJleHAiOjE3NjkxMjY3NjJ9._Jyb1SRukgyiG_0EhgY0OJLdw1HQM9Np65vsklB5Hi-7IsdqzuLStzYR51WQfZ6k
+
+{
+  "content": "Updated comment content."
+}
+
+### Set visible comment on publication
+PUT http://localhost:8081/Projeto_DAE/api/publications/1/comments/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTIzMTYyLCJleHAiOjE3NjkxMjY3NjJ9._Jyb1SRukgyiG_0EhgY0OJLdw1HQM9Np65vsklB5Hi-7IsdqzuLStzYR51WQfZ6k
+
+{
+  "visible": "true"
+}
 
