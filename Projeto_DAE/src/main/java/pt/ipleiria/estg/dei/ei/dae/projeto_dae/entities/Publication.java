@@ -36,6 +36,7 @@ public class Publication {
 
     private String description;
 
+    @Lob
     private String summary;
 
     @NotBlank
