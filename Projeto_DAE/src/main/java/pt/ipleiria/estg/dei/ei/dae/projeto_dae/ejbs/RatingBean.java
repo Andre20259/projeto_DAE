@@ -28,6 +28,7 @@ public class RatingBean {
         Rating rating = new Rating(user, publication, score);
         entityManager.persist(rating);
         publication.addRating(rating);
+        user.addRating(rating);
         return rating;
     }
 
@@ -40,6 +41,10 @@ public class RatingBean {
         Publication publication = rating.getPublication();
         if (publication != null) {
             publication.removeRating(rating);
+        }
+        User user = rating.getUser();
+        if (user != null) {
+            user.removeRating(rating);
         }
 
         entityManager.remove(rating);

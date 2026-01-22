@@ -143,5 +143,12 @@ public class PublicationService {
         Rating rating = ratingBean.create(username, publicationId, dto.score);
         return Response.ok(RatingDTO.from(rating)).build();
     }
+
+    @DELETE
+    @Path("/{id}/ratings/{ratingId}")
+    public Response deleteRating(@PathParam("id") Long publicationId, @PathParam("ratingId") Long ratingId) {
+        ratingBean.delete(ratingId);
+        return Response.noContent().build();
+    }
 }
 
