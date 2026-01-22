@@ -17,6 +17,9 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,9 +44,16 @@ public class PublicationBean {
     public Publication create(String filename, InputStream stream, PublicationCreateDTO dto)
             throws MyEntityNotFoundException, IOException {
 
-        // Retrieve author and tag entities
+        if (dto == null) {
+            throw new WebApplicationException("Missing publication JSON", Response.Status.BAD_REQUEST);
+        }
+
         List<String> authors = dto.getAuthors();
         List<String> tags = dto.getTags();
+
+        if (authors == null || authors.isEmpty()) {
+            throw new WebApplicationException("Authors list is missing or empty", Response.Status.BAD_REQUEST);
+        }
 
         List<User> authorEntities = new ArrayList<>();
         List<Tag> tagEntities = new ArrayList<>();

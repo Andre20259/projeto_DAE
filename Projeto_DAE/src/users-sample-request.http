@@ -8,6 +8,7 @@ Content-Type: application/json
 ### GET all users
 GET http://localhost:8081/Projeto_DAE/api/users
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
 
 ###
 

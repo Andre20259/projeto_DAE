@@ -40,4 +40,10 @@ public class PublicationCreateDTO {
     public List<String> getTags() {
         return tags;
     }
+
+    public void setTitle(String title) { this.title = title; }
+    public void setDescription(String description) { this.description = description; }
+    public void setArea(String area) { this.area = area; }
+    public void setAuthors(List<String> authors) { this.authors = authors; }
+    public void setTags(List<String> tags) { this.tags = tags; }
 }

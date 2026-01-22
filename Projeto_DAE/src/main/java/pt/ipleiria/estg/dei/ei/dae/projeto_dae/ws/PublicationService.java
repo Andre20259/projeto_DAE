@@ -5,10 +5,12 @@ import jakarta.ejb.EJB;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.ws.rs.*;
+import java.util.logging.Logger;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import jakarta.json.bind.annotation.JsonbDateFormat;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.*;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.CommentBean;
@@ -40,24 +42,33 @@ public class PublicationService {
     @EJB
     private RatingBean ratingBean;
 
+    private static final Logger LOGGER = Logger.getLogger(PublicationService.class.getName());
+
 
     @POST
     @Path("/")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response upload(MultipartFormDataInput form) throws IOException, MyEntityNotFoundException {
-
         var map = form.getFormDataMap();
 
         var filePart = map.get("file").get(0);
         var fileName = filePart.getFileName();
         var fileStream = filePart.getBody(InputStream.class, null);
 
-        String publicationJson =
-                map.get("publication").get(0).getBodyAsString();
+        String publicationJson = map.get("publication").get(0).getBodyAsString();
+        LOGGER.info("publicationJson = " + publicationJson.replaceAll("\\R", " ")); // single-line log
 
         Jsonb jsonb = JsonbBuilder.create();
-        PublicationCreateDTO dto =
-                jsonb.fromJson(publicationJson, PublicationCreateDTO.class);
+        PublicationCreateDTO dto = jsonb.fromJson(publicationJson, PublicationCreateDTO.class);
+
+        // Log DTO as JSON (easy to read)
+        String dtoAsJson = jsonb.toJson(dto);
+        LOGGER.info("Deserialized PublicationCreateDTO = " + dtoAsJson);
+
+        // also log individual fields to be explicit
+        LOGGER.info("DTO.title = " + dto.getTitle());
+        LOGGER.info("DTO.authors = " + String.valueOf(dto.getAuthors())); // shows null or list
+        LOGGER.info("DTO.tags = " + String.valueOf(dto.getTags()));
 
         Publication publication = publicationBean.create(fileName, fileStream, dto);
 

@@ -1,103 +1,40 @@
-GET http://localhost:8081/Projeto_DAE/api/users
-Accept: application/json
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-
-<> 2026-01-22T164306.500.json
-
-###
-
-POST http://localhost:8081/Projeto_DAE/api/users
-Content-Type: application/json
-Content-Length: 99
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{ "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe123" }
-
-<> 2026-01-22T164234.201.json
-
-###
-
-POST http://localhost:8081/Projeto_DAE/api/auth/login
-Content-Type: application/json
-Content-Length: 44
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{ "username": "admin", "password": "admin" }
-
-###
-
 POST http://localhost:8081/Projeto_DAE/api/publications
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+Content-Type: multipart/form-data; boundary=boundary
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
 Accept-Encoding: br, deflate, gzip, x-gzip
 Accept: */*
-content-length: 469965
+content-length: 478
 
-------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="file"; filename="example.pdf"
-Content-Type: application/pdf
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
 
-< C:\Users\User\Desktop\DAE\projeto_DAE\Projeto_DAE\src\example.pdf
-------WebKitFormBoundary7MA4YWxkTrZu0gW
+< C:\Users\User\AppData\Local\Temp\http_request_input_file2245.txt
+--boundary
 Content-Disposition: form-data; name="publication"
+Content-Type: application/json
 
 {
-  "title": "My Test Publication",
-  "author": "John B. Doe",
-  "category": "Science",
-  "tags": ["AI"],
-  "description": "This is a test publication, hello, hello hello"
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
 }
-------WebKitFormBoundary7MA4YWxkTrZu0gW--
+--boundary--
 
-<> 2026-01-22T012015.500.json
-
-###
-
-GET http://localhost:8081/Projeto_DAE/api/publications/123/summary
-Content-Type: application/json
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-<> 2026-01-22T011150.500.octet-stream
+<> 2026-01-22T180745.500.json
 
 ###
 
-GET http://localhost:8081/Projeto_DAE/api/publications/123/summary
-Content-Type: application/json
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-<> 2026-01-22T005311.500.octet-stream
-
-###
-
-POST http://localhost:8081/Projeto_DAE/api/users
-Content-Type: application/json
-Content-Length: 99
-User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
-Accept-Encoding: br, deflate, gzip, x-gzip
-Accept: */*
-
-{ "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe123" }
-
-<> 2026-01-22T005011.201.json
-
-###
-
-GET http://localhost:8081/Projeto_DAE/api/tags
+GET http://localhost:8081/Projeto_DAE/api/publications
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
 Accept-Encoding: br, deflate, gzip, x-gzip
 
-<> 2026-01-22T004923.200.json
+<> 2026-01-22T180743.200.json
 
 ###
 
@@ -110,7 +47,1163 @@ Accept: */*
 
 { "name": "AI" }
 
-<> 2026-01-22T004909.201.json
+<> 2026-01-22T180741.201.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file2634.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T180739.500.json
+
+###
+
+GET http://localhost:8081/Projeto_DAE/api/publications
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2026-01-22T180735.200.json
+
+###
+
+GET http://localhost:8081/Projeto_DAE/api/publications
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2026-01-22T180647.500.json
+
+###
+
+GET http://localhost:8081/Projeto_DAE/api/publications
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2026-01-22T180548.500.json
+
+###
+
+GET http://localhost:8081/Projeto_DAE/api/publications
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2026-01-22T180533.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file2239.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T180442.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/tags
+Content-Type: application/json
+Content-Length: 16
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "name": "AI" }
+
+<> 2026-01-22T180440.201.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file129.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T180438.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file766.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T175821.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/tags
+Content-Type: application/json
+Content-Length: 16
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "name": "AI" }
+
+<> 2026-01-22T175819.201.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file1401.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T175812.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file559.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T175719.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file967.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T175447.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file1614.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T175427.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/auth/login
+Content-Type: application/json
+Content-Length: 44
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "username": "admin", "password": "admin" }
+
+<> 2026-01-22T175421.200.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/users
+Content-Type: application/json
+Content-Length: 99
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe123" }
+
+<> 2026-01-22T175405.201.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file1157.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T175356.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/tags
+Content-Type: application/json
+Content-Length: 16
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "name": "AI" }
+
+<> 2026-01-22T175353.201.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file3521.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T175312.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file407.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T175302.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file2481.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T175007.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/tags
+Content-Type: application/json
+Content-Length: 16
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "name": "AI" }
+
+<> 2026-01-22T175005.201.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file2653.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T175002.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file240.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T174913.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file1785.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T174803.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/tags
+Content-Type: application/json
+Content-Length: 16
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "name": "AI" }
+
+<> 2026-01-22T174757.201.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file809.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T174752.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file9.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T173840.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file10.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T173836.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/tags
+Content-Type: application/json
+Content-Length: 16
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "name": "AI" }
+
+<> 2026-01-22T173832.201.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file11.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T173823.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file6.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T173421.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/tags
+Content-Type: application/json
+Content-Length: 16
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "name": "AI" }
+
+<> 2026-01-22T173414.201.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 469925
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.pdf"
+Content-Type: application/pdf
+
+< C:\Users\User\Desktop\DAE\projeto_DAE\Projeto_DAE\src\example.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+<> 2026-01-22T173400.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 469925
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.pdf"
+Content-Type: application/pdf
+
+< C:\Users\User\Desktop\DAE\projeto_DAE\Projeto_DAE\src\example.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+<> 2026-01-22T173103.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 469925
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.pdf"
+Content-Type: application/pdf
+
+< C:\Users\User\Desktop\DAE\projeto_DAE\Projeto_DAE\src\example.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+<> 2026-01-22T172557.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file3.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T172536.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file4.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T172236.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 469922
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.pdf"
+Content-Type: application/pdf
+
+< C:\Users\User\Desktop\DAE\projeto_DAE\Projeto_DAE\src\example.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+<> 2026-01-22T172103.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 469925
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.pdf"
+Content-Type: application/pdf
+
+< C:\Users\User\Desktop\DAE\projeto_DAE\Projeto_DAE\src\example.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+<> 2026-01-22T171931.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 469925
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.pdf"
+Content-Type: application/pdf
+
+< C:\Users\User\Desktop\DAE\projeto_DAE\Projeto_DAE\src\example.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+<> 2026-01-22T171825.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 469912
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.pdf"
+Content-Type: application/pdf
+
+< C:\Users\User\Desktop\DAE\projeto_DAE\Projeto_DAE\src\example.pdf
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="publication"
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+<> 2026-01-22T171631.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file7.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T171555.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file8.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T171142.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 478
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file5.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T170336.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/publications
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+Content-Type: multipart/form-data; boundary=boundary
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 476
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+< C:\Users\User\AppData\Local\Temp\http_request_input_file2.txt
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["admin"],
+  "tags": ["AI"]
+}
+--boundary--
+
+<> 2026-01-22T165837.500.json
+
+###
+
+GET http://localhost:8081/Projeto_DAE/api/users
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwMDcwMiwiZXhwIjoxNzY5MTA0MzAyfQ.opqVeGlv5vTw4bOWLBsc1Cl9iJrvfbITTVUT2sLQNtbSy66tBfrgIFPlqEeQZBov
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2026-01-22T165825.200.json
 
 ###
 

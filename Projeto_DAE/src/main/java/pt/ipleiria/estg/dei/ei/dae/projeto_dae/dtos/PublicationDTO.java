@@ -2,7 +2,6 @@ package pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos;
 
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
