@@ -13,14 +13,16 @@ public class UserDTO {
     private String name;
     private String email;
     private String role;
+    private boolean isActive;
 
     public UserDTO() {
     }
-    public UserDTO(String username, String name, String email, String role) {
+    public UserDTO(String username, String name, String email, String role, boolean isActive) {
         this.username = username;
         this.name = name;
         this.email = email;
         this.role = role;
+        this.isActive = isActive;
     }
     public static UserDTO from(User user) {
         if (user == null) return null;
@@ -28,7 +30,8 @@ public class UserDTO {
                 user.getUsername(),
                 user.getName(),
                 user.getEmail(),
-                user.getClass().getSimpleName()
+                user.getClass().getSimpleName(),
+                user.isActive()
         );
     }
     public static List<UserDTO> from(List<User> users) {
@@ -65,5 +68,13 @@ public class UserDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 }

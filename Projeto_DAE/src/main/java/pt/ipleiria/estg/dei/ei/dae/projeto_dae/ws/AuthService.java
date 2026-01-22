@@ -37,7 +37,7 @@ public class AuthService {
             String token = TokenIssuer.issue(auth.getUsername());
             return Response.ok(token).build();
         }
-        return Response.status(Response.Status.UNAUTHORIZED).build();
+        return Response.status(401, "bro i dont even know").build();
     }
 
     @POST

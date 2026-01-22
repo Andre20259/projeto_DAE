@@ -14,6 +14,12 @@ public class ConfigBean {
     @EJB
     private AdministratorBean administratorBean;
 
+    @EJB
+    private ColaboratorBean colaboratorBean;
+
+    @EJB
+    private ResponsibleBean responsibleBean;
+
     private static final Logger logger = Logger.getLogger("ejbs.ConfigBean");
 
     @PostConstruct

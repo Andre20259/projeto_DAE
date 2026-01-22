@@ -26,14 +26,21 @@ public class UserBean {
 
     public boolean canLogin(String username, String password) {
         var user = find(username);
-        return user != null && Hasher.verify(password, user.getPassword());
+        boolean result = false;
+        if (user != null && Hasher.verify(password, user.getPassword()) && user.isActive()) {
+            result = true;
+        }
+        return result;
     }
 
-    public void update(String username, String name, String email) throws MyEntityNotFoundException {
+    public void update(String username, String name, String email, boolean active) throws MyEntityNotFoundException {
         User user = find(username);
-        if (user == null) throw new MyEntityNotFoundException("Utilizador não encontrado");
+        if (user == null) {
+            throw new MyEntityNotFoundException("Utilizador não encontrado");
+        }
         user.setName(name);
         user.setEmail(email);
+        user.setActive(active);
     }
 
     public void updatePassword(String username, String oldPassword, String newPassword) throws Exception {

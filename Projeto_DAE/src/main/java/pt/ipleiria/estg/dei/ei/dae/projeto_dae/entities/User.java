@@ -25,6 +25,8 @@ public class User {
     @NotBlank
     private String email;
 
+    private boolean isActive;
+
     @Version
     private int version;
 
@@ -45,6 +47,7 @@ public class User {
         setPassword(password);
         setEmail(email);
         setName(name);
+        setActive(true);
     }
 
     public String getUsername() {
@@ -105,5 +108,13 @@ public class User {
 
     public List<Tag> getSubscribedTags() {
         return subscribedTags;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

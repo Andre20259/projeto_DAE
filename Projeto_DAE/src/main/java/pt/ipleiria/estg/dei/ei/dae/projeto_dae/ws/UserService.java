@@ -76,7 +76,8 @@ public class UserService {
         }
         String email = body.get("email");
         String name = body.get("name");
-        userBean.update(id, name, email);
+        boolean isActive = Boolean.parseBoolean(body.get("isActive"));
+        userBean.update(id, name, email, isActive);
         return Response.ok(Map.of("message", "Profile updated successfully")).build();
     }
 
@@ -127,7 +128,8 @@ public class UserService {
             throws MyEntityNotFoundException {
         String name = body.get("name");
         String email = body.get("email");
-        userBean.update(id, name, email);
+        boolean isActive = Boolean.parseBoolean(body.get("isActive"));
+        userBean.update(id, name, email, isActive);
         return Response.ok(Map.of("message", "User edited")).build();
     }
 

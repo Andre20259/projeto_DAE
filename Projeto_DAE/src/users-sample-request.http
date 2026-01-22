@@ -8,6 +8,8 @@ Content-Type: application/json
 ### GET all users
 GET http://localhost:8081/Projeto_DAE/api/users
 Accept: application/json
+#Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTAyMzg2MCwiZXhwIjoxNzY5MDI3NDYwfQ.s19p1ZzTyeQZKjHfrVwU1hK1VYzkoxJICqiLmrf9RROFq_JI1_oGSyygSUCj0Ybk
+
 ###
 
 ### GET specific user by username
@@ -20,13 +22,16 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTAyM
 ### DELETE user by username
 DELETE http://localhost:8081/Projeto_DAE/api/users/johndoe123
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTAyMzg2MCwiZXhwIjoxNzY5MDI3NDYwfQ.s19p1ZzTyeQZKjHfrVwU1hK1VYzkoxJICqiLmrf9RROFq_JI1_oGSyygSUCj0Ybk
+
 ###
 
 ### PUT update user by username
 PUT http://localhost:8081/Projeto_DAE/api/users/johndoe123
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MDQyMDE2LCJleHAiOjE3NjkwNDU2MTZ9.tbMUqmOplbnZ4KGgR-mUqdhmljjph8RhPi3NpIXN1MUdWbF7iPBtpemSiF-RlxLS
 
-{ "name": "JohnDoeUpdated", "email": "test1@mail.pt", "password": "newpassword123", "username": "johndoe123" }
+{ "name": "JohnDoeUpdated", "email": "test1@mail.pt", "password": "password123", "username": "johndoe123", "isActive": true}
 ###
 
 ### POST login user
