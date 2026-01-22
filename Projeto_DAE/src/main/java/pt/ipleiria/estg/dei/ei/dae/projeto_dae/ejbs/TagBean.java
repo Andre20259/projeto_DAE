@@ -73,7 +73,8 @@ public class TagBean {
     }
 
     public void unsubscribeUserFromTag(String userName, String tagName) {
-        Tag tag = entityManager.find(Tag.class, tagName);
+        //Tag tag = entityManager.find(Tag.class, tagName);
+        Tag tag = find(tagName);
         if(tag == null) {
             throw new RuntimeException("Tag " + tagName + " not found");
         }

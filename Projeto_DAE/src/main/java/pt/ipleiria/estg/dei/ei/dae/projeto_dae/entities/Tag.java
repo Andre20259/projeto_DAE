@@ -2,6 +2,7 @@ package pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,7 @@ public class Tag {
     private boolean visible = true;
 
     @ManyToMany(mappedBy = "tags")
-    private List<Publication> publications;
+    private List<Publication> publications = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -27,7 +28,7 @@ public class Tag {
             joinColumns = @JoinColumn(name = "tag_name"),
             inverseJoinColumns = @JoinColumn(name = "user_username")
     )
-    private List<User> subscriptions;
+    private List<User> subscriptions = new ArrayList<>();
 
     public Tag() {}
 
@@ -68,4 +69,18 @@ public class Tag {
     public void addPublication(Publication publication) {
         this.publications.add(publication);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tag)) return false;
+        Tag tag = (Tag) o;
+        return name != null && name.equals(tag.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return name != null ? name.hashCode() : 0;
+    }
+
 }

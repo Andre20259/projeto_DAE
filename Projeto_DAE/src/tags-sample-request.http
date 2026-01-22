@@ -37,16 +37,12 @@ Content-Type: application/json
 ### Subscribe to Tag
 POST http://localhost:8081/Projeto_DAE/api/tags/AI/subscribe
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MDUzNjc4LCJleHAiOjE3NjkwNTcyNzh9.V3msnB5QC0AidI4atUFaW3TqcqnyHalZlDyyxGGjs1Nw6FV9qf170kufCxu_9JWh
-
-{ "user": "johndoe123" }
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTE5NzYzLCJleHAiOjE3NjkxMjMzNjN9.wyoo5uHZqfHpG7qOETIYjvGSTB56tkw16beGl8hqtz74KFqnienRFS58aFFbNRu6
 
 ### Unsubscribe from Tag
-POST http://localhost:8081/Projeto_DAE/api/tags/AI/unsubscribe
+DELETE http://localhost:8081/Projeto_DAE/api/tags/AI/unsubscribe
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MDUzNjc4LCJleHAiOjE3NjkwNTcyNzh9.V3msnB5QC0AidI4atUFaW3TqcqnyHalZlDyyxGGjs1Nw6FV9qf170kufCxu_9JWh
-
-{ "user": "johndoe123" }
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTE5NzYzLCJleHAiOjE3NjkxMjMzNjN9.wyoo5uHZqfHpG7qOETIYjvGSTB56tkw16beGl8hqtz74KFqnienRFS58aFFbNRu6
 
 
 
