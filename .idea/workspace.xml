@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e99c7e8e-bcc3-4dcc-bbe7-93785b6ed165" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/projeto-dae-client/app/middleware/auth.global.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projeto-dae-client/app/pages/login.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/dtos/PublicationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/dtos/PublicationDTO.java" afterDir="false" />
@@ -14,6 +16,7 @@
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ws/PublicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ws/PublicationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/publication-sample-request.http" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/publication-sample-request.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/users-sample-request.http" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/users-sample-request.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto-dae-client/app/app.vue" beforeDir="false" afterPath="$PROJECT_DIR$/projeto-dae-client/app/app.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +28,7 @@
       <list>
         <option value="Class" />
         <option value="HTTP Request" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -83,6 +87,11 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
+    ]
   }
 }]]></component>
   <component name="RunManager" selected="HTTP Request.publication-sample-request | Get all publications">
@@ -142,7 +151,7 @@
       <workItem from="1769018718733" duration="6643000" />
       <workItem from="1769032104689" duration="9989000" />
       <workItem from="1769094917138" duration="5999000" />
-      <workItem from="1769104134711" duration="3267000" />
+      <workItem from="1769104134711" duration="4744000" />
     </task>
     <servers />
   </component>
