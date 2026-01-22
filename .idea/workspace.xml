@@ -5,24 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e99c7e8e-bcc3-4dcc-bbe7-93785b6ed165" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-01-22T004909.201.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-01-22T004923.200.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-01-22T005011.201.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-01-22T005311.500.octet-stream" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-01-22T011150.500.octet-stream" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-01-22T012015.500.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-01-22T164234.201.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/2026-01-22T164306.500.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/dtos/PublicationCreateDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/dtos/PublicationCreateDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/dtos/PublicationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/dtos/PublicationDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ejbs/PublicationBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ejbs/PublicationBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ws/PublicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ws/PublicationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/pub-sample-request.http" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/pub-sample-request.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/publication-sample-request.http" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/publication-sample-request.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/users-sample-request.http" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/users-sample-request.http" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,31 +53,32 @@
     <option name="showScratchesAndConsoles" value="false" />
     <option name="showVisibilityIcons" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;HTTP Request.pub-sample-request | Create a publication (With File).executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.pub-sample-request | Get publication summary by ID.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.publication-sample-request | Get all publications.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.publication-sample-request | Upload publication.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.sample-request | Create Tag.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.sample-request | Get All Tags.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.tags-sample-request | Create Tag.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.users-sample-request | #2.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.users-sample-request | #3.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.users-sample-request | #6.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.users-sample-request | POST new user.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;hv&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "HTTP Request.pub-sample-request | Create a publication (With File).executor": "Run",
+    "HTTP Request.pub-sample-request | Get publication summary by ID.executor": "Run",
+    "HTTP Request.publication-sample-request | Get all publications.executor": "Run",
+    "HTTP Request.publication-sample-request | Upload publication.executor": "Run",
+    "HTTP Request.sample-request | Create Tag.executor": "Run",
+    "HTTP Request.sample-request | Get All Tags.executor": "Run",
+    "HTTP Request.tags-sample-request | Create Tag.executor": "Run",
+    "HTTP Request.users-sample-request | #2.executor": "Run",
+    "HTTP Request.users-sample-request | #3.executor": "Run",
+    "HTTP Request.users-sample-request | #6.executor": "Run",
+    "HTTP Request.users-sample-request | POST new user.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "hv",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/User/Desktop/DAE/projeto_DAE/Projeto_DAE",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="HTTP Request.publication-sample-request | Get all publications">
     <configuration name="publication-sample-request | Get all publications" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Projeto_DAE/src/publication-sample-request.http" executionIdentifier="Get all publications" index="2" runType="Run single request">
       <method v="2" />
@@ -150,7 +136,7 @@
       <workItem from="1769018718733" duration="6643000" />
       <workItem from="1769032104689" duration="9989000" />
       <workItem from="1769094917138" duration="5999000" />
-      <workItem from="1769104134711" duration="1055000" />
+      <workItem from="1769104134711" duration="2065000" />
     </task>
     <servers />
   </component>
