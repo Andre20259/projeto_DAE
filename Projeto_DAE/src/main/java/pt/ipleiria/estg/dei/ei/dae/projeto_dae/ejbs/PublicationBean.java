@@ -102,6 +102,13 @@ public class PublicationBean {
         return entityManager.find(Publication.class, id);
     }
 
+    public List<Publication> findByAuthor(String author) {
+        return entityManager
+                .createNamedQuery("getPublicationsByAuthor", Publication.class)
+                .setParameter("author", author)
+                .getResultList();
+    }
+
     public Publication updateVisibility(Long id, boolean visible) throws MyEntityNotFoundException {
         Publication publication = entityManager.find(Publication.class, id);
         if (publication == null) {

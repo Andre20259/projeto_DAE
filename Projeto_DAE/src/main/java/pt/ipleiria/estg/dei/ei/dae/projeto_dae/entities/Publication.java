@@ -14,6 +14,9 @@ import java.util.List;
                 name = "getAllPublications",
                 query = "SELECT pub FROM Publication pub ORDER BY pub.title" // JPQL
         )
+        @NamedQuery(
+                name = "getPublicationsByAuthor",
+                query = "SELECT p FROM Publication p JOIN p.authors a WHERE a.username = :author")
 })
 @Table(name = "publications")
 public class Publication {

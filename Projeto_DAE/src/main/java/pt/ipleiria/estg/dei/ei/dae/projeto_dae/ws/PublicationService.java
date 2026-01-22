@@ -169,6 +169,13 @@ public class PublicationService {
         return dto;
     }
 
+    @GET
+    @Path("/me")
+    public List<PublicationDTO> getMyPublications() {
+        String username = securityContext.getUserPrincipal().getName();
+        return PublicationDTO.from(publicationBean.findByAuthor(username));
+    }
+
     @POST
     @Path("/{id}/comments")
     public Response addComment(@PathParam("id") Long publicationId, CommentDTO dto) throws MyEntityNotFoundException {
