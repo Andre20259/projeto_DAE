@@ -25,7 +25,7 @@ public class User {
     @NotBlank
     private String email;
 
-    private boolean isActive;
+    private boolean isActive = true;
 
     @Version
     private int version;

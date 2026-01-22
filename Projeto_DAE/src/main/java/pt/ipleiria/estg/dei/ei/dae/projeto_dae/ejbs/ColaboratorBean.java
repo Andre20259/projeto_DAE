@@ -23,6 +23,7 @@ public class ColaboratorBean {
         }
         try{
             Colaborator colaborator = new Colaborator(username, Hasher.hash(password), email, name);
+            colaborator.setActive(true);
             entityManager.persist(colaborator);
         }
         catch (Exception e){

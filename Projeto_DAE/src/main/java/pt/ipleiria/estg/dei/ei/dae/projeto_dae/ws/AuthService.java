@@ -40,27 +40,27 @@ public class AuthService {
         return Response.status(401, "bro i dont even know").build();
     }
 
-    @POST
-    @Path("/recover-password")
-    public Response recoverPassword(Map<String, String> data) {
-        String email = data.get("email");
-        // Lógica aqui
-        return Response.ok("{\"message\": \"Password recovery link sent to " + email + "\"}").build();
-    }
+//    @POST
+//    @Path("/recover-password")
+//    public Response recoverPassword(Map<String, String> data) {
+//        String email = data.get("email");
+//        // Lógica aqui
+//        return Response.ok("{\"message\": \"Password recovery link sent to " + email + "\"}").build();
+//    }
 
-        @POST
-        @Path("/register")
-        public Response register(@Valid UserCreateDTO userCreateDTO) throws MyEntityExistsException {
-        // Cria o utilizador como Colaborador por defeito
-        colaboratorBean.create(
-            userCreateDTO.getUsername(),
-            userCreateDTO.getPassword(),
-            userCreateDTO.getName(),
-            userCreateDTO.getEmail()
-        );
-        return Response.status(Response.Status.CREATED)
-            .entity("{\"message\": \"Utilizador registado com sucesso\"}")
-            .build();
-        }
+    @POST
+    @Path("/register")
+    public Response register(@Valid UserCreateDTO userCreateDTO) throws MyEntityExistsException {
+    // Cria o utilizador como Colaborador por defeito
+    colaboratorBean.create(
+        userCreateDTO.getUsername(),
+        userCreateDTO.getPassword(),
+        userCreateDTO.getName(),
+        userCreateDTO.getEmail()
+    );
+    return Response.status(Response.Status.CREATED)
+        .entity("{\"message\": \"Utilizador registado com sucesso\"}")
+        .build();
+    }
 
 }
