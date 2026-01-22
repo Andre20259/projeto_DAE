@@ -7,6 +7,8 @@
     <list default="true" id="e99c7e8e-bcc3-4dcc-bbe7-93785b6ed165" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/projeto-dae-client/app/middleware/auth.global.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/projeto-dae-client/app/pages/login.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projeto-dae-client/assets/tailwind.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projeto-dae-client/tailwind.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/dtos/PublicationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/dtos/PublicationDTO.java" afterDir="false" />
@@ -17,6 +19,8 @@
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/publication-sample-request.http" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/publication-sample-request.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/users-sample-request.http" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/users-sample-request.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projeto-dae-client/app/app.vue" beforeDir="false" afterPath="$PROJECT_DIR$/projeto-dae-client/app/app.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto-dae-client/nuxt.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/projeto-dae-client/nuxt.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto-dae-client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/projeto-dae-client/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +155,7 @@
       <workItem from="1769018718733" duration="6643000" />
       <workItem from="1769032104689" duration="9989000" />
       <workItem from="1769094917138" duration="5999000" />
-      <workItem from="1769104134711" duration="4744000" />
+      <workItem from="1769104134711" duration="5506000" />
     </task>
     <servers />
   </component>
