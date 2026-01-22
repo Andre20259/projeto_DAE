@@ -23,6 +23,8 @@ import jakarta.ws.rs.core.Response;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
@@ -114,51 +116,44 @@ public class PublicationBean {
     }
 
     public Publication generateAndStoreSummary(Long publicationId) {
-
         Publication pub = entityManager.find(Publication.class, publicationId);
-        String llmBaseUrl = "https://localhost:11434/";
+        String llmBaseUrl = "http://ollama:11434/"; // use explicit IPv4
 
         if (pub == null) {
             throw new NotFoundException("Publication not found");
         }
 
-        // Avoid regenerating unless explicitly desired
         if (pub.getSummary() != null && !pub.getSummary().isBlank()) {
             return pub;
         }
 
-        // ---------- AI PROMPT ----------
         String prompt = """
-        Summarize the following publication in a concise academic style.
-        Limit the summary to 5 sentences.
+    Summarize the following publication in a concise academic style.
+    Limit the summary to 5 sentences.
 
-        Title: %s
+    Title: %s
 
-        Content:
-        %s
-        """.formatted(pub.getTitle(), pub.getDescription());
+    Content:
+    %s
+    """.formatted(pub.getTitle(), pub.getDescription());
 
-        // ---------- REQUEST BODY ----------
         JsonObject body = Json.createObjectBuilder()
                 .add("model", "qwen2.5:3b")
                 .add("prompt", prompt)
                 .add("stream", false)
                 .build();
 
-        // ---------- HTTP CALL ----------
         Client client = ClientBuilder.newClient();
         JsonObject res = client
-                .target(llmBaseUrl + "/api/generate")
+                .target(llmBaseUrl + "api/generate")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(body), JsonObject.class);
 
-        // ---------- STORE RESULT ----------
         String summary = res.getString("response").trim();
         pub.setSummary(summary);
-
         entityManager.merge(pub);
-
         return pub;
     }
+
 
 }
