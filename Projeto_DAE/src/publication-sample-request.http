@@ -1,0 +1,31 @@
+### Upload publication
+POST http://localhost:8081/Projeto_DAE/api/publications HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MDUzNjc4LCJleHAiOjE3NjkwNTcyNzh9.V3msnB5QC0AidI4atUFaW3TqcqnyHalZlDyyxGGjs1Nw6FV9qf170kufCxu_9JWh
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="file1.txt"
+Content-Type: text/plain
+
+contents of the file
+--boundary
+Content-Disposition: form-data; name="publication"
+Content-Type: application/json
+
+{
+  "title": "Teste",
+  "description": "Descrição teste",
+  "area": "AI",
+  "authors": ["johndoe123"],
+  "tags": ["AI"]
+}
+
+
+### Get all publications
+GET http://localhost:8081/Projeto_DAE/api/publications
+Accept: application/json
+
+### Get publication by id
+GET http://localhost:8081/Projeto_DAE/api/publications/1
+Accept: application/json
+
