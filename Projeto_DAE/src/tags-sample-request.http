@@ -1,3 +1,11 @@
+### REQUEST JWT TOKEN
+POST http://localhost:8081/Projeto_DAE/api/auth/login
+Content-Type: application/json
+Accept: application/json
+
+{ "username": "johndoe123", "password": "password123" }
+
+
 ### Create Tag
 POST http://localhost:8081/Projeto_DAE/api/tags
 Content-Type: application/json
@@ -12,6 +20,10 @@ Accept: application/json
 GET http://localhost:8081/Projeto_DAE/api/tags/AI
 Accept: application/json
 
+###Get Hidden Tags
+GET http://localhost:8081/Projeto_DAE/api/tags/hidden
+Accept: application/json
+
 ### Remove tags
 DELETE http://localhost:8081/Projeto_DAE/api/tags/AI
 Accept: application/json
@@ -20,19 +32,21 @@ Accept: application/json
 PUT http://localhost:8081/Projeto_DAE/api/tags/AI
 Content-Type: application/json
 
-{ "visible": "true" }
+{ "visible": "false" }
 
 ### Subscribe to Tag
 POST http://localhost:8081/Projeto_DAE/api/tags/AI/subscribe
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MDUzNjc4LCJleHAiOjE3NjkwNTcyNzh9.V3msnB5QC0AidI4atUFaW3TqcqnyHalZlDyyxGGjs1Nw6FV9qf170kufCxu_9JWh
 
-{ "user": "Maria" }
+{ "user": "johndoe123" }
 
 ### Unsubscribe from Tag
 POST http://localhost:8081/Projeto_DAE/api/tags/AI/unsubscribe
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MDUzNjc4LCJleHAiOjE3NjkwNTcyNzh9.V3msnB5QC0AidI4atUFaW3TqcqnyHalZlDyyxGGjs1Nw6FV9qf170kufCxu_9JWh
 
-{ "user": "Maria" }
+{ "user": "johndoe123" }
 
 
 
