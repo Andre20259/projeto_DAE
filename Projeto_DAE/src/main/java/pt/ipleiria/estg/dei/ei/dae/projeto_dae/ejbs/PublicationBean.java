@@ -12,6 +12,7 @@ import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.ManageTagDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.PublicationCreateDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
@@ -99,6 +100,67 @@ public class PublicationBean {
 
     public Publication find(Long id) {
         return entityManager.find(Publication.class, id);
+    }
+
+    public List<Publication> findByAuthor(String author) {
+        return entityManager
+                .createNamedQuery("getPublicationsByAuthor", Publication.class)
+                .setParameter("author", author)
+                .getResultList();
+    }
+
+    public Publication updateVisibility(Long id, boolean visible) throws MyEntityNotFoundException {
+        Publication publication = entityManager.find(Publication.class, id);
+        if (publication == null) {
+            throw new MyEntityNotFoundException("Publication not found");
+        }
+        publication.setVisible(visible);
+        return publication;
+    }
+
+    public Publication updatePublication(Long id, PublicationCreateDTO dto) throws MyEntityNotFoundException {
+        Publication publication = entityManager.find(Publication.class, id);
+        if (publication == null) {
+            throw new MyEntityNotFoundException("Publication not found");
+        }
+        publication.setTitle(dto.getTitle());
+        publication.setDescription(dto.getDescription());
+        publication.setArea(dto.getArea());
+        return publication;
+    }
+
+    public Publication updateTags(Long id, ManageTagDTO dto) throws MyEntityNotFoundException {
+        Publication publication = entityManager.find(Publication.class, id);
+        if (publication == null) {
+            throw new MyEntityNotFoundException("Publication not found");
+        }
+        Tag tag = tagBean.find(dto.getName());
+        if (tag == null) {
+            throw new MyEntityNotFoundException("Tag not found");
+        }
+
+        List<Tag> tags = publication.getTags();
+
+        switch (dto.getAction()) {
+            case "add":
+                if (tags != null && tags.contains(tag)) {
+                    throw new IllegalArgumentException("Publication already has tag: " + dto.getName());
+                }
+                publication.addTag(tag);
+                break;
+            case "remove":
+                if (tags == null || tags.isEmpty()) {
+                    throw new MyEntityNotFoundException("Publication has no tags");
+                }
+                if (!tags.contains(tag)) {
+                    throw new MyEntityNotFoundException("Publication does not have tag: " + dto.getName());
+                }
+                publication.removeTag(tag);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid action: " + dto.getAction());
+        }
+        return publication;
     }
 
     public Publication generateAndStoreSummary(Long publicationId) {

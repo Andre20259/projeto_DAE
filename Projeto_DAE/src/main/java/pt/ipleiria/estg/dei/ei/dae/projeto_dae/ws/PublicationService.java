@@ -66,6 +66,68 @@ public class PublicationService {
                 .build();
     }
 
+    @PATCH
+    @Path("/{id}")
+    @RolesAllowed({"Responsible", "Administrator"})
+    public PublicationDTO updateVisibility(@PathParam("id") Long id, VisibilityDTO dto) throws MyEntityNotFoundException {
+        Publication publication = publicationBean.updateVisibility(id, dto.isVisible());
+        return PublicationDTO.from(publication);
+    }
+
+    @PUT
+    @Path("/{id}")
+    public PublicationDTO updatePublication(@PathParam("id") Long id, PublicationCreateDTO dto) throws MyEntityNotFoundException {
+        Publication publication = publicationBean.find(id);
+        String username = securityContext.getUserPrincipal().getName();
+
+        boolean isAuthor = publication.getAuthors() != null &&
+                publication.getAuthors().stream()
+                        .anyMatch(a -> username.equals(a.getUsername()));
+
+        if (!isAuthor) {
+            throw new ForbiddenException("Only authors can update this publication");
+        }
+
+        publication = publicationBean.updatePublication(id, dto);
+        return PublicationDTO.from(publication);
+    }
+
+    @PUT
+    @Path("/{id}/tags")
+    public PublicationDTO updateTags(@PathParam("id") Long id, ManageTagDTO dto) throws MyEntityNotFoundException {
+        Publication publication = publicationBean.find(id);
+        if (publication == null) {
+            throw new MyEntityNotFoundException("Publication not found");
+        }
+
+        String username = securityContext.getUserPrincipal().getName();
+        boolean isAuthor = publication.getAuthors() != null &&
+                publication.getAuthors().stream()
+                        .anyMatch(a -> username.equals(a.getUsername()));
+
+        boolean isResponsibleOrAdmin =
+                securityContext.isUserInRole("Responsible") || securityContext.isUserInRole("Administrator")
+                        || securityContext.isUserInRole("RESPONSIBLE") || securityContext.isUserInRole("ADMINISTRATOR");
+
+        switch (dto.getAction()) {
+            case "add":
+                if (!isAuthor) {
+                    throw new ForbiddenException("Only authors can add tags");
+                }
+                break;
+            case "remove":
+                if (!(isAuthor || isResponsibleOrAdmin)) {
+                    throw new ForbiddenException("Only authors or Responsible/Administrator can remove tags");
+                }
+                break;
+            default:
+                throw new BadRequestException("Invalid action: " + dto.getAction());
+        }
+
+        publication = publicationBean.updateTags(id, dto);
+        return PublicationDTO.from(publication);
+    }
+
     @GET
     @Path("/")
     public List<PublicationDTO> getAllPublications() {
@@ -105,6 +167,13 @@ public class PublicationService {
         }
 
         return dto;
+    }
+
+    @GET
+    @Path("/me")
+    public List<PublicationDTO> getMyPublications() {
+        String username = securityContext.getUserPrincipal().getName();
+        return PublicationDTO.from(publicationBean.findByAuthor(username));
     }
 
     @POST
