@@ -28,6 +28,11 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) {
+        requestContext.getHeaders().putSingle("Access-Control-Allow-Origin", "http://localhost:3000");
+        requestContext.getHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
+        requestContext.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        requestContext.getHeaders().putSingle("Access-Control-Expose-Headers", "Authorization");
+        requestContext.getHeaders().putSingle("Access-Control-Allow-Credentials", "true");
         var header = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
         if (header == null || !header.startsWith("Bearer ")) {
             throw new NotAuthorizedException("Authorization header must beprovided");
@@ -67,5 +72,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
             throw new NotAuthorizedException("Invalid JWT");
         }
     }
+
+
 
 }

@@ -3,9 +3,11 @@ package pt.ipleiria.estg.dei.ei.dae.projeto_dae.ws;
 import jakarta.ejb.EJB;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.OPTIONS;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.AuthDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserCreateDTO;
@@ -29,6 +31,12 @@ public class AuthService {
 
     @Context
     private SecurityContext securityContext;
+
+    @OPTIONS
+    @Path("{path: .*}")
+    public Response options() {
+        return Response.ok().build();
+    }
 
     @POST
     @Path("/login")

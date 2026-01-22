@@ -10,13 +10,13 @@
       <div class="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-sm">
         <h1 class="text-xl font-bold text-center text-white mb-4">Login</h1>
 
-        <form @submit.prevent="handleLogin" class="space-y-3">
+        <form @submit.prevent="login" class="space-y-3">
           <!-- Username -->
           <div>
             <label class="block text-sm font-medium mb-1 text-gray-300" for="username">Username</label>
             <input
                 id="username"
-                v-model="username"
+                v-model="loginForm.username"
                 type="text"
                 placeholder="Enter your username"
                 class="w-full px-3 py-1.5 border border-gray-600 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -29,13 +29,18 @@
             <label class="block text-sm font-medium mb-1 text-gray-300" for="password">Password</label>
             <input
                 id="password"
-                v-model="password"
+                v-model="loginForm.password"
                 type="password"
                 placeholder="Enter your password"
                 class="w-full px-3 py-1.5 border border-gray-600 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
                 required
             />
           </div>
+
+          <!-- Error Message -->
+          <p v-if="errorMessage" class="text-red-400 text-sm text-center">
+            {{ errorMessage }}
+          </p>
 
           <!-- Login Button -->
           <button
@@ -55,22 +60,40 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useCookie } from '#imports' // adjust if needed
+import { reactive, ref } from 'vue'
+import { useRouter, useRuntimeConfig } from '#imports'
 
-const username = ref('')
-const password = ref('')
 const router = useRouter()
+const config = useRuntimeConfig()
+const api = config.public.apiBase
 
-const handleLogin = () => {
-  // Example: replace with real auth
-  useCookie('loggedIn').value = true
-  router.push('/')
-}
+// Login form reactive object (matches template style)
+const loginForm = reactive({
+  username: '',
+  password: ''
+})
 
-const logout = () => {
-  useCookie('loggedIn').value = false
-  router.push('/login')
+const errorMessage = ref('')
+
+async function login() {
+  errorMessage.value = ''
+
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: loginForm
+  }
+
+  // identical to your template project
+  const { data, error } = await useFetch(`${api}/auth/login`, requestOptions)
+
+  if (!error.value) {
+    const token = typeof data.value === 'string' ? data.value : data.value.token
+    sessionStorage.setItem('auth_token', token)
+    router.push('/')
+    return
+  }
+
+  errorMessage.value = error.value
 }
 </script>
