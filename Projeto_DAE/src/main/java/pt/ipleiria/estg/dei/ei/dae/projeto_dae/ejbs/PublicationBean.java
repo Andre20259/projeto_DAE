@@ -126,7 +126,7 @@ public class PublicationBean {
 
         Content:
         %s
-        """.formatted(pub.getTitle(), pub.getDescription());
+        """.formatted(pub.getTitle(), pub.getContent());
 
         // ---------- REQUEST BODY ----------
         JsonObject body = Json.createObjectBuilder()
@@ -144,8 +144,11 @@ public class PublicationBean {
 
         // ---------- STORE RESULT ----------
         String summary = res.getString("response").trim();
-        pub.setDescription(summary);
+        pub.setSummary(summary);
+
+        entityManager.merge(pub);
 
         return pub;
     }
+
 }
