@@ -11,7 +11,7 @@ public class PublicationDTO {
     public Long id;
     public String title;
     public String filename;
-    public LocalDateTime uploadDate;
+    public String uploadDate;
     public String description;
     public String area;
     public List<UserDTO> authors;
@@ -22,7 +22,7 @@ public class PublicationDTO {
 
     public PublicationDTO() {}
 
-    public PublicationDTO(Long id, String title, String filename, LocalDateTime uploadDate,
+    public PublicationDTO(Long id, String title, String filename, String uploadDate,
                           String description, String area, List<UserDTO> authors,
                           List<TagDTO> tags, List<CommentDTO> comments,
                           List<RatingDTO> ratings, float averageRating) {
@@ -44,7 +44,7 @@ public class PublicationDTO {
                 publication.getId(),
                 publication.getTitle(),
                 publication.getFilename(),
-                publication.getUploadDate(),
+                publication.getUploadDate().toString(),
                 publication.getDescription(),
                 publication.getArea(),
                 UserDTO.from(publication.getAuthors()),

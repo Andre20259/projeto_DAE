@@ -45,6 +45,14 @@ public class PublicationBean {
         List<String> authors = dto.getAuthors();
         List<String> tags = dto.getTags();
 
+        if (authors == null || authors.isEmpty()) {
+            throw new IllegalArgumentException("Publication must have at least one author");
+        }
+
+        if (tags == null || tags.isEmpty()) {
+            throw new IllegalArgumentException("Publication must have at least one tag");
+        }
+
         List<User> authorEntities = new ArrayList<>();
         List<Tag> tagEntities = new ArrayList<>();
 
@@ -80,16 +88,6 @@ public class PublicationBean {
         );
         entityManager.persist(publication);
 
-        // Update the relationships
-        /*
-        for (User author : authorEntities) {
-            author.addPublication(publication);
-        }
-
-        for (Tag tag : tagEntities) {
-            tag.addPublication(publication);
-        }
-        */
         return  publication;
     }
 
