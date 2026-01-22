@@ -134,6 +134,14 @@ public class PublicationService {
         Rating rating = ratingBean.create(username, publicationId, dto.score);
         return Response.status(Response.Status.CREATED).entity(RatingDTO.from(rating)).build();
     }
-    
+
+    @PUT
+    @Path("/{id}/ratings/{ratingId}")
+    public Response editRating(@PathParam("id") Long publicationId, @PathParam("ratingId") Long ratingId, RatingDTO dto) {
+        String username = securityContext.getUserPrincipal().getName();
+        ratingBean.delete(ratingId);
+        Rating rating = ratingBean.create(username, publicationId, dto.score);
+        return Response.ok(RatingDTO.from(rating)).build();
+    }
 }
 

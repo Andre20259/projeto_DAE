@@ -30,4 +30,20 @@ public class RatingBean {
         publication.addRating(rating);
         return rating;
     }
+
+    public void delete(Long ratingId) {
+        Rating rating = entityManager.find(Rating.class, ratingId);
+        if (rating == null) {
+            throw new RuntimeException("Rating with id " + ratingId + " not found");
+        }
+
+        Publication publication = rating.getPublication();
+        if (publication != null) {
+            publication.removeRating(rating);
+        }
+
+        entityManager.remove(rating);
+    }
+
+
 }
