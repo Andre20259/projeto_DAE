@@ -126,7 +126,7 @@ public class PublicationBean {
 
         Content:
         %s
-        """.formatted(pub.getTitle(), pub.getContent());
+        """.formatted(pub.getTitle(), pub.getDescription());
 
         // ---------- REQUEST BODY ----------
         JsonObject body = Json.createObjectBuilder()

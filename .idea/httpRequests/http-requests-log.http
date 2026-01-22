@@ -1,3 +1,36 @@
+GET http://localhost:8081/Projeto_DAE/api/users
+Accept: application/json
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+
+<> 2026-01-22T164306.500.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/users
+Content-Type: application/json
+Content-Length: 99
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe123" }
+
+<> 2026-01-22T164234.201.json
+
+###
+
+POST http://localhost:8081/Projeto_DAE/api/auth/login
+Content-Type: application/json
+Content-Length: 44
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{ "username": "admin", "password": "admin" }
+
+###
+
 POST http://localhost:8081/Projeto_DAE/api/publications
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3

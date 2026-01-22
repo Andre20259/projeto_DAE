@@ -1,5 +1,5 @@
 ### Get publication summary by ID
-GET http://localhost:8081/Projeto_DAE/api/publications/123/summary
+GET http://localhost:8081/Projeto_DAE/api/publications/1/summary
 Content-Type: application/json
 
 ### Create a publication (With File)

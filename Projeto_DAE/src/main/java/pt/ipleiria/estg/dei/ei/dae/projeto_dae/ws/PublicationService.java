@@ -12,6 +12,7 @@ import jakarta.ws.rs.core.SecurityContext;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.CommentDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.PublicationCreateDTO;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.PublicationSummaryDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.PublicationDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.TagDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.CommentBean;
