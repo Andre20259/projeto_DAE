@@ -2,6 +2,8 @@ package pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 public class Comment {
 
@@ -20,7 +22,10 @@ public class Comment {
 
     private String content;
 
+    private LocalDateTime created_at;
+
     public Comment() {
+        this.created_at = LocalDateTime.now();
         this.isVisible = true;
     }
 
@@ -28,6 +33,7 @@ public class Comment {
         this.user = user;
         this.publication = publication;
         this.content = content;
+        this.created_at = LocalDateTime.now();
         this.isVisible = true;
     }
 
@@ -59,4 +65,11 @@ public class Comment {
         this.content = content;
     }
 
+    public LocalDateTime getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(LocalDateTime created_at) {
+        this.created_at = created_at;
+    }
 }

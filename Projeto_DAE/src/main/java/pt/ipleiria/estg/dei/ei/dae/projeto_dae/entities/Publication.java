@@ -36,6 +36,8 @@ public class Publication {
 
     private String description;
 
+    private String summary;
+
     @NotBlank
     private String area;
 
@@ -82,6 +84,16 @@ public class Publication {
         this.ratings = new ArrayList<>();
         this.averageRating = 0.0f;
         this.isVisible = true;
+        this.summary = null;
+    }
+
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     // getters & setters
@@ -186,11 +198,15 @@ public class Publication {
     public void addRating(Rating rating) {
         this.ratings.add(rating);
         // update average rating
-        float total = 0.0f;
-        for (Rating r : ratings) {
-            total += r.getScore();
-        }
-        this.averageRating = total / ratings.size();
+        calculateAverageRating();
+    }
+
+    // remove Rating
+    public void removeRating(Rating rating) {
+        this.ratings.remove(rating);
+
+        // update average rating
+        calculateAverageRating();
     }
 
     // get Ratings
@@ -207,5 +223,17 @@ public class Publication {
     }
     public void setVisible(boolean visible) {
         isVisible = visible;
+    }
+
+    private void calculateAverageRating() {
+        if (ratings.isEmpty()) {
+            this.averageRating = 0.0f;
+            return;
+        }
+        float total = 0.0f;
+        for (Rating r : ratings) {
+            total += r.getScore();
+        }
+        this.averageRating = total / ratings.size();
     }
 }

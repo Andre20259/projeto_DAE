@@ -36,6 +36,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rating> ratings = new ArrayList<>();
+
     @ManyToMany(mappedBy = "subscriptions")
     private List<Tag> subscribedTags = new ArrayList<>();
 
@@ -90,6 +93,8 @@ public class User {
         this.comments.add(comment);
     }
 
+    public void addRating(Rating rating) {this.ratings.add(rating);}
+
     public void removePublication(Publication publication) {
         this.publications.remove(publication);
     }
@@ -97,6 +102,8 @@ public class User {
     public void removeComment(Comment comment) {
         this.comments.remove(comment);
     }
+
+    public void removeRating(Rating rating) { this.ratings.remove(rating);}
 
     public List<Publication> getPublications() {
         return publications;

@@ -58,5 +58,13 @@ public class PublicationDTO {
     public static List<PublicationDTO> from(List<Publication> publications){
         return publications.stream().map(PublicationDTO::from).collect(Collectors.toList());
     }
+
+    public List<CommentDTO> getComments(){
+        return this.comments;
+    }
+
+    public void setComments(List<CommentDTO> comments){
+        this.comments = comments;
+    }
 }
 

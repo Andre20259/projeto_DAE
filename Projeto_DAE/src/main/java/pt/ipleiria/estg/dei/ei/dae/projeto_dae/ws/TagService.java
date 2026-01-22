@@ -10,7 +10,6 @@ import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.TagDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.TagBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
@@ -78,24 +77,20 @@ public class TagService {
 
     @POST
     @Path("{name}/subscribe")
+    @Authenticated
     public Response subscribe(@PathParam("name") String tagName) {
-        User user = (User) securityContext.getUserPrincipal();
-        tagBean.subscribeUserToTag(user.getName(), tagName);
+        String username = securityContext.getUserPrincipal().getName();
+        tagBean.subscribeUserToTag(username, tagName);
         return Response.ok("{\"message\":\"Subscribed to tag '" + tagName + "'\"}").build();
     }
 
     @DELETE
     @Path("{name}/unsubscribe")
+    @Authenticated
     public Response unsubscribe(@PathParam("name") String tagName) {
-        User user = (User) securityContext.getUserPrincipal();
-        tagBean.unsubscribeUserFromTag(user.getName(), tagName);
+        String username = securityContext.getUserPrincipal().getName();
+        tagBean.unsubscribeUserFromTag(username, tagName);
         return Response.ok("{\"message\":\"Unsubscribed from tag '" + tagName + "'\"}").build();
     }
-
-
-
-
-
-
 
 }

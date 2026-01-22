@@ -9,7 +9,7 @@ public class Rating {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "username", nullable = false)
+    @JoinColumn(name = "user_username", nullable = false)
     private User user;
 
     @ManyToOne
