@@ -101,6 +101,15 @@ public class PublicationBean {
         return entityManager.find(Publication.class, id);
     }
 
+    public Publication updateVisibility(Long id, boolean visible) throws MyEntityNotFoundException {
+        Publication publication = entityManager.find(Publication.class, id);
+        if (publication == null) {
+            throw new MyEntityNotFoundException("Publication not found");
+        }
+        publication.setVisible(visible);
+        return publication;
+    }
+
     public Publication generateAndStoreSummary(Long publicationId) {
 
         Publication pub = entityManager.find(Publication.class, publicationId);

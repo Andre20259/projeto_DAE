@@ -66,6 +66,14 @@ public class PublicationService {
                 .build();
     }
 
+    @PATCH
+    @Path("/{id}")
+    @RolesAllowed({"Responsible", "Administrator"})
+    public PublicationDTO updateVisibility(@PathParam("id") Long id, VisibilityDTO dto) throws MyEntityNotFoundException {
+        Publication publication = publicationBean.updateVisibility(id, dto.isVisible());
+        return PublicationDTO.from(publication);
+    }
+
     @GET
     @Path("/")
     public List<PublicationDTO> getAllPublications() {
