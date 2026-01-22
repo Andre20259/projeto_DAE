@@ -128,7 +128,7 @@ public class PublicationBean {
         }
 
         String prompt = """
-    Summarize the following publication in a concise academic style.
+    Summarize the following publication
     Limit the summary to 5 sentences.
 
     Title: %s

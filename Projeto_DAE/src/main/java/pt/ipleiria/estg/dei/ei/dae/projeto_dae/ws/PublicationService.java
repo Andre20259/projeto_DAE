@@ -91,7 +91,7 @@ public class PublicationService {
 
         boolean privileged = securityContext.isUserInRole("COLABORATOR");
 
-        PublicationSummaryDTO dto = new PublicationSummaryDTO(pub.getSummary(), privileged);
+        PublicationSummaryDTO dto = new PublicationSummaryDTO(pub.getId(),pub.getSummary());
 
         return Response.ok()
                 .entity(dto)

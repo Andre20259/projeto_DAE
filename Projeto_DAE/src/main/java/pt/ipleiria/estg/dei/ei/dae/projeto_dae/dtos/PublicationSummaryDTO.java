@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PublicationSummaryDTO {
+    private Long id;
     private String summary;
-    private boolean privileged;
 
-    public PublicationSummaryDTO(String summary, boolean privileged) {
+    public PublicationSummaryDTO(Long id,String summary) {
         this.summary = summary;
-        this.privileged = privileged;
+        this.id = id;
     }
 
     public String getSummary() {
@@ -22,11 +22,10 @@ public class PublicationSummaryDTO {
         this.summary = summary;
     }
 
-    public boolean isPrivileged() {
-        return privileged;
+    public Long getId() {
+        return id;
     }
-
-    public void setPrivileged(boolean privileged) {
-        this.privileged = privileged;
+    public void setId(Long id) {
+        this.id = id;
     }
 }
