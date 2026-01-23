@@ -63,8 +63,8 @@
 </template>
 
 <script setup>
-import {reactive, ref} from 'vue'
-import {useRouter, useRuntimeConfig} from '#imports'
+import { reactive, ref } from 'vue'
+import { useRouter, useRuntimeConfig } from '#imports'
 
 const router = useRouter()
 const config = useRuntimeConfig()
@@ -84,6 +84,7 @@ async function login() {
   successMessage.value = ''
 
   try {
+    // Step 1: Authenticate and get token
     const data = await $fetch(`${api}/auth/login`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -94,9 +95,25 @@ async function login() {
     })
 
     const token = typeof data === 'string' ? data : data.token
-    // save token AND username in session
+
+    // save token and username immediately
     sessionStorage.setItem('auth_token', token)
     sessionStorage.setItem('username', loginForm.username)
+
+    // Step 2: Fetch full user info
+    const userData = await $fetch(`${api}/users/${loginForm.username}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    // store all user info in session
+    sessionStorage.setItem('name', userData.name)
+    sessionStorage.setItem('email', userData.email)
+    sessionStorage.setItem('role', userData.role)
+    sessionStorage.setItem('active', userData.active ? 'true' : 'false')
 
     // show success message
     successMessage.value = 'Login successful! Redirecting...'
@@ -107,6 +124,7 @@ async function login() {
     }, 1000)
 
   } catch (err) {
+    console.error(err)
     errorMessage.value = 'Invalid username or password'
   }
 }
