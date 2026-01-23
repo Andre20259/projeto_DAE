@@ -60,6 +60,20 @@ public class EmailService {
         }
     }
 
+    public void sendPublicationUpdateNotification(List<String> to, Publication publication) {
+        String subject = "Publication Updated: " + publication.getTitle();
+        StringBuilder body = new StringBuilder();
+        body.append("A publication matching your subscribed tags was updated.\n\n");
+        body.append("Title: ").append(publication.getTitle()).append("\n");
+        body.append("Area: ").append(publication.getArea()).append("\n\n");
+        body.append("Description:\n").append(publication.getDescription()).append("\n\n");
+        body.append("View the publication in the application.");
+        String bodyText = body.toString();
+        for (String recipient : to) {
+            sendEmail(recipient, subject, bodyText);
+        }
+    }
+
     public void sendEmail(String to, String subject, String body) {
 
         Properties props = new Properties();

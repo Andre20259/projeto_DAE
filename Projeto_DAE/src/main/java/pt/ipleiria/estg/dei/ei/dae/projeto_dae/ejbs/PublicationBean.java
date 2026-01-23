@@ -276,6 +276,14 @@ public class PublicationBean {
         publication.setTitle(dto.getTitle());
         publication.setDescription(dto.getDescription());
         publication.setArea(dto.getArea());
+        
+        // Notify subscribers of tags about the update
+        List<Tag> tags = publication.getTags();
+        List<String> receipients = getReceipientsForTags(tags);
+        if (!receipients.isEmpty()) {
+            emailService.sendPublicationUpdateNotification(receipients, publication);
+        }
+
         return publication;
     }
 
