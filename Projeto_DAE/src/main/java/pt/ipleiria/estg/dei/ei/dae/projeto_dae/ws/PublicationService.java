@@ -147,7 +147,24 @@ public class PublicationService {
                         title, author, tag, area, date, sortBy, order
                 );
 
-        return Response.ok(PublicationDTO.from(publications)).build();
+        // privileged users see all comments
+        boolean privileged = securityContext.isUserInRole("RESPONSIBLE")
+                || securityContext.isUserInRole("ADMINISTRATOR");
+
+        List<PublicationDTO> dtos = PublicationDTO.from(publications);
+
+        if (!privileged) {
+            // for Colaborator and other non-privileged users keep only visible comments
+            dtos.forEach(dto -> {
+                if (dto.getComments() != null) {
+                    dto.setComments(dto.getComments().stream()
+                            .filter(c -> c.isVisible())
+                            .collect(Collectors.toList()));
+                }
+            });
+        }
+
+        return Response.ok(dtos).build();
     }
 
     @GET
