@@ -59,7 +59,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ### Update publication
 PUT http://localhost:8081/Projeto_DAE/api/publications/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTM0MzA1LCJleHAiOjE3NjkxMzc5MDV9.rYIZy7iE9Tk_br9jGQBfTwA4Ry3Mh-S2Di8pCHWyxOBVjimVMTs5DxNAqExr3qnv
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTIwNTY1NiwiZXhwIjoxNzY5MjA5MjU2fQ.zGjv7A1e8RnrnMsIT76npWtId0qjfMm12Civy_v19L2q6HokOoOlIiEGiV0Ox9Or
 
 {
   "title": "Updated Teste",
@@ -109,7 +109,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4M
 ### Get hidden comments on publication
 GET http://localhost:8081/Projeto_DAE/api/publications/1/comments/hidden
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4MTg2OCwiZXhwIjoxNzY5MTg1NDY4fQ.9oRJ2Ew7K8ktOgGsc5hsmgrnSYJkDo1h4X9Nf9PDr9ycjxBetWPXdxR4REBghBmG
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTIwNTY1NiwiZXhwIjoxNzY5MjA5MjU2fQ.zGjv7A1e8RnrnMsIT76npWtId0qjfMm12Civy_v19L2q6HokOoOlIiEGiV0Ox9Or
 
 ### Delete comment on publication
 DELETE http://localhost:8081/Projeto_DAE/api/publications/1/comments/1

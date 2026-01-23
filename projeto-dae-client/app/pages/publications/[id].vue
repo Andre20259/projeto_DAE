@@ -205,15 +205,17 @@
             <button @click="downloadFile" class="w-full bg-gray-800 p-3 rounded-xl text-white text-sm hover:bg-gray-700 transition">Download File</button>
             <button @click="goBack" class="w-full bg-gray-800 p-3 rounded-xl text-white text-sm hover:bg-gray-700 transition">Back to List</button>
           </div>
-          <div class="mt-4 space-y-2 bg-gray-800 p-3 rounded-xl text-white">
+         <div class="mt-4 space-y-2 bg-gray-800 p-3 rounded-xl text-white">
             <h1>History</h1>
-            <span v-for="change in history" :key="change.id">
-              <div class="text-xs border-b border-gray-700 pb-2 mb-2">
-                <div class="font-medium">{{ formatDateTime(change.date) }}</div>
-                <div class="italic text-gray-400">By: {{ change.changedBy }}</div>
-                <div class="mt-1">{{ change.changeDescription }}</div>
-              </div>
-            </span>
+            <div
+              v-for="change in history"
+              :key="change.id"
+              class="text-xs border-b border-gray-700 pb-2 mb-2"
+            >
+              <div class="font-medium">{{ formatDateTime(change.date) }}</div>
+              <div class="italic text-gray-400">By: {{ change.author }}</div>
+              <div class="mt-1">{{ change.changes }}</div>
+            </div>
           </div>
         </aside>
       </div>
