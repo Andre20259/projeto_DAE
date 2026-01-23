@@ -8,7 +8,7 @@ Content-Type: application/json
 ### Create Tag
 POST http://localhost:8081/Projeto_DAE/api/tags
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTkyNTgyLCJleHAiOjE3NjkxOTYxODJ9.y6F4wFvf1R9EXqMIXq0svm5JGP-VgVcZIj9dXXhGB3F5Q7nHPfZTPNvbaUxOcwIc
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTIwMTU5MiwiZXhwIjoxNzY5MjA1MTkyfQ.1M1Rmu08ufCk0T_mIn9w5RsN1cOXha692bQVLLSGzKAHM-09d3JvsqtFVYAdJ34r
 
 { "name": "AI" }
 

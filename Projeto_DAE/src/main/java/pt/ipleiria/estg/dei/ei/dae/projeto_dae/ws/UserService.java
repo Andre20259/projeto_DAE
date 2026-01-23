@@ -13,7 +13,6 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.AdministratorBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.ColaboratorBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.ResponsibleBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.UserBean;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
@@ -215,14 +214,4 @@ public class UserService {
         return Response.ok(Map.of("message", "User role updated successfully")).build();
     }
 
-    @PUT
-    @Path("{username}/active")
-    @Authenticated
-    @RolesAllowed("Administrator")
-    public Response changeUserActiveStatus(@PathParam("username") String username, UserActiveDTO dto)
-            throws MyEntityNotFoundException {
-        User user = userBean.setActive(username, dto.isActive);
-        return Response.ok(UserDTO.from(user)).build();
-
-    }
 }
