@@ -1,6 +1,6 @@
 ### Upload publication
 POST http://localhost:8081/Projeto_DAE/api/publications HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyOTAxMiwiZXhwIjoxNzY5MTMyNjEyfQ.sqXLFNfeS9IdNhrx7hz6zt5YzvNwD3NMVMcY2pcSWChNSZ3_oxPEMVxVyvuA3RH_
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEzMjcxOCwiZXhwIjoxNzY5MTM2MzE4fQ.wtq6LxusIffBr_zk7BAuczI4RRQR_EpnUdtVNP6AZ0uqSc3ED416il0tR0Ny_r03
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -24,7 +24,7 @@ Content-Type: application/json
 ### Get all publications
 GET http://localhost:8081/Projeto_DAE/api/publications
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyOTAxMiwiZXhwIjoxNzY5MTMyNjEyfQ.sqXLFNfeS9IdNhrx7hz6zt5YzvNwD3NMVMcY2pcSWChNSZ3_oxPEMVxVyvuA3RH_
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEzMjcxOCwiZXhwIjoxNzY5MTM2MzE4fQ.wtq6LxusIffBr_zk7BAuczI4RRQR_EpnUdtVNP6AZ0uqSc3ED416il0tR0Ny_r03
 
 ### Get publication by id
 GET http://localhost:8081/Projeto_DAE/api/publications/1
