@@ -185,6 +185,9 @@ public class PublicationBean {
         if (tag == null) {
             throw new MyEntityNotFoundException("Tag not found");
         }
+        if ("add".equals(dto.getAction()) && !tag.isVisible()) {
+            throw new IllegalArgumentException("Tag not available: " + dto.getName());
+        }
 
         List<Tag> tags = publication.getTags();
 

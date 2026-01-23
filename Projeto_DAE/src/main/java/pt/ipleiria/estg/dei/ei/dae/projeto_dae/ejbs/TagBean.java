@@ -31,6 +31,9 @@ public class TagBean {
         if (tag == null) {
             throw new RuntimeException("Tag " + name + " not found");
         }
+        if (!tag.isVisible()) {
+            throw new IllegalArgumentException("Tag not available: " + name);
+        }
         return tag;
     }
 

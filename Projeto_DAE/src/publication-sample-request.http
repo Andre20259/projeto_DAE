@@ -17,7 +17,7 @@ Content-Type: application/json
   "description": "Descrição teste",
   "area": "AI",
   "authors": ["johndoe123"],
-  "tags": ["AI"]
+  "tags": ["Machine"]
 }
 
 
@@ -35,14 +35,14 @@ Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTM4NTYzLCJleHAiOjE3NjkxNDIxNjN9.ELjV2_bB6ZWdLAnCt9EepbQYan9uJ_SQVkx38zfAW_lIqEmbmbcQ3tvJKTG5n_An
 
 ### Associate tags to publication
-PUT http://localhost:8081/Projeto_DAE/api/publications/2/tags
+PUT http://localhost:8081/Projeto_DAE/api/publications/1/tags
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzNCIsImlhdCI6MTc2OTE0MDIxOSwiZXhwIjoxNzY5MTQzODE5fQ.RnhuuTDC6iMp0lYUV8MTlEt_d-qZQzylWFvhhZT45YS0dFP2h9D9M_csCJFYVA3e
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTQwMDU0LCJleHAiOjE3NjkxNDM2NTR9.dzu2dQOkGL6kemEqCvDdL0xxs_DffscnLdDCheiyO20wTG--pWE3VEJB9CPmbMva
 
 {
-  "name": "Science",
-  "action": "remove"
+  "name": "AI",
+  "action": "add"
 }
 
 ### Update publication
