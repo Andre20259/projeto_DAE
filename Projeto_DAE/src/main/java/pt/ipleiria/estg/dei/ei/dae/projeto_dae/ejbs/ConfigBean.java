@@ -50,12 +50,21 @@ public class ConfigBean {
             administratorBean.create("admin", "admin", "admin", "admin1@mail.pt");
             colaboratorBean.create("colab", "colab", "colab", "colab@mail.pt");
             responsibleBean.create("resp", "resp", "resp", "resp@mail.pt");
+            colaboratorBean.create("deleted_user", "password", "Deletec User", "deleted@mail.pt");
+            colaboratorBean.create("johndoe123", "password123", "JohnDoe", "test@mail.pt");
+            colaboratorBean.create("maria", "password123", "Maria", "maria@mail.pt");
+            colaboratorBean.create("manel", "password123", "Manel", "manel@mail.pt");
+            colaboratorBean.create("raquel", "password123", "Raquel", "raquel@mail.pt");
 
             logger.info("Default users created.");
 
             tagBean.create("AI");
             tagBean.create("Technology");
             tagBean.create("Engineering");
+            tagBean.create("Science");
+            tagBean.create("HiddenTag");
+            var hiddenTag = tagBean.find("HiddenTag");
+            hiddenTag.setVisible(false);
 
             PublicationCreateDTO publicationCreateDTO = new PublicationCreateDTO();
             publicationCreateDTO.setTitle("Teste 2");
@@ -69,6 +78,36 @@ public class ConfigBean {
             InputStream fileStream = new ByteArrayInputStream("contents of the file".getBytes(StandardCharsets.UTF_8));
             String filename = "file1.txt";
             publicationBean.create(filename, fileStream, publicationCreateDTO);
+
+            PublicationCreateDTO dto = new PublicationCreateDTO();
+            dto.setTitle("Primeira Publicação");
+            dto.setDescription("Publicação inicial");
+            dto.setArea("Software");
+            dto.setAuthors(List.of("admin"));
+            dto.setTags(List.of("Science"));
+
+            InputStream dummyFile =
+                    new ByteArrayInputStream("conteudo fake".getBytes());
+
+            PublicationCreateDTO hiddenDto = new PublicationCreateDTO();
+            hiddenDto.setTitle("Publicação Oculta");
+            hiddenDto.setDescription("Não deve aparecer no GET público");
+            hiddenDto.setArea("Software");
+            hiddenDto.setAuthors(List.of("admin"));
+            hiddenDto.setTags(List.of("AI"));
+
+            InputStream hiddenFile =
+                    new ByteArrayInputStream("conteudo oculto".getBytes());
+
+            publicationBean.create("file.txt", dummyFile, dto);
+            var hiddenPub = publicationBean.create("hidden.txt", hiddenFile, hiddenDto);
+            hiddenPub.setVisible(false);
+
+            commentBean.create("johndoe123", 1L, "Good publication");
+            commentBean.create("raquel", 1L, "Very informative");
+            var hiddenComment =
+                    commentBean.create("johndoe123", 1L, "Comentário oculto");
+            hiddenComment.setVisible(false);
 
             commentBean.create("colab",1L,"Great publication!");
             ratingBean.create("colab",1L,5);
