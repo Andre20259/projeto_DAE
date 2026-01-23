@@ -143,6 +143,6 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ### GET publication history
 GET http://localhost:8081/Projeto_DAE/api/publications/1/history
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTIzMTYyLCJleHAiOjE3NjkxMjY3NjJ9._Jyb1SRukgyiG_0EhgY0OJLdw1HQM9Np65vsklB5Hi-7IsdqzuLStzYR51WQfZ6k
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5MDA1MiwiZXhwIjoxNzY5MTkzNjUyfQ.9DrdRZveVvXaWcD62Z_uxSGjrtuAFdOltcI3p_LyKdDEhhTLFDwbjhWrQylWESfr
 
 ###

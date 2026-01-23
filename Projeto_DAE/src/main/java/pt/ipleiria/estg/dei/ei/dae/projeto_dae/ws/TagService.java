@@ -1,5 +1,6 @@
 package pt.ipleiria.estg.dei.ei.dae.projeto_dae.ws;
 
+import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
 import jakarta.ws.rs.*;
@@ -26,6 +27,51 @@ public class TagService {
 
     @Context
     private SecurityContext securityContext;
+
+    @OPTIONS
+    @Path("/")
+    @PermitAll
+    public Response options() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}")
+    @PermitAll
+    public Response optionsSingle() {
+        return Response.ok()
+                .header("Allow", "GET, PATCH, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/hidden")
+    @PermitAll
+    public Response H() {
+        return Response.ok()
+                .header("Allow", "GET, PATCH, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/subscribe")
+    @PermitAll
+    public Response optionsTags() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/unsubscribe")
+    @PermitAll
+    public Response optionsTagsUN() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
 
     @GET
     @Path("/")
