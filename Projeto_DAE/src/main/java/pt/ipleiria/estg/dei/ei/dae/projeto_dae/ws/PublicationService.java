@@ -7,12 +7,15 @@ import jakarta.json.bind.JsonbBuilder;
 import jakarta.ws.rs.*;
 import java.util.logging.Logger;
 import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.OPTIONS;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
 import jakarta.json.bind.annotation.JsonbDateFormat;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.*;
+import jakarta.annotation.security.PermitAll;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.CommentBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.PublicationBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.RatingBean;
@@ -28,10 +31,10 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("publications")
+@Path("/publications")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Authenticated
+@PermitAll
 public class PublicationService {
     @Context
     private SecurityContext securityContext;
@@ -44,9 +47,18 @@ public class PublicationService {
 
     private static final Logger LOGGER = Logger.getLogger(PublicationService.class.getName());
 
+    @OPTIONS
+    @Path("/")
+    @PermitAll
+    public Response options() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
 
     @POST
     @Path("/")
+    @Authenticated
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response upload(MultipartFormDataInput form) throws IOException, MyEntityNotFoundException {
         var map = form.getFormDataMap();
@@ -74,17 +86,20 @@ public class PublicationService {
 
         return Response.status(Response.Status.CREATED)
                 .entity(PublicationDTO.from(publication))
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
                 .build();
     }
 
     @GET
     @Path("/")
+    @Authenticated
     public List<PublicationDTO> getAllPublications() {
         return PublicationDTO.from(publicationBean.findAll());
     }
 
     @GET
     @Path("/{id}/summary")
+    @Authenticated
     public Response generateSummary(@PathParam("id") Long id) throws MyEntityNotFoundException {
 
         Publication pub = publicationBean.generateAndStoreSummary(id);
@@ -95,11 +110,13 @@ public class PublicationService {
 
         return Response.ok()
                 .entity(dto)
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
                 .build();
     }
 
     @GET
     @Path("/{id}")
+    @Authenticated
     public PublicationDTO getPublication(@PathParam("id") long id) throws MyEntityNotFoundException {
         Publication publication = publicationBean.find(id);
 
@@ -120,50 +137,55 @@ public class PublicationService {
 
     @POST
     @Path("/{id}/comments")
+    @Authenticated
     public Response addComment(@PathParam("id") Long publicationId, CommentDTO dto) throws MyEntityNotFoundException {
         String username = securityContext.getUserPrincipal().getName();
         Comment comment = commentBean.create(username, publicationId, dto.content);
-        return Response.status(Response.Status.CREATED).entity(CommentDTO.from(comment)).build();
+        return Response.status(Response.Status.CREATED).header("Allow", "GET, POST, PUT, DELETE, OPTIONS").entity(CommentDTO.from(comment)).build();
     }
 
     @PUT
     @Path("/{id}/comments/{commentId}")
+    @Authenticated
     public Response editComment(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
         String username = securityContext.getUserPrincipal().getName();
         Comment comment = commentBean.editComment(commentId, username, dto.content);
-        return Response.ok(CommentDTO.from(comment)).build();
+        return Response.ok(CommentDTO.from(comment)).header("Allow", "GET, POST, PUT, DELETE, OPTIONS").build();
     }
 
     @PUT
     @Path("/{id}/comments/{commentId}/visibility")
     @RolesAllowed({"Administrator", "Responsible"})
+    @Authenticated
     public Response setVisibility(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
         Comment updatedComment = commentBean.setVisible(commentId, publicationId, dto.isVisible());
-        return Response.ok(CommentDTO.from(updatedComment)).build();
+        return Response.ok(CommentDTO.from(updatedComment)).header("Allow", "GET, POST, PUT, DELETE, OPTIONS").build();
     }
 
     @POST
     @Path("/{id}/ratings")
+    @Authenticated
     public Response addRating(@PathParam("id") Long publicationId, RatingDTO dto) throws MyEntityNotFoundException {
         String username = securityContext.getUserPrincipal().getName();
         Rating rating = ratingBean.create(username, publicationId, dto.score);
-        return Response.status(Response.Status.CREATED).entity(RatingDTO.from(rating)).build();
+        return Response.status(Response.Status.CREATED).header("Allow", "GET, POST, PUT, DELETE, OPTIONS").entity(RatingDTO.from(rating)).build();
     }
 
     @PUT
     @Path("/{id}/ratings/{ratingId}")
+    @Authenticated
     public Response editRating(@PathParam("id") Long publicationId, @PathParam("ratingId") Long ratingId, RatingDTO dto) {
         String username = securityContext.getUserPrincipal().getName();
         ratingBean.delete(ratingId);
         Rating rating = ratingBean.create(username, publicationId, dto.score);
-        return Response.ok(RatingDTO.from(rating)).build();
+        return Response.ok(RatingDTO.from(rating)).header("Allow", "GET, POST, PUT, DELETE, OPTIONS").build();
     }
 
     @DELETE
     @Path("/{id}/ratings/{ratingId}")
+    @Authenticated
     public Response deleteRating(@PathParam("id") Long publicationId, @PathParam("ratingId") Long ratingId) {
         ratingBean.delete(ratingId);
-        return Response.noContent().build();
+        return Response.noContent().header("Allow", "GET, POST, PUT, DELETE, OPTIONS").build();
     }
 }
-

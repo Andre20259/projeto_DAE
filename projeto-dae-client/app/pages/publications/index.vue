@@ -6,7 +6,6 @@
         PGPC
       </NuxtLink>
 
-      <!-- Conditional login / user display -->
       <div class="ml-auto text-sm">
         <template v-if="username && name && role">
           <button
@@ -24,49 +23,69 @@
       </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="grid place-items-center h-[calc(100vh-52px)]">
-      <div class="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-lg text-center mx-4">
-        <h1 class="text-xl font-bold text-white mb-6">
-          Welcome to Plataforma de Gestão de Publicações Científicas
-        </h1>
+    <!-- Page Content -->
+    <div class="p-6 max-w-6xl mx-auto">
+      <!-- Top Controls: Create + Filters -->
+      <div class="flex items-center justify-between mb-6">
+        <button
+            @click="createPublication"
+            class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors text-sm"
+        >
+          Create Publication
+        </button>
 
-        <!-- Conditional main button -->
-        <div>
-          <button
-              v-if="isLoggedIn"
-              @click="goToPublications"
-              class="bg-gray-600 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm"
-          >
-            View Publications
-          </button>
-
-          <button
-              v-else
-              @click="goToLogin"
-              class="bg-gray-600 text-white px-6 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm"
-          >
-            Login to Grant Access
-          </button>
+        <!-- Filters placeholder -->
+        <div class="flex space-x-4">
+          <span class="text-gray-400 text-sm">Filters placeholder</span>
         </div>
+      </div>
+
+      <!-- Publications List -->
+      <div class="grid gap-4">
+        <div
+            v-for="pub in publications"
+            :key="pub.id"
+            @click="goToPublication(pub.id)"
+            class="bg-gray-800 p-4 rounded-xl shadow-md hover:bg-gray-700 cursor-pointer transition-colors"
+        >
+          <h2 class="text-white font-bold text-lg mb-1">{{ pub.title }}</h2>
+          <p class="text-gray-300 mb-2">
+            {{ truncate(pub.description, 255) || 'No description' }}
+          </p>
+          <div class="flex flex-wrap text-gray-400 text-sm gap-2 mb-1">
+            <span>Area: {{ pub.area }}</span>
+            <span>Authors: {{ pub.authors.map(a => a.name).join(', ') }}</span>
+            <span>Tags: {{ pub.tags.map(t => t.name).join(', ') }}</span>
+          </div>
+          <div class="text-gray-400 text-sm">
+            Uploaded: {{ formatDate(pub.uploadDate) }} | Rating: {{ pub.averageRating.toFixed(1) }}
+          </div>
+        </div>
+
+        <p v-if="publications.length === 0" class="text-gray-400 text-center mt-4">
+          No publications found.
+        </p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { useRouter } from '#imports'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRuntimeConfig } from '#imports'
 
 const router = useRouter()
+const config = useRuntimeConfig()
+const api = config.public.apiBase
+
 const username = ref('')
 const name = ref('')
 const role = ref('')
 
-// check if user is logged in
-const isLoggedIn = computed(() => !!sessionStorage.getItem('auth_token'))
+// Publications state
+const publications = ref([])
 
-// read session info on mount
+// read session info
 onMounted(() => {
   const token = sessionStorage.getItem('auth_token')
   const storedUsername = sessionStorage.getItem('username')
@@ -78,9 +97,32 @@ onMounted(() => {
     name.value = storedName
     role.value = storedRole
   }
+
+  fetchPublications()
 })
 
-const goToLogin = () => router.push('/login')
+// Fetch publications
+async function fetchPublications() {
+  try {
+    const token = sessionStorage.getItem('auth_token')
+    const data = await $fetch(`${api}/publications`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    publications.value = data
+  } catch (err) {
+    console.error('Failed to fetch publications:', err)
+  }
+}
+
+// Handlers
 const goToProfile = () => router.push('/me')
-const goToPublications = () => router.push('/publications')
+const createPublication = () => alert('Create Publication clicked (to be implemented)')
+const goToPublication = (id) => router.push(`/publications/${id}`)
+
+// Helpers
+const truncate = (text, max) => text?.length > max ? text.slice(0, max) + '…' : text
+const formatDate = (dateStr) => new Date(dateStr).toLocaleDateString()
 </script>
