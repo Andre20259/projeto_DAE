@@ -16,7 +16,7 @@
             <label class="block text-sm font-medium mb-1 text-gray-300" for="username">Username</label>
             <input
                 id="username"
-                v-model="username"
+                v-model="signupForm.username"
                 type="text"
                 placeholder="Enter your username"
                 class="w-full px-3 py-1.5 border border-gray-600 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -29,7 +29,7 @@
             <label class="block text-sm font-medium mb-1 text-gray-300" for="name">Name</label>
             <input
                 id="name"
-                v-model="name"
+                v-model="signupForm.name"
                 type="text"
                 placeholder="Enter your full name"
                 class="w-full px-3 py-1.5 border border-gray-600 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -42,7 +42,7 @@
             <label class="block text-sm font-medium mb-1 text-gray-300" for="email">Email</label>
             <input
                 id="email"
-                v-model="email"
+                v-model="signupForm.email"
                 type="email"
                 placeholder="Enter your email"
                 class="w-full px-3 py-1.5 border border-gray-600 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -55,13 +55,21 @@
             <label class="block text-sm font-medium mb-1 text-gray-300" for="password">Password</label>
             <input
                 id="password"
-                v-model="password"
+                v-model="signupForm.password"
                 type="password"
                 placeholder="Enter your password"
                 class="w-full px-3 py-1.5 border border-gray-600 rounded-md bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
                 required
             />
           </div>
+
+          <!-- Messages -->
+          <p v-if="errorMessage" class="text-red-400 text-sm text-center">
+            {{ errorMessage }}
+          </p>
+          <p v-if="successMessage" class="text-green-400 text-sm text-center">
+            {{ successMessage }}
+          </p>
 
           <!-- Signup Button -->
           <button
@@ -81,19 +89,45 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
-import {useRouter} from 'vue-router'
-import {useCookie} from '#imports' // adjust if needed
+import { reactive, ref } from 'vue'
+import { useRouter, useRuntimeConfig } from '#imports'
 
-const username = ref('')
-const name = ref('')
-const email = ref('')
-const password = ref('')
 const router = useRouter()
+const config = useRuntimeConfig()
+const api = config.public.apiBase
 
-const handleSignup = () => {
-  // Example: replace with real signup logic
-  useCookie('loggedIn').value = true
-  router.push('/')
+const signupForm = reactive({
+  name: '',
+  email: '',
+  password: '',
+  username: ''
+})
+
+const errorMessage = ref('')
+const successMessage = ref('')
+
+async function handleSignup() {
+  errorMessage.value = ''
+  successMessage.value = ''
+
+  try {
+    const data = await $fetch(`${api}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: signupForm
+    })
+
+    // show success message
+    successMessage.value = 'Signup successful! Redirecting to login...'
+
+    // optional: delay to let user see message
+    setTimeout(() => {
+      router.push('/login')
+    }, 1200)
+
+  } catch (err) {
+    errorMessage.value =
+        err?.data?.message || 'Signup failed. Please check your inputs.'
+  }
 }
 </script>

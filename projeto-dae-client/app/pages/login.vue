@@ -37,9 +37,12 @@
             />
           </div>
 
-          <!-- Error Message -->
+          <!-- Messages -->
           <p v-if="errorMessage" class="text-red-400 text-sm text-center">
             {{ errorMessage }}
+          </p>
+          <p v-if="successMessage" class="text-green-400 text-sm text-center">
+            {{ successMessage }}
           </p>
 
           <!-- Login Button -->
@@ -60,40 +63,51 @@
 </template>
 
 <script setup>
-import { reactive, ref } from 'vue'
-import { useRouter, useRuntimeConfig } from '#imports'
+import {reactive, ref} from 'vue'
+import {useRouter, useRuntimeConfig} from '#imports'
 
 const router = useRouter()
 const config = useRuntimeConfig()
 const api = config.public.apiBase
 
-// Login form reactive object (matches template style)
 const loginForm = reactive({
   username: '',
   password: ''
 })
 
 const errorMessage = ref('')
+const successMessage = ref('')
 
 async function login() {
+  // reset messages
   errorMessage.value = ''
+  successMessage.value = ''
 
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: loginForm
-  }
+  try {
+    const data = await $fetch(`${api}/auth/login`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: {
+        username: loginForm.username,
+        password: loginForm.password
+      }
+    })
 
-  // identical to your template project
-  const { data, error } = await useFetch(`${api}/auth/login`, requestOptions)
-
-  if (!error.value) {
-    const token = typeof data.value === 'string' ? data.value : data.value.token
+    const token = typeof data === 'string' ? data : data.token
+    // save token AND username in session
     sessionStorage.setItem('auth_token', token)
-    router.push('/')
-    return
-  }
+    sessionStorage.setItem('username', loginForm.username)
 
-  errorMessage.value = error.value
+    // show success message
+    successMessage.value = 'Login successful! Redirecting...'
+
+    // small delay before redirect
+    setTimeout(() => {
+      router.push('/')
+    }, 1000)
+
+  } catch (err) {
+    errorMessage.value = 'Invalid username or password'
+  }
 }
 </script>
