@@ -109,6 +109,10 @@
               </td>
               <td class="px-6 py-4 text-right">
                 <div class="flex justify-end gap-2">
+                  <button @click="openEditModal(u)" class="px-3 py-1.5 text-xs bg-amber-600/10 text-amber-500 rounded-md hover:bg-amber-600 hover:text-white transition">
+                    Edit
+                  </button>
+
                   <button @click="openHistory(u.username)" class="px-3 py-1.5 text-xs bg-blue-600/10 text-blue-400 rounded-md hover:bg-blue-600 hover:text-white transition">History</button>
                   <button @click="confirmDelete(u.username)" :disabled="u.username === currentAdmin" class="px-3 py-1.5 text-xs bg-red-900/20 text-red-500 rounded-md hover:bg-red-600 hover:text-white transition disabled:opacity-30">Delete</button>
                 </div>
@@ -163,6 +167,36 @@
       </div>
     </div>
   </div>
+  <div v-if="showEditModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+    <div class="bg-gray-800 border border-gray-700 rounded-xl w-full max-w-md overflow-hidden shadow-2xl">
+      <div class="p-6 border-b border-gray-700 flex justify-between items-center">
+        <h2 class="text-xl font-bold text-white">Edit User: {{ editingUser.username }}</h2>
+        <button @click="showEditModal = false" class="text-gray-400 hover:text-white">&times;</button>
+      </div>
+
+      <form @submit.prevent="updateUser" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Full Name</label>
+          <input v-model="editingUser.name" type="text" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-blue-500 outline-none" required />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
+          <input v-model="editingUser.email" type="email" class="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-blue-500 outline-none" required />
+        </div>
+
+        <div class="flex items-center gap-3 pt-2">
+          <input type="checkbox" v-model="editingUser.isActive" id="isActive" class="w-4 h-4 rounded border-gray-700 bg-gray-900 text-blue-600" />
+          <label for="isActive" class="text-sm text-gray-300">Account Active</label>
+        </div>
+
+        <div class="flex gap-3 pt-4">
+          <button type="button" @click="showEditModal = false" class="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition">Cancel</button>
+          <button type="submit" class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -188,6 +222,42 @@ const showHistory = ref(false)
 const selectedUser = ref('')
 const historyData = ref(null)
 const loadingHistory = ref(false)
+// ... existing refs ...
+const showEditModal = ref(false)
+const editingUser = ref({ name: '', email: '', username: '', isActive: true })
+
+// Function to open the modal and populate data
+function openEditModal(user) {
+  editingUser.value = {
+    name: user.name,
+    email: user.email || '',
+    username: user.username,
+    isActive: user.active // mapping 'active' from your list to 'isActive' for your API
+  }
+  showEditModal.value = true
+}
+
+// The PUT implementation
+async function updateUser() {
+  try {
+    await $fetch(`${api}/users/${editingUser.value.username}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+        'Content-Type': 'application/json'
+      },
+      body: editingUser.value
+    })
+
+    // Refresh the list to show updated info
+    await fetchUsers()
+    showEditModal.value = false
+    alert('User updated successfully!')
+  } catch (err) {
+    console.error(err)
+    alert('Failed to update user.')
+  }
+}
 
 onMounted(() => {
   if (process.client) {
