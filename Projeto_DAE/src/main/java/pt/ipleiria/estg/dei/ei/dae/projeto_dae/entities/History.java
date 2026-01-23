@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Entity
 @NamedQueries({
         @NamedQuery(
-                name = "getAllTags",
-                query = "SELECT h FROM History h ORDER BY h.name"
+                name = "getAllTagsHistory",
+                query = "SELECT h FROM History h ORDER BY h.date DESC"
         )
 })
 @Table(name = "history")
