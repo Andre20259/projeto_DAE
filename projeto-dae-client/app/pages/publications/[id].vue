@@ -21,7 +21,7 @@
     <!-- Content -->
     <div class="p-6 max-w-6xl mx-auto">
       <div class="flex gap-6">
-        <!-- Left: main info -->
+        <!-- Left: main info / comments -->
         <div class="flex-1">
           <div v-if="loading" class="text-gray-400">Loading publication...</div>
 
@@ -47,7 +47,7 @@
 
             <div class="flex flex-wrap gap-3 text-xs text-gray-400 mb-3">
               <div>Authors: {{ publication.authors.map(a => a.name).join(', ') }}</div>
-              <div>Tags: {{ publication.tags.map(t => t.name).join(', ') }}</div>
+              <div>Tags: {{ tags.map(t => t.name).join(', ') }}</div>
             </div>
 
             <!-- Rating UI -->
@@ -147,26 +147,77 @@
                 </div>
               </div>
             </div>
+
+            <!-- Hidden-comments controls (for Admin/Responsible) -->
+            <div v-if="canToggleVisibility" class="mt-6 border-t border-gray-700 pt-4">
+              <div class="flex items-center justify-between mb-3">
+                <div class="text-sm text-gray-300 font-semibold">Hidden comments</div>
+                <div class="flex items-center gap-2">
+                  <button @click="fetchHiddenComments" :disabled="hiddenLoading"
+                          class="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700">
+                    {{ hiddenLoading ? 'Loading…' : 'Refresh hidden' }}
+                  </button>
+                  <button @click="showHidden = !showHidden" class="bg-gray-700 text-white px-3 py-1 rounded text-sm hover:bg-gray-600">
+                    {{ showHidden ? 'Hide' : 'Show' }}
+                  </button>
+                </div>
+              </div>
+
+              <div v-if="showHidden">
+                <div v-if="hiddenLoading" class="text-gray-400">Loading hidden comments…</div>
+                <div v-else-if="hiddenComments.length === 0" class="text-gray-400">No hidden comments.</div>
+
+                <div v-for="hc in hiddenComments" :key="hc.id" class="mb-3 border border-gray-700 p-3 rounded bg-gray-900">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <div class="text-gray-200 font-medium">{{ hc.author }}</div>
+                      <div class="text-gray-400 text-xs mt-1">{{ formatDateTime(hc.created_at) }}</div>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                      <button
+                          @click="toggleVisibility(hc)"
+                          :disabled="togglingVisibilityId === hc.id"
+                          class="text-xs px-2 py-1 rounded border border-gray-600 bg-gray-800 hover:bg-gray-700 text-gray-200"
+                      >
+                        {{ togglingVisibilityId === hc.id ? '...' : (hc.visible ? 'Visible' : 'Hidden') }}
+                      </button>
+
+                      <button
+                          @click="deleteComment(hc)"
+                          :disabled="deletingCommentId === hc.id"
+                          class="text-xs text-red-400 hover:underline"
+                      >
+                        {{ deletingCommentId === hc.id ? 'Deleting...' : 'Delete' }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="text-gray-300 mt-3">{{ hc.content }}</div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div v-else class="text-gray-400">Publication not found.</div>
         </div>
 
-        <!-- Right: summary / actions panel -->
+        <!-- Right: summary / tags / quick actions -->
         <aside class="w-80">
+          <!-- Summary -->
           <div class="bg-gray-800 p-4 rounded-xl shadow-lg sticky top-6">
             <div class="flex justify-between items-center mb-3">
               <div class="text-sm text-gray-300 font-semibold">AI Summary</div>
               <button
                   @click="generateSummary"
-                  :disabled="summaryLoading"
+                  :disabled="summaryLoading || !publication"
                   class="bg-indigo-600 disabled:opacity-50 text-white px-3 py-1 rounded text-sm hover:bg-indigo-700"
               >
                 {{ summaryLoading ? 'Generating...' : 'Generate' }}
               </button>
             </div>
 
-            <div class="text-gray-300 text-sm">
+            <div class="text-gray-300 text-sm mb-3">
               <template v-if="publication?.summary">
                 <div class="mb-2 text-gray-200 font-medium">Summary</div>
                 <div class="text-gray-300 whitespace-pre-wrap">{{ publication.summary }}</div>
@@ -179,6 +230,39 @@
               <template v-else>
                 <div class="text-gray-400">No summary yet. Click Generate to create an AI summary.</div>
               </template>
+            </div>
+
+            <!-- Tags management (uses safe `tags` computed) -->
+            <div class="mt-2" v-if="publication">
+              <div class="text-sm text-gray-300 font-semibold mb-2">Tags</div>
+
+              <div class="flex flex-wrap gap-2 mb-3">
+                <template v-for="t in tags" :key="t.name">
+                  <span class="inline-flex items-center gap-2 bg-gray-700 text-gray-200 px-2 py-1 rounded text-xs">
+                    {{ t.name }}
+                    <button
+                        @click="removeTag(t.name)"
+                        :disabled="tagLoading || !token"
+                        class="text-red-400 hover:text-red-200 ml-1 text-xs"
+                        title="Remove tag"
+                    >
+                      ×
+                    </button>
+                  </span>
+                </template>
+                <span v-if="tags.length === 0" class="text-gray-400 text-xs">No tags</span>
+              </div>
+
+              <div class="flex gap-2">
+                <input v-model="tagInput" type="text" placeholder="New tag" class="flex-1 px-2 py-1 bg-gray-700 border border-gray-600 rounded text-white text-sm focus:outline-none" />
+                <button @click="addTag" :disabled="!tagInput.trim() || tagLoading || !token" class="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700">
+                  {{ tagLoading ? '...' : 'Add' }}
+                </button>
+              </div>
+
+              <p v-if="tagMessage" class="text-xs mt-2" :class="tagError ? 'text-red-400' : 'text-green-400'">
+                {{ tagMessage }}
+              </p>
             </div>
           </div>
 
@@ -225,6 +309,11 @@ const commentMessageError = ref(false)
 const deletingCommentId = ref(null)
 const togglingVisibilityId = ref(null)
 
+/* Hidden comments */
+const hiddenComments = ref([])
+const hiddenLoading = ref(false)
+const showHidden = ref(false)
+
 /* RATING */
 const selectedRating = ref(0)
 const ratingLoading = ref(false)
@@ -233,6 +322,15 @@ const ratingError = ref(false)
 
 /* SUMMARY */
 const summaryLoading = ref(false)
+
+/* TAGS */
+const tagInput = ref('')
+const tagLoading = ref(false)
+const tagMessage = ref('')
+const tagError = ref(false)
+
+// safe computed tags array
+const tags = computed(() => publication.value?.tags ?? [])
 
 onMounted(() => {
   if (process.client) {
@@ -304,16 +402,16 @@ async function submitComment() {
       // UPDATE
       await $fetch(`${api}/publications/${id}/comments/${editingCommentId.value}`, {
         method: 'PUT',
-        headers: { Authorization: `Bearer ${token.value}` },
-        body: { content: commentText.value }
+        headers: {Authorization: `Bearer ${token.value}`},
+        body: {content: commentText.value}
       })
       commentMessage.value = 'Comment updated'
     } else {
       // CREATE
       await $fetch(`${api}/publications/${id}/comments`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token.value}` },
-        body: { content: commentText.value }
+        headers: {Authorization: `Bearer ${token.value}`},
+        body: {content: commentText.value}
       })
       commentMessage.value = 'Comment posted'
     }
@@ -341,11 +439,13 @@ async function deleteComment(c) {
   try {
     await $fetch(`${api}/publications/${id}/comments/${c.id}`, {
       method: 'DELETE',
-      headers: { Authorization: `Bearer ${token.value}` }
+      headers: {Authorization: `Bearer ${token.value}`}
     })
     commentMessage.value = 'Comment deleted'
     commentMessageError.value = false
+    // refresh both lists
     await fetchPublication()
+    if (showHidden.value) await fetchHiddenComments()
   } catch (err) {
     console.error('Delete failed', err)
     commentMessage.value = 'Failed to delete comment'
@@ -366,12 +466,13 @@ async function toggleVisibility(c) {
     const newVisible = !c.visible
     await $fetch(`${api}/publications/${id}/comments/${c.id}/visibility`, {
       method: 'PUT',
-      headers: { Authorization: `Bearer ${token.value}` },
-      body: { visible: newVisible }
+      headers: {Authorization: `Bearer ${token.value}`},
+      body: {visible: newVisible}
     })
     commentMessage.value = `Comment ${newVisible ? 'made visible' : 'hidden'}`
     commentMessageError.value = false
     await fetchPublication()
+    if (showHidden.value) await fetchHiddenComments()
   } catch (err) {
     console.error('Toggle visibility failed', err)
     commentMessage.value = 'Failed to toggle visibility'
@@ -381,8 +482,23 @@ async function toggleVisibility(c) {
   }
 }
 
-/* RATING helpers */
+/* Hidden comments: fetch endpoint only for privileged roles */
+async function fetchHiddenComments() {
+  if (!canToggleVisibility.value) return
+  hiddenLoading.value = true
+  try {
+    hiddenComments.value = await $fetch(`${api}/publications/${id}/comments/hidden`, {
+      headers: token.value ? {Authorization: `Bearer ${token.value}`} : {}
+    })
+  } catch (err) {
+    console.error('Failed to fetch hidden comments', err)
+    hiddenComments.value = []
+  } finally {
+    hiddenLoading.value = false
+  }
+}
 
+/* RATING helpers */
 // find user's rating object
 function findUserRating(pub) {
   if (!pub || !Array.isArray(pub.ratings)) return null
@@ -406,8 +522,8 @@ async function handleRatingClick(score) {
       // No existing rating -> create
       await $fetch(`${api}/publications/${id}/ratings`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token.value}` },
-        body: { score }
+        headers: {Authorization: `Bearer ${token.value}`},
+        body: {score}
       })
       ratingMessage.value = 'Rating created'
     } else {
@@ -418,7 +534,7 @@ async function handleRatingClick(score) {
         // same score clicked -> delete rating
         await $fetch(`${api}/publications/${id}/ratings/${ratingId}`, {
           method: 'DELETE',
-          headers: { Authorization: `Bearer ${token.value}` }
+          headers: {Authorization: `Bearer ${token.value}`}
         })
         selectedRating.value = 0
         ratingMessage.value = 'Rating removed'
@@ -426,8 +542,8 @@ async function handleRatingClick(score) {
         // different score -> update
         await $fetch(`${api}/publications/${id}/ratings/${ratingId}`, {
           method: 'PUT',
-          headers: { Authorization: `Bearer ${token.value}` },
-          body: { score }
+          headers: {Authorization: `Bearer ${token.value}`},
+          body: {score}
         })
         selectedRating.value = score
         ratingMessage.value = 'Rating updated'
@@ -448,13 +564,70 @@ async function handleRatingClick(score) {
   }
 }
 
+/* TAGS: add/remove */
+async function addTag() {
+  const name = tagInput.value.trim()
+  if (!name) return
+  if (!token.value) {
+    tagMessage.value = 'You must be logged in to edit tags'
+    tagError.value = true
+    return
+  }
+  tagLoading.value = true
+  tagMessage.value = ''
+  tagError.value = false
+  try {
+    await $fetch(`${api}/publications/${id}/tags`, {
+      method: 'PUT',
+      headers: {Authorization: `Bearer ${token.value}`},
+      body: {name, action: 'add'}
+    })
+    tagMessage.value = `Tag "${name}" added`
+    tagInput.value = ''
+    await fetchPublication()
+  } catch (err) {
+    console.error('Add tag failed', err)
+    tagMessage.value = 'Failed to add tag'
+    tagError.value = true
+  } finally {
+    tagLoading.value = false
+  }
+}
+
+async function removeTag(tagName) {
+  if (!confirm(`Remove tag "${tagName}"?`)) return
+  if (!token.value) {
+    tagMessage.value = 'You must be logged in to edit tags'
+    tagError.value = true
+    return
+  }
+  tagLoading.value = true
+  tagMessage.value = ''
+  tagError.value = false
+  try {
+    await $fetch(`${api}/publications/${id}/tags`, {
+      method: 'PUT',
+      headers: {Authorization: `Bearer ${token.value}`},
+      body: {name: tagName, action: 'remove'}
+    })
+    tagMessage.value = `Tag "${tagName}" removed`
+    await fetchPublication()
+  } catch (err) {
+    console.error('Remove tag failed', err)
+    tagMessage.value = 'Failed to remove tag'
+    tagError.value = true
+  } finally {
+    tagLoading.value = false
+  }
+}
+
 /* SUMMARY */
 async function generateSummary() {
   if (summaryLoading.value) return
   summaryLoading.value = true
   try {
     const dto = await $fetch(`${api}/publications/${id}/summary`, {
-      headers: token.value ? { Authorization: `Bearer ${token.value}` } : {}
+      headers: token.value ? {Authorization: `Bearer ${token.value}`} : {}
     })
     if (dto && typeof dto.summary === 'string') {
       if (!publication.value) publication.value = {}

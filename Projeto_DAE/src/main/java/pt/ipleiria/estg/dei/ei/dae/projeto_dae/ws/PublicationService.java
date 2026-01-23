@@ -69,6 +69,15 @@ public class PublicationService {
     }
 
     @OPTIONS
+    @Path("/{id}/tags")
+    @PermitAll
+    public Response optionsTags() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
     @Path("/{id}/summary")
     @PermitAll
     public Response optionsSingleSummary() {
@@ -90,6 +99,15 @@ public class PublicationService {
     @Path("/{id}/comments/{iid}")
     @PermitAll
     public Response optionsCommentsSingle() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/comments/hidden")
+    @PermitAll
+    public Response optionsCommentsH() {
         return Response.ok()
                 .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
                 .build();
