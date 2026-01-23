@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 
@@ -55,6 +56,12 @@ public class TagBean {
     public void delete(String name){
         Tag tag = findAny(name);
 
+        for (Publication pub : tag.getPublications()) {
+            pub.getTags().remove(tag);
+            entityManager.merge(pub);
+        }
+        tag.getPublications().clear();
+
         for (User user : tag.getSubscriptions()) {
             user.getSubscribedTags().remove(tag);
             entityManager.merge(user);
@@ -68,6 +75,12 @@ public class TagBean {
         Tag tag = findAny(tagName);
 
         if (!visible) {
+            for (Publication pub : tag.getPublications()) {
+                pub.getTags().remove(tag);
+                entityManager.merge(pub);
+            }
+            tag.getPublications().clear();
+
             for (User user : tag.getSubscriptions()) {
                 user.getSubscribedTags().remove(tag);
                 entityManager.merge(user);
