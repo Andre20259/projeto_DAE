@@ -31,14 +31,10 @@ public class HistoryBean{
     }
 
     public List<History> findByPublicationId(Long publicationId) {
-//        return entityManager.createQuery(
-//                        "SELECT h FROM History h WHERE h.publication.id = :publicationId",
-//                        History.class)
-//                .setParameter("publicationId", publicationId)
-//                .getResultList();
-
-        List<History> list = entityManager
-                .createNamedQuery("getAllHistory", History.class).getResultList();
+          List<History> list = entityManager
+                .createNamedQuery("getHistoryByPublicationId", History.class)
+                .setParameter("publicationId", publicationId)
+                .getResultList();
         return list;
     }
 

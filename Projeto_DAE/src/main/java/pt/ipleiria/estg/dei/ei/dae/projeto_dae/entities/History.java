@@ -11,6 +11,10 @@ import java.time.LocalDateTime;
         @NamedQuery(
                 name = "getAllHistory",
                 query = "SELECT h FROM History h"
+        ),
+        @NamedQuery(
+                name = "getHistoryByPublicationId",
+                query = "SELECT h FROM History h WHERE h.publication.id = :publicationId"
         )
 
 })
