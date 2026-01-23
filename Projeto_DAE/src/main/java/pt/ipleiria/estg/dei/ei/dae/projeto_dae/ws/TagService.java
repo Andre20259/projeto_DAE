@@ -31,7 +31,21 @@ public class TagService {
     @Path("/")
     @Authenticated
     public List<TagDTO> getAllTags() {
-        return TagDTO.from(tagBean.findAll());
+        boolean privileged = securityContext.isUserInRole("Responsible")
+                || securityContext.isUserInRole("Administrator")
+                || securityContext.isUserInRole("RESPONSIBLE")
+                || securityContext.isUserInRole("ADMINISTRATOR");
+
+        List<Tag> tags;
+
+        if (privileged) {
+            tags = tagBean.findAll();
+        } else {
+            tags = tagBean.findVisible();
+        }
+
+        return TagDTO.from(tags);
+        //return TagDTO.from(tagBean.findAll());
     }
 
     @GET

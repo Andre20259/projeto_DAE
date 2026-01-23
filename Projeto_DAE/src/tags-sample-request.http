@@ -11,12 +11,12 @@ POST http://localhost:8081/Projeto_DAE/api/tags
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE0MjEwOSwiZXhwIjoxNzY5MTQ1NzA5fQ.Fcb2NObTuxmHu4htpYlvFRysh9rAHWPOQEXvy3Azsxiu38QjF2L0Cs-eXi8PUsLA
 
-{ "name": "Machine" }
+{ "name": "AI" }
 
 ### Get All Tags
 GET http://localhost:8081/Projeto_DAE/api/tags
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE0MjIxNiwiZXhwIjoxNzY5MTQ1ODE2fQ.iog3fUAjYNiapVjkHofg9WFVOlUSQXe0thEEEqfn3TcwG5csFvUQtRuVr0m8KsMX
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE0MjEwOSwiZXhwIjoxNzY5MTQ1NzA5fQ.Fcb2NObTuxmHu4htpYlvFRysh9rAHWPOQEXvy3Azsxiu38QjF2L0Cs-eXi8PUsLA
 
 
 ### Get Specific Tag by Name
@@ -42,7 +42,7 @@ PUT http://localhost:8081/Projeto_DAE/api/tags/AI
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE0MjEwOSwiZXhwIjoxNzY5MTQ1NzA5fQ.Fcb2NObTuxmHu4htpYlvFRysh9rAHWPOQEXvy3Azsxiu38QjF2L0Cs-eXi8PUsLA
 
-{ "visible": "true" }
+{ "visible": "false" }
 
 ### Subscribe to Tag
 POST http://localhost:8081/Projeto_DAE/api/tags/AI/subscribe

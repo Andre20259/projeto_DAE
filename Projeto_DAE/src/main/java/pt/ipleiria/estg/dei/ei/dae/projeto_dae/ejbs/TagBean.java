@@ -37,6 +37,13 @@ public class TagBean {
         return tag;
     }
 
+    public List<Tag> findVisible() {
+        return entityManager
+                .createQuery("SELECT t FROM Tag t WHERE t.visible = true", Tag.class)
+                .getResultList();
+    }
+
+
     public void delete(String name){
         Tag tag = find(name);
         entityManager.remove(tag);
