@@ -68,7 +68,7 @@ public class TagService {
     @RolesAllowed({"Administrator", "Responsible"})
     public Response deleteTag(@PathParam("name") String name) {
         tagBean.delete(name);
-        return Response.ok("{\"message\":\"Tag '" + name + "' eliminada.\"}").build();
+        return Response.ok("{\"message\":\"Tag '" + name + "' deleted.\"}").build();
     }
 
     @PUT

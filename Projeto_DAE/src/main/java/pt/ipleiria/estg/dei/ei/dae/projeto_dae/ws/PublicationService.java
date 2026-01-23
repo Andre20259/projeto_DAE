@@ -178,6 +178,7 @@ public class PublicationService {
 
     @POST
     @Path("/{id}/comments")
+    @Authenticated
     public Response addComment(@PathParam("id") Long publicationId, CommentDTO dto) throws MyEntityNotFoundException {
         String username = securityContext.getUserPrincipal().getName();
         Comment comment = commentBean.create(username, publicationId, dto.content);
@@ -186,22 +187,35 @@ public class PublicationService {
 
     @PUT
     @Path("/{id}/comments/{commentId}")
+    @Authenticated
     public Response editComment(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
         String username = securityContext.getUserPrincipal().getName();
-        Comment comment = commentBean.editComment(commentId, username, dto.content);
+        Comment comment = commentBean.editComment(commentId,publicationId, username, dto.content);
         return Response.ok(CommentDTO.from(comment)).build();
     }
 
     @PUT
     @Path("/{id}/comments/{commentId}/visibility")
+    @Authenticated
     @RolesAllowed({"Administrator", "Responsible"})
-    public Response setVisibility(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
+    public Response setVisibilityComments(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
         Comment updatedComment = commentBean.setVisible(commentId, publicationId, dto.isVisible());
         return Response.ok(CommentDTO.from(updatedComment)).build();
     }
 
+    @DELETE
+    @Path("/{id}/comments/{commentId}")
+    @Authenticated
+    public Response deleteComment(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId) {
+        String username = securityContext.getUserPrincipal().getName();
+        commentBean.deleteComment(commentId, publicationId, username);
+        return Response.ok("{\"message\":\"Comment deleted.\"}").build();
+    }
+
+
     @POST
     @Path("/{id}/ratings")
+    @Authenticated
     public Response addRating(@PathParam("id") Long publicationId, RatingDTO dto) throws MyEntityNotFoundException {
         String username = securityContext.getUserPrincipal().getName();
         Rating rating = ratingBean.create(username, publicationId, dto.score);
@@ -210,18 +224,22 @@ public class PublicationService {
 
     @PUT
     @Path("/{id}/ratings/{ratingId}")
+    @Authenticated
     public Response editRating(@PathParam("id") Long publicationId, @PathParam("ratingId") Long ratingId, RatingDTO dto) {
         String username = securityContext.getUserPrincipal().getName();
-        ratingBean.delete(ratingId);
-        Rating rating = ratingBean.create(username, publicationId, dto.score);
+        //ratingBean.delete(ratingId, publicationId, username);
+        //Rating rating = ratingBean.create(username, publicationId, dto.score);
+        Rating rating = ratingBean.editRating(ratingId,publicationId, username, dto.score);
         return Response.ok(RatingDTO.from(rating)).build();
     }
 
     @DELETE
     @Path("/{id}/ratings/{ratingId}")
+    @Authenticated
     public Response deleteRating(@PathParam("id") Long publicationId, @PathParam("ratingId") Long ratingId) {
-        ratingBean.delete(ratingId);
-        return Response.noContent().build();
+        String username = securityContext.getUserPrincipal().getName();
+        ratingBean.delete(ratingId, publicationId, username);
+        return Response.ok("{\"message\":\"Rating deleted.\"}").build();
     }
 }
 

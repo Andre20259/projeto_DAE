@@ -32,10 +32,31 @@ public class RatingBean {
         return rating;
     }
 
-    public void delete(Long ratingId) {
+    public Rating editRating(Long ratingID, Long publicationId,String username, int newScore) {
+        Rating rating = entityManager.find(Rating.class, ratingID);
+        if (rating == null) {
+            throw new RuntimeException("Rating with id " + ratingID + " not found");
+        }
+        if(!rating.getPublication().getId().equals(publicationId)){
+            throw new RuntimeException("Rating with id " + ratingID + " does not belong to publication with id " + publicationId);
+        }
+        if(!rating.getUser().getUsername().equals(username)){
+            throw new RuntimeException("User " + username + " is not the author of rating with id " + ratingID);
+        }
+        rating.setScore(newScore);
+        return rating;
+    }
+
+    public void delete(Long ratingId, Long publicationId, String username) {
         Rating rating = entityManager.find(Rating.class, ratingId);
         if (rating == null) {
             throw new RuntimeException("Rating with id " + ratingId + " not found");
+        }
+        if(!rating.getPublication().getId().equals(publicationId)){
+            throw new RuntimeException("Rating with id " + ratingId + " does not belong to publication with id " + publicationId);
+        }
+        if(!rating.getUser().getUsername().equals(username)){
+            throw new RuntimeException("User " + username + " is not the author of rating with id " + ratingId);
         }
 
         Publication publication = rating.getPublication();
