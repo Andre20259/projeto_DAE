@@ -109,7 +109,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4M
 ### Get hidden comments on publication
 GET http://localhost:8081/Projeto_DAE/api/publications/1/comments/hidden
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4MTg2OCwiZXhwIjoxNzY5MTg1NDY4fQ.9oRJ2Ew7K8ktOgGsc5hsmgrnSYJkDo1h4X9Nf9PDr9ycjxBetWPXdxR4REBghBmG
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTIwNzc4NCwiZXhwIjoxNzY5MjExMzg0fQ.O9dPY9IqK6Pbk3ENjCYJTkMMIe5HWo-V3HJom2WqaXx6DXpJ4bx_WSy758oeq3Na
 
 ### Delete comment on publication
 DELETE http://localhost:8081/Projeto_DAE/api/publications/1/comments/1
