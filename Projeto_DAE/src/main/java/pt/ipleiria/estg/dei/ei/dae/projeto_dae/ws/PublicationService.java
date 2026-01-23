@@ -302,6 +302,18 @@ public class PublicationService {
     }
 
     @GET
+    @Path("/hidden")
+    @Authenticated
+    @RolesAllowed({"Administrator", "Responsible"})
+    public  Response getHiddenPublications() {
+        List<Publication> publications = publicationBean.findHiddenPublications();
+
+        List<PublicationDTO> dtos = PublicationDTO.from(publications);
+
+        return Response.ok(dtos).build();
+    }
+
+    @GET
     @Path("/{id}/summary")
     @Authenticated
     public Response generateSummary(@PathParam("id") Long id) throws MyEntityNotFoundException {
