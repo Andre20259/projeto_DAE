@@ -205,6 +205,16 @@
             <button @click="downloadFile" class="w-full bg-gray-800 p-3 rounded-xl text-white text-sm hover:bg-gray-700 transition">Download File</button>
             <button @click="goBack" class="w-full bg-gray-800 p-3 rounded-xl text-white text-sm hover:bg-gray-700 transition">Back to List</button>
           </div>
+          <div class="mt-4 space-y-2 bg-gray-800 p-3 rounded-xl text-white">
+            <h1>History</h1>
+            <span v-for="change in history" :key="change.id">
+              <div class="text-xs border-b border-gray-700 pb-2 mb-2">
+                <div class="font-medium">{{ formatDateTime(change.date) }}</div>
+                <div class="italic text-gray-400">By: {{ change.changedBy }}</div>
+                <div class="mt-1">{{ change.changeDescription }}</div>
+              </div>
+            </span>
+          </div>
         </aside>
       </div>
     </div>
@@ -230,6 +240,7 @@ const token = ref('')
 // Publication Data
 const publication = ref(null)
 const loading = ref(true)
+const history = ref([])
 
 // Publication Actions (Edit & Visibility)
 const isEditingPub = ref(false)
@@ -268,6 +279,7 @@ onMounted(() => {
     token.value = sessionStorage.getItem('auth_token') || ''
   }
   fetchPublication()
+  fetchPublicationHistory()
 })
 
 async function fetchPublication() {
@@ -288,6 +300,21 @@ async function fetchPublication() {
     console.error('Fetch failed', err)
   } finally {
     loading.value = false
+  }
+}
+
+async function fetchPublicationHistory() {
+  try {
+    const res = await $fetch(`${api}/publications/${id}/history`, {
+      method: 'GET',
+      headers: {
+        ...(token.value && { Authorization: `Bearer ${token.value}` }),
+        'Content-Type': 'application/json',
+      },
+    })
+    history.value = res
+  } catch (err) {
+    console.error('Fetch failed', err)
   }
 }
 

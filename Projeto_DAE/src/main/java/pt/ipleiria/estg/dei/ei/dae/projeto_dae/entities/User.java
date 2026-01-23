@@ -42,6 +42,9 @@ public class User {
     @ManyToMany(mappedBy = "subscriptions")
     private List<Tag> subscribedTags = new ArrayList<>();
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<History> history = new ArrayList<>();
+
     public User() {
     }
 

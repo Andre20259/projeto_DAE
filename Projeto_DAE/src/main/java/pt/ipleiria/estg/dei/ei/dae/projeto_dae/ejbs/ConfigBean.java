@@ -5,7 +5,6 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Singleton;
 import jakarta.ejb.Startup;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.PublicationCreateDTO;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

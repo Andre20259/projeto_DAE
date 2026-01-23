@@ -11,7 +11,9 @@ import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.ManageTagDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.PublicationCreateDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
@@ -45,6 +47,9 @@ public class PublicationBean {
 
     @PersistenceContext
     private EntityManager entityManager;
+    
+    @Context
+    SecurityContext securityContext;
 
     public Publication create(String filename, InputStream stream, PublicationCreateDTO dto)
             throws MyEntityNotFoundException, IOException {
@@ -247,22 +252,22 @@ public class PublicationBean {
         return publication;
     }
 
-    public Publication updatePublication(Long id, PublicationCreateDTO dto) throws MyEntityNotFoundException {
+    public Publication updatePublication(Long id, PublicationCreateDTO dto, String name) throws MyEntityNotFoundException {
         Publication publication = entityManager.find(Publication.class, id);
         if (publication == null) {
             throw new MyEntityNotFoundException("Publication not found");
         }
 
         if(dto.getTitle().compareTo(publication.getTitle()) != 0){
-            historyBean.create("Changed title", publication.getAuthors().toString(),publication.getId(), LocalDateTime.now());
+            historyBean.create("Changed title", entityManager.find( User.class,name),publication, LocalDateTime.now());
         }
 
         if(dto.getDescription().compareTo(publication.getDescription()) != 0){
-            historyBean.create("Changed description", publication.getAuthors().toString(),publication.getId(), LocalDateTime.now());
+            historyBean.create("Changed description", entityManager.find( User.class,name),publication, LocalDateTime.now());
         }
 
         if(dto.getArea().compareTo(publication.getArea()) != 0){
-            historyBean.create("Changed area", publication.getAuthors().toString(),publication.getId(), LocalDateTime.now());
+            historyBean.create("Changed area", entityManager.find( User.class,name),publication, LocalDateTime.now());
         }
 
         publication.setTitle(dto.getTitle());
@@ -272,7 +277,7 @@ public class PublicationBean {
         return publication;
     }
 
-    public Publication updateTags(Long id, ManageTagDTO dto) throws MyEntityNotFoundException {
+    public Publication updateTags(Long id, ManageTagDTO dto, String name) throws MyEntityNotFoundException {
         Publication publication = entityManager.find(Publication.class, id);
         if (publication == null) {
             throw new MyEntityNotFoundException("Publication not found");
@@ -293,7 +298,7 @@ public class PublicationBean {
                     throw new IllegalArgumentException("Publication already has tag: " + dto.getName());
                 }
                 publication.addTag(tag);
-                historyBean.create("added tag " + tag.getName() + " to publication " + publication.getTitle(), publication.getAuthors().toString(),publication.getId(), LocalDateTime.now());
+                historyBean.create("added tag " + tag.getName() + " to publication " + publication.getTitle(), entityManager.find( User.class,name),publication, LocalDateTime.now());
                 break;
             case "remove":
                 if (tags == null || tags.isEmpty()) {
@@ -303,7 +308,7 @@ public class PublicationBean {
                     throw new MyEntityNotFoundException("Publication does not have tag: " + dto.getName());
                 }
                 publication.removeTag(tag);
-                historyBean.create("removed tag " + tag.getName() + " to publication " + publication.getTitle(), publication.getAuthors().toString(),publication.getId(), LocalDateTime.now());
+                historyBean.create("removed tag " + tag.getName() + " to publication " + publication.getTitle(), entityManager.find( User.class,name),publication, LocalDateTime.now());
                 break;
             default:
                 throw new IllegalArgumentException("Invalid action: " + dto.getAction());

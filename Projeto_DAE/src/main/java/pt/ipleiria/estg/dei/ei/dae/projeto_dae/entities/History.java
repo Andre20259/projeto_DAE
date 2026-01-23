@@ -9,9 +9,10 @@ import java.time.LocalDateTime;
 @Entity
 @NamedQueries({
         @NamedQuery(
-                name = "getAllTagsHistory",
-                query = "SELECT h FROM History h ORDER BY h.date DESC"
+                name = "getAllHistory",
+                query = "SELECT h FROM History h"
         )
+
 })
 @Table(name = "history")
 public class History {
@@ -22,20 +23,23 @@ public class History {
     @NotBlank
     private String changes;
 
-    @NotBlank
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "author")
+    private User author;
 
     @NotNull
-    private long publication_id;
+    @ManyToOne
+    @JoinColumn(name = "publication_id")
+    private Publication publication;
 
     private LocalDateTime date;
 
     public History() {}
 
-    public History(String changes, String author, long publication_id, LocalDateTime date) {
+    public History(String changes, User author, Publication publication, LocalDateTime date) {
         this.changes = changes;
         this.author = author;
-        this.publication_id = publication_id;
+        this.publication = publication;
         this.date = date;
     }
 
@@ -51,20 +55,20 @@ public class History {
         this.changes = changes;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 
-    public long getPublication_id() {
-        return publication_id;
+    public Publication getPublication() {
+        return publication;
     }
 
-    public void setPublication_id(long publication_id) {
-        this.publication_id = publication_id;
+    public void setPublication(Publication publication) {
+        this.publication = publication;
     }
 
     public LocalDateTime getDate() {

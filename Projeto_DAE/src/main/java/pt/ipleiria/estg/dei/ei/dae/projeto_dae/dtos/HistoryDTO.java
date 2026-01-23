@@ -1,6 +1,9 @@
 package pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos;
 
+import jakarta.ejb.Local;
+import jakarta.security.enterprise.SecurityContext;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.History;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,20 +18,31 @@ public class HistoryDTO  implements Serializable {
 
     private String author;
 
-    private long publication_id;
+    private Long publicationId;
 
-    private LocalDateTime date;
+    private String date;
 
     public HistoryDTO() {}
 
-    public HistoryDTO(Long id, String changes, String author, long publication_id, LocalDateTime date) {}
-
-
-    public static HistoryDTO from(History history){
-            return new HistoryDTO(history.getId(), history.getChanges(),history.getAuthor(),history.getPublication_id(),history.getDate());
+    public HistoryDTO(Long id, String changes, String author, Long publicationId, String date) {
+        this.id = id;
+        this.changes = changes;
+        this.author = author;
+        this.publicationId = publicationId;
+        this.date = date;
     }
 
-    public static List<HistoryDTO> from(List<History> histories){
+    public static HistoryDTO from(History history) {
+        return new HistoryDTO(
+                history.getId(),
+                history.getChanges(),
+                history.getAuthor().getName(),
+                history.getPublication().getId(),
+                history.getDate().toString()
+        );
+    }
+
+    public static List<HistoryDTO> from(List<History> histories) {
         return histories.stream().map(HistoryDTO::from).collect(Collectors.toList());
     }
     public Long getId() {
@@ -55,19 +69,19 @@ public class HistoryDTO  implements Serializable {
         this.author = author;
     }
 
-    public long getPublication_id() {
-        return publication_id;
+    public Long getPublication() {
+        return publicationId;
     }
 
-    public void setPublication_id(long publication_id) {
-        this.publication_id = publication_id;
+    public void setPublication(Long publication) {
+        this.publicationId = publication;
     }
 
-    public LocalDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(String date) {
         this.date = date;
     }
 }

@@ -87,6 +87,15 @@ public class PublicationService {
     }
 
     @OPTIONS
+    @Path("/{id}/history")
+    @PermitAll
+    public Response optionsHistory() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
     @Path("/{id}/comments")
     @PermitAll
     public Response optionsComments() {
@@ -227,7 +236,7 @@ public class PublicationService {
             throw new ForbiddenException("Only authors can update this publication");
         }
 
-        publicationBean.updatePublication(id, dto);
+        publicationBean.updatePublication(id, dto,username);
         publication = publicationBean.findInitialized(id);
         return PublicationDTO.from(publication);
     }
@@ -265,7 +274,7 @@ public class PublicationService {
                 throw new BadRequestException("Invalid action: " + dto.getAction());
         }
 
-        publicationBean.updateTags(id, dto);
+        publicationBean.updateTags(id, dto,username);
         publication = publicationBean.findInitialized(id);
         return PublicationDTO.from(publication);
     }

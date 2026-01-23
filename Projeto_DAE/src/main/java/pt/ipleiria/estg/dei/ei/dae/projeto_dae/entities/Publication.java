@@ -71,6 +71,9 @@ public class Publication {
 
     private boolean isVisible;
 
+    @OneToMany(mappedBy = "publication", fetch = FetchType.EAGER)
+    private List<History> history;
+
     public Publication() {
     }
 
@@ -89,6 +92,7 @@ public class Publication {
         this.averageRating = 0.0f;
         this.isVisible = true;
         this.summary = null;
+        this.history = new ArrayList<>();
     }
 
 

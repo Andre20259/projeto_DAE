@@ -4,6 +4,8 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.History;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,21 +20,31 @@ public class HistoryBean{
     }
 
     public List<History> findAll() {
-        return entityManager.createQuery("SELECT h FROM History h", History.class).getResultList();
+        return entityManager.createQuery("SELECT h FROM History h", History.class)
+                .getResultList();
     }
-
 
     public List<History> findByAuthor(String author) {
-        return entityManager.createQuery("SELECT h FROM History h WHERE h.author = author", History.class).getResultList();
+        return entityManager.createQuery("SELECT h FROM History h WHERE h.author = :author", History.class)
+                .setParameter("author", author)
+                .getResultList();
     }
 
-    public List<History> findByPublicationId (Long publicationId) {
-        return entityManager.createQuery("SELECT h FROM History h WHERE h.publication_id = publication_id", History.class).getResultList();
+    public List<History> findByPublicationId(Long publicationId) {
+//        return entityManager.createQuery(
+//                        "SELECT h FROM History h WHERE h.publication.id = :publicationId",
+//                        History.class)
+//                .setParameter("publicationId", publicationId)
+//                .getResultList();
+
+        List<History> list = entityManager
+                .createNamedQuery("getAllHistory", History.class).getResultList();
+        return list;
     }
 
-    public void create(String changes, String author, long publication_id, LocalDateTime date){
+    public void create(String changes, User author, Publication publication, LocalDateTime date){
         try{
-            History history = new History(changes, author, publication_id, date);
+            History history = new History(changes, author, publication, date);
             entityManager.persist(history);
         }
         catch (Exception e){
