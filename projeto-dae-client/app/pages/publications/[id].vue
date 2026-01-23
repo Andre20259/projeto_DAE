@@ -77,27 +77,46 @@
             <div class="mt-4">
               <h3 class="text-white font-semibold mb-2">Comments</h3>
 
-              <div v-if="publication.comments?.length === 0" class="text-gray-400 mb-3">No comments yet.</div>
+              <div v-if="!(publication.comments && publication.comments.length)" class="text-gray-400 mb-3">
+                No comments yet.
+              </div>
 
               <div v-for="c in publication.comments" :key="c.id" class="mb-3 border border-gray-700 p-3 rounded bg-gray-900">
                 <div class="flex justify-between items-center">
-                  <div class="text-gray-200 font-medium">{{ c.authorName || c.author || 'Unknown' }}</div>
-                  <div class="text-gray-400 text-xs">{{ formatDateTime(c.timestamp) }}</div>
+                  <div class="text-gray-200 font-medium">{{ c.author }}</div>
+                  <div class="flex items-center gap-2">
+                    <div class="text-gray-400 text-xs mr-3">{{ formatDateTime(c.created_at) }}</div>
+
+                    <!-- EDIT BUTTON: visible when comment.author matches session username -->
+                    <button
+                        v-if="isMyComment(c)"
+                        @click="startEdit(c)"
+                        class="text-xs text-blue-400 hover:underline"
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
+
                 <div class="text-gray-300 mt-1">{{ c.content }}</div>
               </div>
 
-              <!-- Add comment -->
+              <!-- Create / Edit comment -->
               <div class="mt-4">
-                <textarea v-model="newComment" rows="3"
+                <textarea v-model="commentText" rows="3"
                           placeholder="Write a comment..."
                           class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white focus:outline-none"></textarea>
                 <div class="flex gap-2 mt-2 items-center">
                   <button @click="submitComment" :disabled="commentLoading"
                           class="bg-blue-600 disabled:opacity-50 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">
-                    {{ commentLoading ? 'Posting...' : 'Post Comment' }}
+                    {{ editingCommentId ? 'Update Comment' : 'Post Comment' }}
                   </button>
-                  <button @click="newComment = ''" class="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700">Clear</button>
+
+                  <button v-if="editingCommentId" @click="cancelEdit"
+                          class="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700">
+                    Cancel
+                  </button>
+
                   <p v-if="commentMessage" class="text-sm" :class="commentMessageError ? 'text-red-400' : 'text-green-400'">
                     {{ commentMessage }}
                   </p>
@@ -162,27 +181,29 @@ const router = useRouter()
 const config = useRuntimeConfig()
 const api = config.public.apiBase
 
-// session
+const id = Number(route.params.id)
+
 const username = ref('')
 const name = ref('')
 const role = ref('')
 const token = ref('')
 
-// publication state
 const publication = ref(null)
 const loading = ref(true)
 
-// comments / rating state
-const newComment = ref('')
+/* COMMENTS */
+const commentText = ref('')
+const editingCommentId = ref(null)
 const commentLoading = ref(false)
 const commentMessage = ref('')
 const commentMessageError = ref(false)
 
+/* RATING */
 const selectedRating = ref(0)
 const ratingMessage = ref('')
 const ratingMessageError = ref(false)
 
-// summary
+/* SUMMARY */
 const summaryLoading = ref(false)
 
 onMounted(() => {
@@ -192,58 +213,84 @@ onMounted(() => {
     role.value = sessionStorage.getItem('role') || ''
     token.value = sessionStorage.getItem('auth_token') || ''
   }
-
   fetchPublication()
 })
 
-const id = Number(route.params.id)
-
-// fetch publication
 async function fetchPublication() {
   loading.value = true
   try {
-    const res = await $fetch(`${api}/publications/${id}`, {
+    publication.value = await $fetch(`${api}/publications/${id}`, {
       headers: token.value ? { Authorization: `Bearer ${token.value}` } : {}
     })
-    publication.value = res
   } catch (err) {
-    console.error('Failed to fetch publication', err)
     publication.value = null
+    console.error('Failed to fetch publication', err)
   } finally {
     loading.value = false
   }
 }
 
-// submit comment
+/* COMMENTS helpers */
+function isMyComment(c) {
+  // API returns { author: "username", ... }
+  return c && c.author === username.value
+}
+
+function startEdit(c) {
+  editingCommentId.value = c.id
+  commentText.value = c.content
+}
+
+function cancelEdit() {
+  editingCommentId.value = null
+  commentText.value = ''
+  commentMessage.value = ''
+  commentMessageError.value = false
+}
+
 async function submitComment() {
-  if (!newComment.value.trim()) {
+  if (!commentText.value.trim()) {
     commentMessage.value = 'Comment cannot be empty'
     commentMessageError.value = true
     return
   }
+
   commentLoading.value = true
   commentMessage.value = ''
   commentMessageError.value = false
+
   try {
-    await $fetch(`${api}/publications/${id}/comments`, {
-      method: 'POST',
-      headers: token.value ? { Authorization: `Bearer ${token.value}` } : {},
-      body: { content: newComment.value }
-    })
-    commentMessage.value = 'Comment posted'
-    commentMessageError.value = false
-    newComment.value = ''
+    if (editingCommentId.value) {
+      // UPDATE
+      await $fetch(`${api}/publications/${id}/comments/${editingCommentId.value}`, {
+        method: 'PUT',
+        headers: { Authorization: `Bearer ${token.value}` },
+        body: { content: commentText.value }
+      })
+      commentMessage.value = 'Comment updated'
+    } else {
+      // CREATE
+      await $fetch(`${api}/publications/${id}/comments`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token.value}` },
+        body: { content: commentText.value }
+      })
+      commentMessage.value = 'Comment posted'
+    }
+
+    // refresh list and reset editor
     await fetchPublication()
+    cancelEdit()
   } catch (err) {
     console.error(err)
-    commentMessage.value = 'Failed to post comment'
+    commentMessage.value = 'Failed to submit comment'
     commentMessageError.value = true
   } finally {
     commentLoading.value = false
   }
 }
 
-// submit rating (1-5)
+/* RATING */
 async function submitRating(score) {
   selectedRating.value = score
   ratingMessage.value = ''
@@ -251,11 +298,10 @@ async function submitRating(score) {
   try {
     await $fetch(`${api}/publications/${id}/ratings`, {
       method: 'POST',
-      headers: token.value ? { Authorization: `Bearer ${token.value}` } : {},
+      headers: { Authorization: `Bearer ${token.value}` },
       body: { score }
     })
     ratingMessage.value = 'Rating submitted'
-    // refresh to get updated average and ratings
     await fetchPublication()
   } catch (err) {
     console.error(err)
@@ -264,17 +310,15 @@ async function submitRating(score) {
   }
 }
 
-// generate summary (GET /publications/{id}/summary)
+/* SUMMARY */
 async function generateSummary() {
   if (summaryLoading.value) return
   summaryLoading.value = true
   try {
     const dto = await $fetch(`${api}/publications/${id}/summary`, {
-      headers: token.value ? { Authorization: `Bearer ${token.value}` } : {}
+      headers: { Authorization: `Bearer ${token.value}` }
     })
-    // dto should contain { id, summary }
     if (dto && typeof dto.summary === 'string') {
-      // update publication.summary locally and show
       if (!publication.value) publication.value = {}
       publication.value.summary = dto.summary
     }
@@ -285,35 +329,18 @@ async function generateSummary() {
   }
 }
 
-// helper actions
-function goBack() {
-  router.push('/publications')
-}
-function goToProfile() {
-  router.push('/me')
-}
-function createPublication() {
-  router.push('/publications/create')
-}
-function formatDate(dateStr) {
-  if (!dateStr) return ''
-  return new Date(dateStr).toLocaleDateString()
-}
-function formatDateTime(dateStr) {
-  if (!dateStr) return ''
-  return new Date(dateStr).toLocaleString()
-}
-function downloadFile() {
-  // If your backend has a download endpoint, use it; otherwise try to open the filename route
-  // Example: GET /publications/{id}/file (adjust if needed)
+/* HELPERS */
+const formatDate = d => d ? new Date(d).toLocaleDateString() : ''
+const formatDateTime = d => d ? new Date(d).toLocaleString() : ''
+const goBack = () => router.push('/publications')
+const goToProfile = () => router.push('/me')
+const downloadFile = () => {
   const url = `${api}/publications/${id}/file`
-  // open in new tab (browser will need correct headers & auth)
-  window.open(url, '_blank')
+  if (process.client) window.open(url, '_blank')
 }
 </script>
 
 <style scoped>
-/* small nicety: make stars cursor pointer */
 button[aria-label^="Rate"] {
   cursor: pointer;
   background: transparent;

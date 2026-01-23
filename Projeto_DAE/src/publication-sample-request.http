@@ -77,7 +77,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4M
 ### Create comment on publication
 POST http://localhost:8081/Projeto_DAE/api/publications/1/comments
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTI1NTM5LCJleHAiOjE3NjkxMjkxMzh9.HkAUoyACgLAFUoaJM0AJ-GfKiR5JtgCHNyatdZ9exyjPtMYBrhlJ70Md4GI4IYCo
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4Mjc5MCwiZXhwIjoxNzY5MTg2MzkwfQ.CVUy85kfqY0r5Wz6xhzIMMW6o2ej5cmr_ZKELKxsaHwyyqmtjvseY0LpF9qFvK3c
 
 {
   "content": "Great publication!"
@@ -86,7 +86,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ###Update comment on publication
 PUT http://localhost:8081/Projeto_DAE/api/publications/1/comments/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyNjE4OSwiZXhwIjoxNzY5MTI5Nzg5fQ.KDoXocMAXuAAFdK4WonteO4OC_GTmGFOYpZagTdVUiG8RwDrgMZNohimAXrQAN8e
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4Mjc5MCwiZXhwIjoxNzY5MTg2MzkwfQ.CVUy85kfqY0r5Wz6xhzIMMW6o2ej5cmr_ZKELKxsaHwyyqmtjvseY0LpF9qFvK3c
 
 {
   "content": "Updated comment content."

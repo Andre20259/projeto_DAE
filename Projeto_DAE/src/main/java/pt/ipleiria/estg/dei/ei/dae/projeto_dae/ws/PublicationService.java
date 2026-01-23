@@ -77,6 +77,60 @@ public class PublicationService {
                 .build();
     }
 
+    @OPTIONS
+    @Path("/{id}/comments")
+    @PermitAll
+    public Response optionsComments() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/comments/{iid}")
+    @PermitAll
+    public Response optionsCommentsSingle() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/comments/{iid}/visibility")
+    @PermitAll
+    public Response optionsCommentsSingleV() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/ratings")
+    @PermitAll
+    public Response optionsRatings() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/ratings/{idd}")
+    @PermitAll
+    public Response optionsRatingsSingle() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/download/{id}")
+    @PermitAll
+    public Response optionsDownload() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
     @POST
     @Path("/")
     @Authenticated
