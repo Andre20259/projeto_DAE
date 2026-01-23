@@ -50,12 +50,6 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         // Get token from the HTTP Authorization header
         String token = header.substring("Bearer".length()).trim();
         var user = userBean.find(getUsername(token));
-
-        // If token subject doesn't correspond to a user, deny immediately
-        if (user == null) {
-            throw new NotAuthorizedException("Unknown user from token");
-        }
-
         requestContext.setSecurityContext(new SecurityContext() {
             @Override
             public Principal getUserPrincipal() {
@@ -64,17 +58,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
             @Override
             public boolean isUserInRole(String s) {
-                if (user == null || s == null) return false;
-                try {
-                    return org.hibernate.Hibernate.getClass(user).getSimpleName().equals(s)
-                            || org.hibernate.Hibernate.getClass(user).getSimpleName().equalsIgnoreCase(s)
-                            || s.equalsIgnoreCase("ADMIN") && "Administrator".equalsIgnoreCase(org.hibernate.Hibernate.getClass(user).getSimpleName())
-                            || s.equalsIgnoreCase("RESPONSIBLE") && "Responsible".equalsIgnoreCase(org.hibernate.Hibernate.getClass(user).getSimpleName())
-                            || s.equalsIgnoreCase("COLABORATOR") && "Colaborator".equalsIgnoreCase(org.hibernate.Hibernate.getClass(user).getSimpleName());
-                } catch (NullPointerException e) {
-                    // Defensive: if Hibernate proxy is unexpectedly null, treat as not in role
-                    return false;
-                }
+                return org.hibernate.Hibernate.getClass(user).getSimpleName().equals(s);
             }
 
             @Override
