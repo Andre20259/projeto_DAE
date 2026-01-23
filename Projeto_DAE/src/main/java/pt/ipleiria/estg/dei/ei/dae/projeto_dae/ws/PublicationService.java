@@ -59,6 +59,24 @@ public class PublicationService {
                 .build();
     }
 
+    @OPTIONS
+    @Path("/{id}")
+    @PermitAll
+    public Response optionsSingle() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/summary")
+    @PermitAll
+    public Response optionsSingleSummary() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
     @POST
     @Path("/")
     @Authenticated

@@ -29,7 +29,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4M
 ### Get publication by id
 GET http://localhost:8081/Projeto_DAE/api/publications/1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwODExNCwiZXhwIjoxNzY5MTExNzE0fQ.OvTG5q1GrZv_5kUrYC9IMLOEgjk7n2IbT7pVBzzygjwrccfLM4WlK5jxDWtm5Wtr
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lIiwiaWF0IjoxNzY5MTgxOTQ1LCJleHAiOjE3NjkxODU1NDV9.5aPCD6WtG3ROar1ijq9uPDNOpHEPOJQmbzoAzYJ5DuV0hABD9AsBXTDVU5N5K-H6
 
 ### Get publication summary by ID
 GET http://localhost:8081/Projeto_DAE/api/publications/1/summary
