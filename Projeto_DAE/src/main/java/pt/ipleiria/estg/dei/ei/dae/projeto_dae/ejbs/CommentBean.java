@@ -6,8 +6,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Comment;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ws.EmailService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
@@ -17,6 +20,9 @@ public class CommentBean {
 
     @EJB
     private PublicationBean publicationBean;
+
+    @EJB
+    private EmailService emailService;
 
     public Comment create(String username, Long publicationId, String content) {
         Publication publication = publicationBean.find(publicationId);
@@ -32,6 +38,13 @@ public class CommentBean {
         entityManager.persist(comment);
         publication.addComment(comment);
         user.addComment(comment);
+
+        List<Tag> tags = publication.getTags();
+        List<String> recipients = getReceipientsForTags(tags);
+        if (!recipients.isEmpty()) {
+            emailService.sendNewCommentNotification(recipients, publication, comment);
+        }
+
         return comment;
     }
 
@@ -69,6 +82,14 @@ public class CommentBean {
             throw new RuntimeException("User " + username + " is not the author of comment with id " + commentId);
         }
         comment.setContent(newContent);
+
+        Publication publication = entityManager.find(Publication.class, publicationId);
+        List<Tag> tags = publication.getTags();
+        List<String> recipients = getReceipientsForTags(tags);
+        if (!recipients.isEmpty()) {
+            emailService.sendUpdatedCommentNotification(recipients, publication, comment);
+        }
+
         return comment;
     }
 
@@ -88,5 +109,18 @@ public class CommentBean {
         publication.removeComment(comment);
         user.removeComment(comment);
         entityManager.remove(comment);
+    }
+
+    private List<String> getReceipientsForTags(List<Tag> tags) {
+        List<String> recipients = new ArrayList<>();
+        for (Tag t : tags) {
+            if (t.getSubscriptions() == null) continue;
+            for (User u : t.getSubscriptions()) {
+                if (u != null && u.getEmail() != null && !u.getEmail().isBlank()) {
+                    recipients.add(u.getEmail());
+                }
+            }
+        }
+        return new ArrayList<>(recipients);
     }
 }

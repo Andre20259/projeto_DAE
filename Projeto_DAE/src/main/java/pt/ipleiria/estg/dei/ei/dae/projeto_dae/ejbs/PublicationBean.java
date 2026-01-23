@@ -22,6 +22,7 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ws.EmailService;
 
 
 import java.io.IOException;
@@ -31,9 +32,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Stateless
 public class PublicationBean {
@@ -44,6 +43,8 @@ public class PublicationBean {
     private TagBean tagBean;
     @EJB
     HistoryBean historyBean;
+    @EJB
+    private EmailService emailService;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -104,7 +105,26 @@ public class PublicationBean {
         );
         entityManager.persist(publication);
 
+        // Notify subscribers of tags
+        List<String> recipients = getReceipientsForTags(tagEntities);
+        if (!recipients.isEmpty()) {
+            emailService.sendPublicationNotification(recipients, publication);
+        }
+
         return  publication;
+    }
+
+    private List<String> getReceipientsForTags(List<Tag> tags) {
+        List<String> recipients = new ArrayList<>();
+        for (Tag t : tags) {
+            if (t.getSubscriptions() == null) continue;
+            for (User u : t.getSubscriptions()) {
+                if (u != null && u.getEmail() != null && !u.getEmail().isBlank()) {
+                    recipients.add(u.getEmail());
+                }
+            }
+        }
+        return new ArrayList<>(recipients);
     }
 
     public List<Publication> findHiddenPublications() {
@@ -274,6 +294,13 @@ public class PublicationBean {
         publication.setDescription(dto.getDescription());
         publication.setArea(dto.getArea());
 
+        // Notify subscribers of tags about the update
+        List<Tag> tags = publication.getTags();
+        List<String> receipients = getReceipientsForTags(tags);
+        if (!receipients.isEmpty()) {
+            emailService.sendPublicationUpdateNotification(receipients, publication);
+        }
+
         return publication;
     }
 
@@ -298,6 +325,12 @@ public class PublicationBean {
                     throw new IllegalArgumentException("Publication already has tag: " + dto.getName());
                 }
                 publication.addTag(tag);
+
+                List<String> addRecipients = getReceipientsForTags(Collections.singletonList(tag));
+                if (!addRecipients.isEmpty()) {
+                    emailService.sendAddTagNotification(addRecipients, publication, tag);
+                }
+
                 historyBean.create("added tag " + tag.getName() + " to publication " + publication.getTitle(), entityManager.find( User.class,name),publication, LocalDateTime.now());
                 break;
             case "remove":
@@ -308,6 +341,12 @@ public class PublicationBean {
                     throw new MyEntityNotFoundException("Publication does not have tag: " + dto.getName());
                 }
                 publication.removeTag(tag);
+
+                List<String> removeRecipients = getReceipientsForTags(Collections.singletonList(tag));
+                if (!removeRecipients.isEmpty()) {
+                    emailService.sendRemoveTagNotification(removeRecipients, publication, tag);
+                }
+
                 historyBean.create("removed tag " + tag.getName() + " to publication " + publication.getTitle(), entityManager.find( User.class,name),publication, LocalDateTime.now());
                 break;
             default:
