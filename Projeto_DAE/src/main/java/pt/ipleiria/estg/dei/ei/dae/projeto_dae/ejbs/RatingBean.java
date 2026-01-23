@@ -17,6 +17,9 @@ public class RatingBean {
     private PublicationBean publicationBean;
 
     public Rating create(String username, Long publicationId, int score) {
+        if (score < 1 || score > 5) {
+            throw new IllegalArgumentException("Rating must be between 1 and 5");
+        }
         Publication publication = publicationBean.find(publicationId);
         if(publication == null) {
             throw new RuntimeException("Publication with id " + publicationId + " not found");
@@ -33,6 +36,10 @@ public class RatingBean {
     }
 
     public Rating editRating(Long ratingID, Long publicationId,String username, int newScore) {
+        if (newScore < 1 || newScore > 5) {
+            throw new IllegalArgumentException("Rating must be between 1 and 5");
+        }
+
         Rating rating = entityManager.find(Rating.class, ratingID);
         if (rating == null) {
             throw new RuntimeException("Rating with id " + ratingID + " not found");

@@ -104,19 +104,19 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ### Create rating on publication
 POST http://localhost:8081/Projeto_DAE/api/publications/1/ratings
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE0MDQxMiwiZXhwIjoxNzY5MTQ0MDEyfQ.UNmSdOyS9oRHNpwy4kuAiwRMJ9wopKIPflTq-ScaW_w_rv9ftvRFVuz7WRpYDher
-
-{
-  "score": 7
-}
-
-### Update rating on publication
-PUT http://localhost:8081/Projeto_DAE/api/publications/2/ratings/2
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTI4MDUyLCJleHAiOjE3NjkxMzE2NTJ9.1sNGPnxgJCUnSMyOFC-JnbV82Uc-BVQdbyG2nKxfhh7l-o9MpgJ0WACidvRsKdMS
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTQ0MzYyLCJleHAiOjE3NjkxNDc5NjJ9.wTNJW4WDpEgp2sBQ1GHq1qFTh6mzy4ibKhlwcB0iO0zH4yg9NPU9L3O1HaQLlslu
 
 {
   "score": 4
+}
+
+### Update rating on publication
+PUT http://localhost:8081/Projeto_DAE/api/publications/1/ratings/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTQ0MzYyLCJleHAiOjE3NjkxNDc5NjJ9.wTNJW4WDpEgp2sBQ1GHq1qFTh6mzy4ibKhlwcB0iO0zH4yg9NPU9L3O1HaQLlslu
+
+{
+  "score": 9
 }
 
 ### Delete rating on publication
