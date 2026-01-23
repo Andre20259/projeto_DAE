@@ -7,6 +7,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
@@ -24,6 +25,8 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -92,11 +95,77 @@ public class PublicationBean {
         return  publication;
     }
 
-    public List<Publication> findAll() {
-        return entityManager
-                .createNamedQuery("getAllPublications", Publication.class)
-                .getResultList();
+    public List<Publication> findWithFilters(
+            String title,
+            String author,
+            String tag,
+            String area,
+            LocalDate date,
+            String sortBy,
+            String order
+    ) {
+        StringBuilder jpql = new StringBuilder("SELECT DISTINCT p FROM Publication p");
+        boolean joinAuthors = author != null && !author.isBlank();
+        boolean joinTags = tag != null && !tag.isBlank();
+
+        if (joinAuthors) jpql.append(" JOIN p.authors a");
+        if (joinTags) jpql.append(" JOIN p.tags t");
+
+        jpql.append(" WHERE 1=1");
+
+        if (title != null && !title.isBlank()) {
+            jpql.append(" AND LOWER(p.title) LIKE :title");
+        }
+        if (area != null && !area.isBlank()) {
+            jpql.append(" AND LOWER(p.area) = :area");
+        }
+
+        if (date != null) {
+            jpql.append(" AND p.uploadDate >= :startDate AND p.uploadDate < :endDate");
+        }
+
+        if (joinAuthors) {
+            jpql.append(" AND LOWER(a.username) = :author");
+        }
+        if (joinTags) {
+            jpql.append(" AND LOWER(t.name) = :tag");
+        }
+
+        // Sorting
+        String sortExpr = "p.id";
+        if ("title".equalsIgnoreCase(sortBy)) sortExpr = "p.title";
+        else if ("date".equalsIgnoreCase(sortBy)) sortExpr = "p.uploadDate";
+        else if ("area".equalsIgnoreCase(sortBy)) sortExpr = "p.area";
+
+        String sortOrder = "DESC".equalsIgnoreCase(order) ? "DESC" : "ASC";
+        jpql.append(" ORDER BY ").append(sortExpr).append(" ").append(sortOrder);
+
+        TypedQuery<Publication> q =
+                entityManager.createQuery(jpql.toString(), Publication.class);
+
+        if (title != null && !title.isBlank()) {
+            q.setParameter("title", "%" + title.toLowerCase() + "%");
+        }
+        if (area != null && !area.isBlank()) {
+            q.setParameter("area", area.toLowerCase());
+        }
+
+
+        if (date != null) {
+            q.setParameter("startDate", date.atStartOfDay());
+            q.setParameter("endDate", date.plusDays(1).atStartOfDay());
+        }
+
+        if (joinAuthors) {
+            q.setParameter("author", author.toLowerCase());
+        }
+        if (joinTags) {
+            q.setParameter("tag", tag.toLowerCase());
+        }
+
+        return q.getResultList();
     }
+
 
     public Publication find(Long id) {
         return entityManager.find(Publication.class, id);

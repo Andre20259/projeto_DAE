@@ -23,6 +23,9 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,6 +65,25 @@ public class PublicationService {
 
         return Response.status(Response.Status.CREATED)
                 .entity(PublicationDTO.from(publication))
+                .build();
+    }
+
+    @GET
+    @Path("download/{id}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response download(@PathParam("id") long id)
+            throws MyEntityNotFoundException {
+        var publication = publicationBean.find(id);
+        var filePath = Paths.get(publication.getFilePath());
+        if (!Files.exists(filePath) || !Files.isRegularFile(filePath)) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("File not found" + filePath)
+                    .build();
+        }
+        var filename = publication.getFilename();
+        return Response.ok(filePath.toFile())
+                .header("Content-Disposition",
+                        "attachment;filename=\"" + filename + "\"")
                 .build();
     }
 
@@ -135,8 +157,39 @@ public class PublicationService {
 
     @GET
     @Path("/")
-    public List<PublicationDTO> getAllPublications() {
-        return PublicationDTO.from(publicationBean.findAllInitialized());
+    public Response getPublications(
+            @QueryParam("title") String title,
+            @QueryParam("author") String author,
+            @QueryParam("tag") String tag,
+            @QueryParam("area") String area,
+            @QueryParam("date") LocalDate date,
+            @QueryParam("sortBy") String sortBy,
+            @QueryParam("order") String order
+    ) {
+
+        List<Publication> publications =
+                publicationBean.findWithFilters(
+                        title, author, tag, area, date, sortBy, order
+                );
+
+        // privileged users see all comments
+        boolean privileged = securityContext.isUserInRole("RESPONSIBLE")
+                || securityContext.isUserInRole("ADMINISTRATOR");
+
+        List<PublicationDTO> dtos = PublicationDTO.from(publications);
+
+        if (!privileged) {
+            // for Colaborator and other non-privileged users keep only visible comments
+            dtos.forEach(dto -> {
+                if (dto.getComments() != null) {
+                    dto.setComments(dto.getComments().stream()
+                            .filter(c -> c.isVisible())
+                            .collect(Collectors.toList()));
+                }
+            });
+        }
+
+        return Response.ok(dtos).build();
     }
 
     @GET
