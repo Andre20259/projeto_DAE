@@ -32,6 +32,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -43,6 +44,8 @@ public class PublicationBean {
     private UserBean userBean;
     @EJB
     private TagBean tagBean;
+    @EJB
+    HistoryBean historyBean;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -253,9 +256,23 @@ public class PublicationBean {
         if (publication == null) {
             throw new MyEntityNotFoundException("Publication not found");
         }
+
+        if(dto.getTitle().compareTo(publication.getTitle()) != 0){
+            historyBean.create("Changed title", publication.getAuthors().toString(),publication.getId(), LocalDateTime.now());
+        }
+
+        if(dto.getDescription().compareTo(publication.getDescription()) != 0){
+            historyBean.create("Changed description", publication.getAuthors().toString(),publication.getId(), LocalDateTime.now());
+        }
+
+        if(dto.getArea().compareTo(publication.getArea()) != 0){
+            historyBean.create("Changed area", publication.getAuthors().toString(),publication.getId(), LocalDateTime.now());
+        }
+
         publication.setTitle(dto.getTitle());
         publication.setDescription(dto.getDescription());
         publication.setArea(dto.getArea());
+
         return publication;
     }
 
@@ -280,6 +297,7 @@ public class PublicationBean {
                     throw new IllegalArgumentException("Publication already has tag: " + dto.getName());
                 }
                 publication.addTag(tag);
+                historyBean.create("added tag " + tag.getName() + " to publication " + publication.getTitle(), publication.getAuthors().toString(),publication.getId(), LocalDateTime.now());
                 break;
             case "remove":
                 if (tags == null || tags.isEmpty()) {
@@ -289,6 +307,7 @@ public class PublicationBean {
                     throw new MyEntityNotFoundException("Publication does not have tag: " + dto.getName());
                 }
                 publication.removeTag(tag);
+                historyBean.create("removed tag " + tag.getName() + " to publication " + publication.getTitle(), publication.getAuthors().toString(),publication.getId(), LocalDateTime.now());
                 break;
             default:
                 throw new IllegalArgumentException("Invalid action: " + dto.getAction());
