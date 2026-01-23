@@ -473,5 +473,5 @@ const formatDate = d => d ? new Date(d).toLocaleDateString() : ''
 const formatDateTime = d => d ? new Date(d).toLocaleString() : ''
 const goBack = () => router.push('/publications')
 const goToProfile = () => router.push('/me')
-const downloadFile = () => window.open(`${api}/publications/${id}/file`, '_blank')
+const downloadFile = () => window.open(`${api}/publications/download/${id}`, '_blank')
 </script>
