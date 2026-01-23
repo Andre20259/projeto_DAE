@@ -8,14 +8,12 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.RoleDTO;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserActivityDTO;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserCreateDTO;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserDTO;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.*;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.AdministratorBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.ColaboratorBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.ResponsibleBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.UserBean;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityExistsException;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
@@ -215,5 +213,16 @@ public class UserService {
             throws MyEntityNotFoundException, MyEntityExistsException {
         userBean.changeRole(username, dto.role);
         return Response.ok(Map.of("message", "User role updated successfully")).build();
+    }
+
+    @PUT
+    @Path("{username}/active")
+    @Authenticated
+    @RolesAllowed("Administrator")
+    public Response changeUserActiveStatus(@PathParam("username") String username, UserActiveDTO dto)
+            throws MyEntityNotFoundException {
+        User user = userBean.setActive(username, dto.isActive);
+        return Response.ok(UserDTO.from(user)).build();
+
     }
 }
