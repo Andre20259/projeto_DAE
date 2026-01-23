@@ -39,12 +39,13 @@ public class Publication {
 
     private String description;
 
+    @Lob
     private String summary;
 
     @NotBlank
     private String area;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "publication_authors",
             joinColumns = @JoinColumn(name = "publication_id"),
@@ -52,7 +53,7 @@ public class Publication {
     )
     private List<User> authors;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "publication_tags",
             joinColumns = @JoinColumn(name = "publication_id"),
@@ -60,10 +61,10 @@ public class Publication {
     )
     private List<Tag> tags;
 
-    @OneToMany(mappedBy = "publication")
+    @OneToMany(mappedBy = "publication", fetch = FetchType.EAGER)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "publication")
+    @OneToMany(mappedBy = "publication", fetch = FetchType.EAGER)
     private List<Rating> ratings;
 
     private float averageRating;

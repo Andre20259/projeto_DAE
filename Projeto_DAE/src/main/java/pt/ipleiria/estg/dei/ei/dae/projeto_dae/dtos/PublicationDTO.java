@@ -2,7 +2,6 @@ package pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos;
 
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +12,7 @@ public class PublicationDTO {
     public String filename;
     public String uploadDate;
     public String description;
+    public String summary;
     public String area;
     public List<UserDTO> authors;
     public List<TagDTO> tags;
@@ -23,7 +23,7 @@ public class PublicationDTO {
     public PublicationDTO() {}
 
     public PublicationDTO(Long id, String title, String filename, String uploadDate,
-                          String description, String area, List<UserDTO> authors,
+                          String description, String summary, String area, List<UserDTO> authors,
                           List<TagDTO> tags, List<CommentDTO> comments,
                           List<RatingDTO> ratings, float averageRating) {
         this.id = id;
@@ -31,6 +31,7 @@ public class PublicationDTO {
         this.filename = filename;
         this.uploadDate = uploadDate;
         this.description = description;
+        this.summary = summary;
         this.area = area;
         this.authors = authors;
         this.tags = tags;
@@ -46,6 +47,7 @@ public class PublicationDTO {
                 publication.getFilename(),
                 publication.getUploadDate().toString(),
                 publication.getDescription(),
+                publication.getSummary(),
                 publication.getArea(),
                 UserDTO.from(publication.getAuthors()),
                 TagDTO.from(publication.getTags()),

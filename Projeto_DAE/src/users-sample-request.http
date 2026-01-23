@@ -2,19 +2,20 @@
 POST http://localhost:8081/Projeto_DAE/api/users
 Content-Type: application/json
 
-{ "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe123" }
+{ "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe" }
 ###
 
 ### GET all users
 GET http://localhost:8081/Projeto_DAE/api/users
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
 
 ###
 
 ### GET specific user by username
-GET http://localhost:8081/Projeto_DAE/api/users/johndoe123
+GET http://localhost:8081/Projeto_DAE/api/users/admin
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTAyMzg2MCwiZXhwIjoxNzY5MDI3NDYwfQ.s19p1ZzTyeQZKjHfrVwU1hK1VYzkoxJICqiLmrf9RROFq_JI1_oGSyygSUCj0Ybk
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyNjc4NSwiZXhwIjoxNzY5MTMwMzg1fQ.V9hr3Jo4Ub0OOY-veo4OXAlgzT6-B1zF_Obth_DvyqAYV4rM9cMu3AHI9FJMakqC
 
 ###
 
@@ -28,7 +29,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTA4M
 ### PUT update user by username
 PUT http://localhost:8081/Projeto_DAE/api/users/johndoe123
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MDQyMDE2LCJleHAiOjE3NjkwNDU2MTZ9.tbMUqmOplbnZ4KGgR-mUqdhmljjph8RhPi3NpIXN1MUdWbF7iPBtpemSiF-RlxLS
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lIiwiaWF0IjoxNzY5MTI3OTcwLCJleHAiOjE3NjkxMzE1NzB9.oa1XstYqtgC1brioKcoO9U8rehEbh0KJTOs6S3uY12pwA5UCYcmS7yB22InYjBgV
 
 { "name": "JohnDoeUpdated", "email": "test1@mail.pt", "username": "johndoe123", "isActive": true}
 ###
@@ -49,8 +50,8 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ###
 
 ### GET user activity
-GET http://localhost:8081/Projeto_DAE/api/users/johndoe123/activity
+GET http://localhost:8081/Projeto_DAE/api/users/johndoe/activity
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTA4MjQ2MSwiZXhwIjoxNzY5MDg2MDYxfQ.xHzmQyUf41HMZ5HVBB2Cz1-s3lcCG532vYdBR9aRissuaMK4aNNnpTEanb0cAxFV
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyODA3OCwiZXhwIjoxNzY5MTMxNjc4fQ.ZdT0EzGc_-mpzIm_Kydix-2Pm79DqgYJELCSbXCsETUvmiFl_KzABAxz1YNtiAsW
 
 ###

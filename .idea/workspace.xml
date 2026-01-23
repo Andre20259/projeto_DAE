@@ -5,12 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e99c7e8e-bcc3-4dcc-bbe7-93785b6ed165" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/example.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ejbs/PublicationBean.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ejbs/PublicationBean.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ws/PublicationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/main/java/pt/ipleiria/estg/dei/ei/dae/projeto_dae/ws/PublicationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Projeto_DAE/src/pub-sample-request.http" beforeDir="false" afterPath="$PROJECT_DIR$/Projeto_DAE/src/pub-sample-request.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto-dae-client/nuxt.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/projeto-dae-client/nuxt.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto-dae-client/tailwind.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/projeto-dae-client/tailwind.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +19,7 @@
       <list>
         <option value="Class" />
         <option value="HTTP Request" />
+        <option value="Vue Composition API Component" />
       </list>
     </option>
   </component>
@@ -60,37 +58,47 @@
   "keyToString": {
     "HTTP Request.pub-sample-request | Create a publication (With File).executor": "Run",
     "HTTP Request.pub-sample-request | Get publication summary by ID.executor": "Run",
+    "HTTP Request.publication-sample-request | Get all publications.executor": "Run",
+    "HTTP Request.publication-sample-request | Upload publication.executor": "Run",
     "HTTP Request.sample-request | Create Tag.executor": "Run",
     "HTTP Request.sample-request | Get All Tags.executor": "Run",
+    "HTTP Request.tags-sample-request | Create Tag.executor": "Run",
     "HTTP Request.users-sample-request | #2.executor": "Run",
     "HTTP Request.users-sample-request | #3.executor": "Run",
+    "HTTP Request.users-sample-request | #6.executor": "Run",
     "HTTP Request.users-sample-request | POST new user.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "hv",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/User/Desktop/DAE/projeto_DAE/projeto-dae-client",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "vue.recent.templates": [
+      "Vue Composition API Component"
+    ]
   }
 }]]></component>
-  <component name="RunManager" selected="HTTP Request.users-sample-request | #3">
-    <configuration name="pub-sample-request | Create a publication (With File)" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Projeto_DAE/src/pub-sample-request.http" executionIdentifier="Create a publication (With File)" index="2" runType="Run single request">
+  <component name="RunManager" selected="HTTP Request.publication-sample-request | Get all publications">
+    <configuration name="publication-sample-request | Get all publications" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Projeto_DAE/src/publication-sample-request.http" executionIdentifier="Get all publications" index="2" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="pub-sample-request | Get publication summary by ID" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Projeto_DAE/src/pub-sample-request.http" executionIdentifier="Get publication summary by ID" runType="Run single request">
+    <configuration name="publication-sample-request | Upload publication" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Projeto_DAE/src/publication-sample-request.http" executionIdentifier="Upload publication" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="tags-sample-request | Create Tag" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Projeto_DAE/src/tags-sample-request.http" executionIdentifier="Create Tag" index="2" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="users-sample-request | POST new user" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Projeto_DAE/src/users-sample-request.http" executionIdentifier="POST new user" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="users-sample-request | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Projeto_DAE/src/users-sample-request.http" executionIdentifier="#2" index="2" runType="Run single request">
-      <method v="2" />
-    </configuration>
-    <configuration name="users-sample-request | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Projeto_DAE/src/users-sample-request.http" executionIdentifier="#3" index="3" runType="Run single request">
+    <configuration name="users-sample-request | #6" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$PROJECT_DIR$/Projeto_DAE/src/users-sample-request.http" executionIdentifier="#6" index="6" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration default="true" type="JetRunConfigurationType">
@@ -106,11 +114,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="HTTP Request.users-sample-request | #3" />
+        <item itemvalue="HTTP Request.publication-sample-request | Upload publication" />
+        <item itemvalue="HTTP Request.publication-sample-request | Get all publications" />
+        <item itemvalue="HTTP Request.tags-sample-request | Create Tag" />
+        <item itemvalue="HTTP Request.users-sample-request | #6" />
         <item itemvalue="HTTP Request.users-sample-request | POST new user" />
-        <item itemvalue="HTTP Request.users-sample-request | #2" />
-        <item itemvalue="HTTP Request.pub-sample-request | Create a publication (With File)" />
-        <item itemvalue="HTTP Request.pub-sample-request | Get publication summary by ID" />
       </list>
     </recent_temporary>
   </component>
@@ -133,7 +141,8 @@
       <workItem from="1768945591005" duration="5491000" />
       <workItem from="1769018718733" duration="6643000" />
       <workItem from="1769032104689" duration="9989000" />
-      <workItem from="1769094917138" duration="2154000" />
+      <workItem from="1769094917138" duration="5999000" />
+      <workItem from="1769104134711" duration="6097000" />
     </task>
     <servers />
   </component>

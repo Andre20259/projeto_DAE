@@ -5,12 +5,17 @@ import jakarta.ejb.EJB;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.ws.rs.*;
+import java.util.logging.Logger;
 import jakarta.ws.rs.core.Context;
-import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.OPTIONS;
+import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.SecurityContext;
+import jakarta.json.bind.annotation.JsonbDateFormat;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.*;
+import jakarta.annotation.security.PermitAll;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.CommentBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.HistoryBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.PublicationBean;
@@ -27,9 +32,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Path("publications")
+@Path("/publications")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@PermitAll
 public class PublicationService {
     @Context
     private SecurityContext securityContext;
@@ -42,29 +48,48 @@ public class PublicationService {
     @EJB
     private HistoryBean historyBean;
 
+    private static final Logger LOGGER = Logger.getLogger(PublicationService.class.getName());
+
+    @OPTIONS
+    @Path("/")
+    @PermitAll
+    public Response options() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
 
     @POST
     @Path("/")
+    @Authenticated
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response upload(MultipartFormDataInput form) throws IOException, MyEntityNotFoundException {
-
         var map = form.getFormDataMap();
 
         var filePart = map.get("file").get(0);
         var fileName = filePart.getFileName();
         var fileStream = filePart.getBody(InputStream.class, null);
 
-        String publicationJson =
-                map.get("publication").get(0).getBodyAsString();
+        String publicationJson = map.get("publication").get(0).getBodyAsString();
+        LOGGER.info("publicationJson = " + publicationJson.replaceAll("\\R", " ")); // single-line log
 
         Jsonb jsonb = JsonbBuilder.create();
-        PublicationCreateDTO dto =
-                jsonb.fromJson(publicationJson, PublicationCreateDTO.class);
+        PublicationCreateDTO dto = jsonb.fromJson(publicationJson, PublicationCreateDTO.class);
+
+        // Log DTO as JSON (easy to read)
+        String dtoAsJson = jsonb.toJson(dto);
+        LOGGER.info("Deserialized PublicationCreateDTO = " + dtoAsJson);
+
+        // also log individual fields to be explicit
+        LOGGER.info("DTO.title = " + dto.getTitle());
+        LOGGER.info("DTO.authors = " + String.valueOf(dto.getAuthors())); // shows null or list
+        LOGGER.info("DTO.tags = " + String.valueOf(dto.getTags()));
 
         Publication publication = publicationBean.create(fileName, fileStream, dto);
 
         return Response.status(Response.Status.CREATED)
                 .entity(PublicationDTO.from(publication))
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
                 .build();
     }
 
@@ -194,21 +219,24 @@ public class PublicationService {
 
     @GET
     @Path("/{id}/summary")
+    @Authenticated
     public Response generateSummary(@PathParam("id") Long id) throws MyEntityNotFoundException {
 
         Publication pub = publicationBean.generateAndStoreSummary(id);
 
         boolean privileged = securityContext.isUserInRole("COLABORATOR");
 
-        PublicationSummaryDTO dto = new PublicationSummaryDTO(pub.getSummary(), privileged);
+        PublicationSummaryDTO dto = new PublicationSummaryDTO(pub.getId(),pub.getSummary());
 
         return Response.ok()
                 .entity(dto)
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
                 .build();
     }
 
     @GET
     @Path("/{id}")
+    @Authenticated
     public PublicationDTO getPublication(@PathParam("id") long id) throws MyEntityNotFoundException {
         Publication publication = publicationBean.findInitialized(id);
 
@@ -247,7 +275,7 @@ public class PublicationService {
     public Response addComment(@PathParam("id") Long publicationId, CommentDTO dto) throws MyEntityNotFoundException {
         String username = securityContext.getUserPrincipal().getName();
         Comment comment = commentBean.create(username, publicationId, dto.content);
-        return Response.status(Response.Status.CREATED).entity(CommentDTO.from(comment)).build();
+        return Response.status(Response.Status.CREATED).header("Allow", "GET, POST, PUT, DELETE, OPTIONS").entity(CommentDTO.from(comment)).build();
     }
 
     @PUT
@@ -265,7 +293,7 @@ public class PublicationService {
     @RolesAllowed({"Administrator", "Responsible"})
     public Response setVisibilityComments(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
         Comment updatedComment = commentBean.setVisible(commentId, publicationId, dto.isVisible());
-        return Response.ok(CommentDTO.from(updatedComment)).build();
+        return Response.ok(CommentDTO.from(updatedComment)).header("Allow", "GET, POST, PUT, DELETE, OPTIONS").build();
     }
 
     @DELETE
@@ -284,7 +312,7 @@ public class PublicationService {
     public Response addRating(@PathParam("id") Long publicationId, RatingDTO dto) throws MyEntityNotFoundException {
         String username = securityContext.getUserPrincipal().getName();
         Rating rating = ratingBean.create(username, publicationId, dto.score);
-        return Response.status(Response.Status.CREATED).entity(RatingDTO.from(rating)).build();
+        return Response.status(Response.Status.CREATED).header("Allow", "GET, POST, PUT, DELETE, OPTIONS").entity(RatingDTO.from(rating)).build();
     }
 
     @PUT
@@ -307,4 +335,3 @@ public class PublicationService {
         return Response.ok("{\"message\":\"Rating deleted.\"}").build();
     }
 }
-

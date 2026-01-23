@@ -53,6 +53,12 @@ public class UserService {
         return currentUsername().equals(username);
     }
 
+    @OPTIONS
+    @Path("{path: .*}")
+    public Response options() {
+        return Response.ok().build();
+    }
+
     // 3.1 - own activity /api/users/{id}/activity
     @GET
     @Path("{id}/activity")
