@@ -12,12 +12,10 @@ import jakarta.ws.rs.core.SecurityContext;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.*;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.CommentBean;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.HistoryBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.PublicationBean;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs.RatingBean;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Comment;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Rating;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
 
@@ -39,6 +37,8 @@ public class PublicationService {
     private CommentBean commentBean;
     @EJB
     private RatingBean ratingBean;
+    @EJB
+    private HistoryBean historyBean;
 
 
     @POST
@@ -174,6 +174,12 @@ public class PublicationService {
     public List<PublicationDTO> getMyPublications() {
         String username = securityContext.getUserPrincipal().getName();
         return PublicationDTO.from(publicationBean.findByAuthor(username));
+    }
+
+    @GET
+    @Path("/{id}/history")
+    public List<HistoryDTO> getPublicationHistory(@PathParam("id") Long publicationId) throws MyEntityNotFoundException {
+        return HistoryDTO.from(historyBean.findByPublicationId(publicationId));
     }
 
     @POST
