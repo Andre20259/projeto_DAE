@@ -8,7 +8,7 @@ Content-Type: application/json
 ### GET all users
 GET http://localhost:8081/Projeto_DAE/api/users
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwNDQ2MSwiZXhwIjoxNzY5MTA4MDYxfQ.cq_vfmkrTeOZu0oLem2XFBeg6dmfE4guMjFTu92Mjz1pSYqujNmh8PF303r1lGSj
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5MzIxOCwiZXhwIjoxNzY5MTk2ODE4fQ.EotQC-jiZOOKzdL3Yskhn2nKEovhHOXabfEXkMEwru_AApJSXFldK8-IITXQQxmp
 
 ###
 
@@ -62,3 +62,10 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5M
 
 { "role": "RESPONSIBLE" }
 
+### Activate/Deactivate User
+PUT http://localhost:8081/Projeto_DAE/api/users/johndoe123/active
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5MzIxOCwiZXhwIjoxNzY5MTk2ODE4fQ.EotQC-jiZOOKzdL3Yskhn2nKEovhHOXabfEXkMEwru_AApJSXFldK8-IITXQQxmp
+
+{ "isActive": false }
