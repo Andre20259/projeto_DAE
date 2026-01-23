@@ -13,6 +13,9 @@ up:
 down:
 	docker compose down --rmi local --volumes
 
+stop:
+    docker compose stop
+
 down-all:
 	docker compose down --rmi all --volumes
 
