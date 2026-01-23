@@ -167,11 +167,25 @@
           <div class="bg-gray-800 p-4 rounded-xl shadow-lg sticky top-6">
             <div class="flex justify-between items-center mb-3">
               <div class="text-sm text-gray-300 font-semibold">AI Summary</div>
-              <button @click="generateSummary" :disabled="summaryLoading" class="bg-indigo-600 text-white px-3 py-1 rounded text-sm hover:bg-indigo-700">Generate</button>
+              <button
+                  @click="generateSummary"
+                  :disabled="summaryLoading"
+                  class="bg-indigo-600 text-white px-3 py-1 rounded text-sm hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                <span v-if="summaryLoading" class="animate-spin text-xs">🌀</span>
+                {{ summaryLoading ? 'Thinking...' : 'Generate' }}
+              </button>
             </div>
             <div class="text-gray-300 text-sm mb-3">
-              <div v-if="publication?.summary" class="whitespace-pre-wrap">{{ publication.summary }}</div>
-              <div v-else class="text-gray-400 italic">No summary available.</div>
+              <div v-if="summaryLoading" class="text-gray-400 italic animate-pulse">
+                Generating summary...
+              </div>
+              <div v-else-if="publication?.summary" class="whitespace-pre-wrap bg-gray-900/30 p-2 rounded border border-indigo-500/20">
+                {{ publication.summary }}
+              </div>
+              <div v-else class="text-gray-400 italic">
+                No summary available.
+              </div>
             </div>
             <div class="mt-4" v-if="publication">
               <div class="text-sm text-gray-300 font-semibold mb-2">Tags</div>
@@ -459,12 +473,26 @@ async function removeTag(tagName) {
 }
 
 async function generateSummary() {
-  summaryLoading.value = true
+  if (summaryLoading.value) return; // Prevent double-clicks
+
+  summaryLoading.value = true;
   try {
-    const dto = await $fetch(`${api}/publications/${id}/summary`, {headers: {Authorization: `Bearer ${token.value}`}})
-    if (dto?.summary) publication.value.summary = dto.summary
+    // We use method: 'GET' (or POST if your API requires it)
+    // and ensure we handle the response correctly
+    const dto = await $fetch(`${api}/publications/${id}/summary`, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token.value}` }
+    });
+
+    if (dto && dto.summary) {
+      publication.value.summary = dto.summary;
+    }
+  } catch (err) {
+    console.error('Summary generation failed:', err);
+    // Optional: Show an error message to the user
   } finally {
-    summaryLoading.value = false
+    // This ensures the button re-enables regardless of success/fail
+    summaryLoading.value = false;
   }
 }
 
@@ -473,5 +501,5 @@ const formatDate = d => d ? new Date(d).toLocaleDateString() : ''
 const formatDateTime = d => d ? new Date(d).toLocaleString() : ''
 const goBack = () => router.push('/publications')
 const goToProfile = () => router.push('/me')
-const downloadFile = () => window.open(`${api}/publications/${id}/file`, '_blank')
+const downloadFile = () => window.open(`${api}/publications/download/${id}`, '_blank')
 </script>

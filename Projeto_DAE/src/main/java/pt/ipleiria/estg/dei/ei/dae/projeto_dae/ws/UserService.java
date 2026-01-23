@@ -55,9 +55,48 @@ public class UserService {
     }
 
     @OPTIONS
-    @Path("{path: .*}")
+    @Path("/")
+    @PermitAll
     public Response options() {
-        return Response.ok().build();
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}")
+    @PermitAll
+    public Response optionsSingle() {
+        return Response.ok()
+                .header("Allow", "GET, PATCH, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/activity")
+    @PermitAll
+    public Response optionsSingleA() {
+        return Response.ok()
+                .header("Allow", "GET, PATCH, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/history")
+    @PermitAll
+    public Response optionsSingleH() {
+        return Response.ok()
+                .header("Allow", "GET, PATCH, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
+    @Path("/{id}/change-password")
+    @PermitAll
+    public Response optionsSinglePW() {
+        return Response.ok()
+                .header("Allow", "GET, PATCH, POST, PUT, DELETE, OPTIONS")
+                .build();
     }
 
     // 3.1 - own activity /api/users/{id}/activity
