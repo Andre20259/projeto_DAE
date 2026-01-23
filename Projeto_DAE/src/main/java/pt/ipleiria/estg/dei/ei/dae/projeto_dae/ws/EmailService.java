@@ -4,6 +4,7 @@ import jakarta.ejb.Stateless;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Comment;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
 
@@ -67,6 +68,38 @@ public class EmailService {
         body.append("Title: ").append(publication.getTitle()).append("\n");
         body.append("Area: ").append(publication.getArea()).append("\n\n");
         body.append("Description:\n").append(publication.getDescription()).append("\n\n");
+        body.append("View the publication in the application.");
+        String bodyText = body.toString();
+        for (String recipient : to) {
+            sendEmail(recipient, subject, bodyText);
+        }
+    }
+
+    public void sendNewCommentNotification(List<String> to, Publication publication, Comment comment) {
+        String subject = "New comment on publication: " + publication.getTitle();
+        StringBuilder body = new StringBuilder();
+        body.append("A new comment was added to a publication matching your subscribed tags.\n\n");
+        body.append("Title: ").append(publication.getTitle()).append("\n");
+        body.append("Area: ").append(publication.getArea()).append("\n\n");
+        body.append("Description:\n").append(publication.getDescription()).append("\n\n");
+        body.append("New Comment:\n").append(comment.getContent()).append("\n\n");
+        body.append("By:\n").append(comment.getUser().getName()).append("\n\n");
+        body.append("View the publication in the application.");
+        String bodyText = body.toString();
+        for (String recipient : to) {
+            sendEmail(recipient, subject, bodyText);
+        }
+    }
+
+    public void sendUpdatedCommentNotification(List<String> to, Publication publication, Comment comment) {
+        String subject = "Comment updated on publication: " + publication.getTitle();
+        StringBuilder body = new StringBuilder();
+        body.append("A comment was updated on a publication matching your subscribed tags.\n\n");
+        body.append("Title: ").append(publication.getTitle()).append("\n");
+        body.append("Area: ").append(publication.getArea()).append("\n\n");
+        body.append("Description:\n").append(publication.getDescription()).append("\n\n");
+        body.append("Updated Comment:\n").append(comment.getContent()).append("\n\n");
+        body.append("By:\n").append(comment.getUser().getName()).append("\n\n");
         body.append("View the publication in the application.");
         String bodyText = body.toString();
         for (String recipient : to) {
