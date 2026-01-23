@@ -9,9 +9,9 @@ Accept: application/json
 ### Create Tag
 POST http://localhost:8081/Projeto_DAE/api/tags
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyNzcwOSwiZXhwIjoxNzY5MTMxMzA5fQ.6MfKWgJSQadG1EkMwmybIlJrkbLyRpYtKhaneMScbtCoQlsPxsmltVbgM8GHC3l2
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEzNjk4MywiZXhwIjoxNzY5MTQwNTgzfQ.1run9D0DHYC4r0CbGDmmHVQJSzKnZ-I8vRziAOOz-2-TgRAW_QP5MkuW_7-wsg88
 
-{ "name": "Science" }
+{ "name": "AI" }
 
 ### Get All Tags
 GET http://localhost:8081/Projeto_DAE/api/tags

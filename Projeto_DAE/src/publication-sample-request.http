@@ -1,6 +1,6 @@
 ### Upload publication
 POST http://localhost:8081/Projeto_DAE/api/publications HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTI3NzI1LCJleHAiOjE3NjkxMzEzMjV9.2Q-S0dFc2UJyYBP2EZBPY1AqZjGgP-RbxYMEDeynMkVJMnUAkeXERnQshLgApFnT
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTQwMDU0LCJleHAiOjE3NjkxNDM2NTR9.dzu2dQOkGL6kemEqCvDdL0xxs_DffscnLdDCheiyO20wTG--pWE3VEJB9CPmbMva
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -32,21 +32,23 @@ Accept: application/json
 ### Get my publications
 GET http://localhost:8081/Projeto_DAE/api/publications/me
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTI3NzI1LCJleHAiOjE3NjkxMzEzMjV9.2Q-S0dFc2UJyYBP2EZBPY1AqZjGgP-RbxYMEDeynMkVJMnUAkeXERnQshLgApFnT
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTM4NTYzLCJleHAiOjE3NjkxNDIxNjN9.ELjV2_bB6ZWdLAnCt9EepbQYan9uJ_SQVkx38zfAW_lIqEmbmbcQ3tvJKTG5n_An
 
 ### Associate tags to publication
-PUT http://localhost:8081/Projeto_DAE/api/publications/1/tags
+PUT http://localhost:8081/Projeto_DAE/api/publications/2/tags
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTI3NzI1LCJleHAiOjE3NjkxMzEzMjV9.2Q-S0dFc2UJyYBP2EZBPY1AqZjGgP-RbxYMEDeynMkVJMnUAkeXERnQshLgApFnT
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzNCIsImlhdCI6MTc2OTE0MDIxOSwiZXhwIjoxNzY5MTQzODE5fQ.RnhuuTDC6iMp0lYUV8MTlEt_d-qZQzylWFvhhZT45YS0dFP2h9D9M_csCJFYVA3e
 
 {
-  "tags": ["Science"]
+  "name": "Science",
+  "action": "remove"
 }
 
 ### Update publication
 PUT http://localhost:8081/Projeto_DAE/api/publications/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTMwMzE0LCJleHAiOjE3NjkxMzM5MTR9.PhRajBcCTymZFkPVGEunEzbSPGeEeEmc23noF24FnWbDtYixJb0MWwdLbBJnWvdc
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTM0MzA1LCJleHAiOjE3NjkxMzc5MDV9.rYIZy7iE9Tk_br9jGQBfTwA4Ry3Mh-S2Di8pCHWyxOBVjimVMTs5DxNAqExr3qnv
 
 {
   "title": "Updated Teste",
@@ -59,10 +61,10 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ### Update publication visibility
 PATCH http://localhost:8081/Projeto_DAE/api/publications/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEzMDUzMCwiZXhwIjoxNzY5MTM0MTMwfQ.hxKU6QSIzGft3bJyBE9QHIxxc4jnuFUc1546ER78mGmeePp1mbhywqezLpnpf1H8
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE0MDQxMiwiZXhwIjoxNzY5MTQ0MDEyfQ.UNmSdOyS9oRHNpwy4kuAiwRMJ9wopKIPflTq-ScaW_w_rv9ftvRFVuz7WRpYDher
 
 {
-  "visible": "false"
+  "visibility": "false"
 }
 
 
@@ -102,10 +104,10 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ### Create rating on publication
 POST http://localhost:8081/Projeto_DAE/api/publications/1/ratings
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTI4MDUyLCJleHAiOjE3NjkxMzE2NTJ9.1sNGPnxgJCUnSMyOFC-JnbV82Uc-BVQdbyG2nKxfhh7l-o9MpgJ0WACidvRsKdMS
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE0MDQxMiwiZXhwIjoxNzY5MTQ0MDEyfQ.UNmSdOyS9oRHNpwy4kuAiwRMJ9wopKIPflTq-ScaW_w_rv9ftvRFVuz7WRpYDher
 
 {
-  "score": 5
+  "score": 7
 }
 
 ### Update rating on publication

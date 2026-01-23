@@ -109,6 +109,53 @@ public class PublicationBean {
                 .getResultList();
     }
 
+    public List<Publication> findAllInitialized() {
+        List<Publication> list = entityManager
+                .createQuery("SELECT p FROM Publication p", Publication.class)
+                .getResultList();
+
+        for (Publication p : list) {
+            p.getAuthors().size();
+            p.getTags().size();
+            p.getComments().size();
+            p.getRatings().size();
+        }
+
+        return list;
+    }
+
+    public Publication findInitialized(Long id) throws MyEntityNotFoundException {
+        Publication p = entityManager.find(Publication.class, id);
+
+        if (p == null) {
+            throw new MyEntityNotFoundException("Publication not found");
+        }
+
+        p.getAuthors().size();
+        p.getTags().size();
+        p.getComments().size();
+        p.getRatings().size();
+
+        return p;
+    }
+
+    public List<Publication> findByAuthorInitialized(String username) {
+        List<Publication> list = entityManager
+                .createNamedQuery("getPublicationsByAuthor", Publication.class)
+                .setParameter("author", username)
+                .getResultList();
+
+        for (Publication p : list) {
+            p.getAuthors().size();
+            p.getTags().size();
+            p.getComments().size();
+            p.getRatings().size();
+        }
+        return list;
+    }
+
+
+
     public Publication updateVisibility(Long id, boolean visible) throws MyEntityNotFoundException {
         Publication publication = entityManager.find(Publication.class, id);
         if (publication == null) {

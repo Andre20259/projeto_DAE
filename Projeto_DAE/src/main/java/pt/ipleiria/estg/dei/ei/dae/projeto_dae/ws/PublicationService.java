@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @Path("publications")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Authenticated
 public class PublicationService {
     @Context
     private SecurityContext securityContext;
@@ -68,9 +67,11 @@ public class PublicationService {
 
     @PATCH
     @Path("/{id}")
+    @Authenticated
     @RolesAllowed({"Responsible", "Administrator"})
     public PublicationDTO updateVisibility(@PathParam("id") Long id, VisibilityDTO dto) throws MyEntityNotFoundException {
-        Publication publication = publicationBean.updateVisibility(id, dto.isVisible());
+        publicationBean.updateVisibility(id, dto.isVisible());
+        Publication publication = publicationBean.findInitialized(id);
         return PublicationDTO.from(publication);
     }
 
@@ -78,7 +79,7 @@ public class PublicationService {
     @Path("/{id}")
     @Authenticated
     public PublicationDTO updatePublication(@PathParam("id") Long id, PublicationCreateDTO dto) throws MyEntityNotFoundException {
-        Publication publication = publicationBean.find(id);
+        Publication publication = publicationBean.findInitialized(id);
         String username = securityContext.getUserPrincipal().getName();
 
         boolean isAuthor = publication.getAuthors() != null &&
@@ -89,7 +90,8 @@ public class PublicationService {
             throw new ForbiddenException("Only authors can update this publication");
         }
 
-        publication = publicationBean.updatePublication(id, dto);
+        publicationBean.updatePublication(id, dto);
+        publication = publicationBean.findInitialized(id);
         return PublicationDTO.from(publication);
     }
 
@@ -97,7 +99,7 @@ public class PublicationService {
     @Path("/{id}/tags")
     @Authenticated
     public PublicationDTO updateTags(@PathParam("id") Long id, ManageTagDTO dto) throws MyEntityNotFoundException {
-        Publication publication = publicationBean.find(id);
+        Publication publication = publicationBean.findInitialized(id);
         if (publication == null) {
             throw new MyEntityNotFoundException("Publication not found");
         }
@@ -126,14 +128,15 @@ public class PublicationService {
                 throw new BadRequestException("Invalid action: " + dto.getAction());
         }
 
-        publication = publicationBean.updateTags(id, dto);
+        publicationBean.updateTags(id, dto);
+        publication = publicationBean.findInitialized(id);
         return PublicationDTO.from(publication);
     }
 
     @GET
     @Path("/")
     public List<PublicationDTO> getAllPublications() {
-        return PublicationDTO.from(publicationBean.findAll());
+        return PublicationDTO.from(publicationBean.findAllInitialized());
     }
 
     @GET
@@ -154,7 +157,7 @@ public class PublicationService {
     @GET
     @Path("/{id}")
     public PublicationDTO getPublication(@PathParam("id") long id) throws MyEntityNotFoundException {
-        Publication publication = publicationBean.find(id);
+        Publication publication = publicationBean.findInitialized(id);
 
         // determine if caller is privileged; adjust role names if different in your app
         boolean privileged = securityContext.isUserInRole("RESPONSIBLE")
@@ -173,9 +176,10 @@ public class PublicationService {
 
     @GET
     @Path("/me")
+    @Authenticated
     public List<PublicationDTO> getMyPublications() {
         String username = securityContext.getUserPrincipal().getName();
-        return PublicationDTO.from(publicationBean.findByAuthor(username));
+        return PublicationDTO.from(publicationBean.findByAuthorInitialized(username));
     }
 
     @POST
