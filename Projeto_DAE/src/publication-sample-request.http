@@ -126,6 +126,11 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4N
   "score": 4
 }
 
+### Create rating on publication
+GET http://localhost:8081/Projeto_DAE/api/publications/1/ratings/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTIwNTI3MSwiZXhwIjoxNzY5MjA4ODcxfQ.ug2b6wRqpskFD2WMRhgP5Eksn0uHXEoSNyBmvsZFXqSwx81wbfpv1bM6KqNAj2xS
+
 ### Update rating on publication
 PUT http://localhost:8081/Projeto_DAE/api/publications/1/ratings/1
 Content-Type: application/json

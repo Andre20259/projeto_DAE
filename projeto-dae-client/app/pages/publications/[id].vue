@@ -1,15 +1,47 @@
 <template>
   <div class="min-h-screen bg-gray-900">
-    <nav class="bg-gray-800 px-6 py-3 shadow-md flex items-center">
-      <NuxtLink to="/" class="text-white text-lg font-bold hover:text-gray-300">PGPC</NuxtLink>
-      <div class="ml-auto text-sm">
-        <template v-if="username && name && role">
-          <button @click="goToProfile" class="text-gray-300 hover:text-white">
-            Logged as {{ role }}: {{ name }}
+    <nav class="bg-gray-800 px-6 py-3 shadow-md flex items-center border-b border-gray-700">
+      <NuxtLink to="/" class="text-white text-lg font-bold hover:text-gray-300">
+        PGPC
+      </NuxtLink>
+
+      <div v-if="username" class="ml-8 flex gap-6 text-sm font-medium">
+        <NuxtLink to="/publications" class="text-gray-400 hover:text-white transition">
+          Publications
+        </NuxtLink>
+        <NuxtLink to="/tags" class="text-gray-400 hover:text-white transition">
+          Tags
+        </NuxtLink>
+        <NuxtLink
+            v-if="role === 'Administrator' || role === 'Responsible'"
+            to="/admin"
+            class="text-blue-400 hover:text-blue-300 transition"
+        >
+          Admin Panel
+        </NuxtLink>
+      </div>
+
+      <div class="ml-auto flex items-center gap-4 text-sm">
+        <template v-if="username && name">
+          <button
+              @click="goToProfile"
+              class="text-gray-300 hover:text-white font-medium border-r border-gray-700 pr-4"
+          >
+            <span class="text-gray-500 text-xs mr-1">{{ role }}:</span> {{ name }}
+          </button>
+
+          <button
+              @click="logout"
+              class="text-red-400 hover:text-red-300 font-medium"
+          >
+            Logout
           </button>
         </template>
+
         <template v-else>
-          <NuxtLink to="/login" class="text-gray-300 hover:text-white">Login</NuxtLink>
+          <NuxtLink to="/login" class="text-gray-300 hover:text-white font-medium">
+            Login
+          </NuxtLink>
         </template>
       </div>
     </nav>
@@ -250,6 +282,7 @@ const updatingPub = ref(false)
 const pubMessage = ref('')
 const pubMessageError = ref(false)
 const editForm = reactive({title: '', description: '', area: ''})
+const myRatingId = ref(null)
 
 // Comments State
 const commentText = ref('')
@@ -296,12 +329,30 @@ async function fetchPublication() {
     editForm.description = res.description
     editForm.area = res.area
     // Load rating
+    if (token.value) {
+      await fetchMyRating()
+    }
     const ur = res.ratings?.find(r => r.author === username.value)
     selectedRating.value = ur ? (ur.score ?? 0) : 0
   } catch (err) {
     console.error('Fetch failed', err)
   } finally {
     loading.value = false
+  }
+}
+
+async function fetchMyRating() {
+  try {
+    const res = await $fetch(`${api}/publications/${id}/ratings/me`, {
+      headers: { Authorization: `Bearer ${token.value}` }
+    })
+    // If found, update state
+    selectedRating.value = res.score
+    myRatingId.value = res.id
+  } catch (err) {
+    // If 404, the user simply hasn't rated yet
+    selectedRating.value = 0
+    myRatingId.value = null
   }
 }
 
@@ -444,29 +495,40 @@ async function deleteComment(c) {
 
 // 4. RATINGS / TAGS / SUMMARY
 async function handleRatingClick(score) {
+  if (!token.value) return // Ensure user is logged in
+
   ratingLoading.value = true
   ratingMessage.value = ''
   try {
-    const ur = publication.value.ratings?.find(r => r.author === username.value)
-    if (!ur) {
+    if (!myRatingId.value) {
+      // CREATE: Use the score clicked
       await $fetch(`${api}/publications/${id}/ratings`, {
         method: 'POST',
-        headers: {Authorization: `Bearer ${token.value}`},
-        body: {score}
+        headers: { Authorization: `Bearer ${token.value}` },
+        body: { score }
       })
-    } else if (ur.score === score) {
-      await $fetch(`${api}/publications/${id}/ratings/${ur.id}`, {
+    } else if (selectedRating.value === score) {
+      // DELETE: If they click the same star they already gave
+      await $fetch(`${api}/publications/${id}/ratings/${myRatingId.value}`, {
         method: 'DELETE',
-        headers: {Authorization: `Bearer ${token.value}`}
+        headers: { Authorization: `Bearer ${token.value}` }
       })
     } else {
-      await $fetch(`${api}/publications/${id}/ratings/${ur.id}`, {
+      // UPDATE: If they click a different star
+      await $fetch(`${api}/publications/${id}/ratings/${myRatingId.value}`, {
         method: 'PUT',
-        headers: {Authorization: `Bearer ${token.value}`},
-        body: {score}
+        headers: { Authorization: `Bearer ${token.value}` },
+        body: { score }
       })
     }
+
+    // Refresh both the publication (for avg rating) and "my rating"
     await fetchPublication()
+    await fetchMyRating()
+
+  } catch (err) {
+    ratingMessage.value = 'Failed to update rating'
+    ratingError.value = true
   } finally {
     ratingLoading.value = false
   }
@@ -523,6 +585,11 @@ async function generateSummary() {
     // This ensures the button re-enables regardless of success/fail
     summaryLoading.value = false;
   }
+}
+
+function logout() {
+  sessionStorage.clear()
+  router.push('/')
 }
 
 // Helpers

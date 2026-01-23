@@ -150,6 +150,15 @@ public class PublicationService {
     }
 
     @OPTIONS
+    @Path("/{id}/ratings/me")
+    @PermitAll
+    public Response optionsRatingsSingleMe() {
+        return Response.ok()
+                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+    @OPTIONS
     @Path("/download/{id}")
     @PermitAll
     public Response optionsDownload() {
@@ -448,6 +457,23 @@ public class PublicationService {
         String username = securityContext.getUserPrincipal().getName();
         Rating rating = ratingBean.create(username, publicationId, dto.score);
         return Response.status(Response.Status.CREATED).header("Allow", "GET, POST, PUT, DELETE, OPTIONS").entity(RatingDTO.from(rating)).build();
+    }
+
+    @GET
+    @Path("/{id}/ratings/me")
+    @Authenticated
+    public Response getMyRating(@PathParam("id") Long publicationId) {
+        String username = securityContext.getUserPrincipal().getName();
+
+        Rating rating = ratingBean.findUserRating(username, publicationId);
+
+        if (rating == null) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("No rating found for this user on this publication.")
+                    .build();
+        }
+
+        return Response.ok(RatingDTO.from(rating)).build();
     }
 
     @PUT
