@@ -68,11 +68,3 @@ Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5MTkwMSwiZXhwIjoxNzY5MTk1NTAxfQ.k0F7kOUn8CRjXMjgdQufdTgNVadF_lkmzDl9xtLCmlJ_YDnGPZiB623wqbokDYEh
 
 { "role": "RESPONSIBLE" }
-
-### Activate/Deactivate User
-PUT http://localhost:8081/Projeto_DAE/api/users/johndoe123/active
-Content-Type: application/json
-Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5MzIxOCwiZXhwIjoxNzY5MTk2ODE4fQ.EotQC-jiZOOKzdL3Yskhn2nKEovhHOXabfEXkMEwru_AApJSXFldK8-IITXQQxmp
-
-{ "isActive": false }

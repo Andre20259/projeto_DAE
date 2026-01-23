@@ -142,13 +142,5 @@ public class UserBean {
         entityManager.persist(newUser);
     }
 
-    public User setActive(String username, boolean active) throws MyEntityNotFoundException {
-        User user = find(username);
-        if (user == null) {
-            throw new MyEntityNotFoundException("Utilizador não encontrado");
-        }
-        user.setActive(active);
-        return user;
-    }
 
 }
