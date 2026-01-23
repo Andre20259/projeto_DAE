@@ -5,6 +5,13 @@ Content-Type: application/json
 { "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe123" }
 ###
 
+### POST new user
+POST http://localhost:8081/Projeto_DAE/api/users
+Content-Type: application/json
+
+{ "name": "Deleted User", "email": "deleted@mail.pt", "password": "password123", "username": "deleted_user" }
+###
+
 ### GET all users
 GET http://localhost:8081/Projeto_DAE/api/users
 Accept: application/json
@@ -22,7 +29,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5M
 ### DELETE user by username
 DELETE http://localhost:8081/Projeto_DAE/api/users/johndoe123
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTA4MDY2MywiZXhwIjoxNzY5MDg0MjYzfQ.me60pVLkZyvQFIpulmWwmO8ZKD6IxT8RdQlKXrB6rAMbFwChRmDwMP6vraIwFYvm
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTIwMTU5MiwiZXhwIjoxNzY5MjA1MTkyfQ.1M1Rmu08ufCk0T_mIn9w5RsN1cOXha692bQVLLSGzKAHM-09d3JvsqtFVYAdJ34r
 
 ###
 

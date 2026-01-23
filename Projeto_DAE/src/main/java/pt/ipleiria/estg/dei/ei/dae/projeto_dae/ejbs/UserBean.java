@@ -54,6 +54,30 @@ public class UserBean {
     public void delete(String username) throws MyEntityNotFoundException {
         User user = find(username);
         if (user == null) throw new MyEntityNotFoundException("Utilizador não encontrado");
+
+        User deletedUser = find("deleted_user");
+        if (deletedUser == null) {
+            throw new IllegalStateException("deleted_user does not exist");
+        }
+
+        for (Publication p : user.getPublications()) {
+            p.getAuthors().add(deletedUser);
+            p.getAuthors().remove(user);
+        }
+        for (Comment c : user.getComments()) {
+            entityManager.remove(c);
+        }
+        for (Rating r : user.getRatings()) {
+            entityManager.remove(r);
+        }
+        for (Tag t : user.getSubscribedTags()) {
+            t.getSubscriptions().remove(user);
+        }
+
+        user.getPublications().clear();
+        user.getComments().clear();
+        user.getRatings().clear();
+        user.getSubscribedTags().clear();
         entityManager.remove(user);
     }
 
