@@ -320,6 +320,18 @@ public class PublicationService {
         return Response.ok(CommentDTO.from(updatedComment)).header("Allow", "GET, POST, PUT, DELETE, OPTIONS").build();
     }
 
+    @GET
+    @Path("/{id}/comments/hidden")
+    @Authenticated
+    @RolesAllowed({"Administrator", "Responsible"})
+    public Response getHiddenComments(@PathParam("id") Long publicationId) {
+        List<Comment> comments = commentBean.findHiddenComments(publicationId);
+        List<CommentDTO> dtos = comments.stream()
+                .map(CommentDTO::from)
+                .collect(Collectors.toList());
+        return Response.ok(dtos).build();
+    }
+
     @DELETE
     @Path("/{id}/comments/{commentId}")
     @Authenticated

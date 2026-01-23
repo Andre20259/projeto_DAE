@@ -8,6 +8,8 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Comment;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 
+import java.util.List;
+
 @Stateless
 public class CommentBean {
     @PersistenceContext
@@ -43,6 +45,16 @@ public class CommentBean {
         }
         comment.setVisible(visible);
         return comment;
+    }
+
+    public List<Comment> findHiddenComments(Long publicationId) {
+        Publication publication = publicationBean.find(publicationId);
+        if(publication == null) {
+            throw new RuntimeException("Publication with id " + publicationId + " not found");
+        }
+        return entityManager.createQuery("SELECT c FROM Comment c WHERE c.publication.id = :pubId AND c.isVisible = false", Comment.class)
+                .setParameter("pubId", publicationId)
+                .getResultList();
     }
 
     public Comment editComment(Long commentId, Long publicationId,String username, String newContent) {
