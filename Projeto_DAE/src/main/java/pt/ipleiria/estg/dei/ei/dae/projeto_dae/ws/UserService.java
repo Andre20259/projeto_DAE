@@ -8,6 +8,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.RoleDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserActivityDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserCreateDTO;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserDTO;
@@ -192,5 +193,17 @@ public class UserService {
         var users = userBean.findAll();
         var usersDTO = users.stream().map(UserDTO::from).toList();
         return Response.ok(usersDTO).build();
+    }
+
+    @PUT
+    @Path("{username}/role")
+    @Authenticated
+    @RolesAllowed("Administrator")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response changeUserRole(@PathParam("username") String username, RoleDTO dto)
+            throws MyEntityNotFoundException, MyEntityExistsException {
+        userBean.changeRole(username, dto.role);
+        return Response.ok(Map.of("message", "User role updated successfully")).build();
     }
 }

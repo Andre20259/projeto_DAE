@@ -125,6 +125,14 @@ public class User {
         isActive = active;
     }
 
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

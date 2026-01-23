@@ -2,7 +2,7 @@
 POST http://localhost:8081/Projeto_DAE/api/users
 Content-Type: application/json
 
-{ "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe" }
+{ "name": "JohnDoe", "email": "test@mail.pt", "password": "password123", "username": "johndoe123" }
 ###
 
 ### GET all users
@@ -61,4 +61,11 @@ GET http://localhost:8081/Projeto_DAE/api/users/admin/history
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5MTIxNiwiZXhwIjoxNzY5MTk0ODE2fQ.yBnAJbhbNzrOr7jQFuhcnSsBYqh9XrkaWnHcctfah9pKzNSuI-ocASQCi2f7-6eo
 
-###
+### Change User Role
+PUT http://localhost:8081/Projeto_DAE/api/users/johndoe123/role
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5MTkwMSwiZXhwIjoxNzY5MTk1NTAxfQ.k0F7kOUn8CRjXMjgdQufdTgNVadF_lkmzDl9xtLCmlJ_YDnGPZiB623wqbokDYEh
+
+{ "role": "RESPONSIBLE" }
+
