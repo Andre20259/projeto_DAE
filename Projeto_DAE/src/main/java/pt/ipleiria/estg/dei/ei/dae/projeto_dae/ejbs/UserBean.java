@@ -4,7 +4,7 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.dtos.UserActivityDTO;
-import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.*;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Hasher;
 
@@ -87,4 +87,59 @@ public class UserBean {
                 lastActivity
         );
     }
+
+    public void changeRole(String username, String newRole) throws MyEntityNotFoundException {
+        User oldUser = find(username);
+        if (oldUser == null) throw new MyEntityNotFoundException("User not found: " + username);
+
+        // se a role for igual à atual, não faz nada
+        if (oldUser.getClass().getSimpleName().equalsIgnoreCase(newRole)) {
+            return;
+        }
+
+        // criar a nova instância correta
+        User newUser;
+        switch (newRole.toUpperCase()) {
+            case "ADMIN":
+            case "ADMINISTRATOR":
+                newUser = new Administrator(oldUser.getUsername(), oldUser.getPassword(), oldUser.getEmail(), oldUser.getName());
+                break;
+            case "RESPONSIBLE":
+                newUser = new Responsible(oldUser.getUsername(), oldUser.getPassword(), oldUser.getEmail(), oldUser.getName());
+                break;
+            case "COLABORATOR":
+                newUser = new Colaborator(oldUser.getUsername(), oldUser.getPassword(), oldUser.getEmail(), oldUser.getName());
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown role: " + newRole);
+        }
+
+        // copiar relacionamentos
+        newUser.getPublications().addAll(oldUser.getPublications());
+        newUser.getComments().addAll(oldUser.getComments());
+        newUser.getRatings().addAll(oldUser.getRatings());
+        newUser.getSubscribedTags().addAll(oldUser.getSubscribedTags());
+        newUser.setActive(oldUser.isActive());
+
+        // atualizar referências bidirecionais para publicações, comentários, ratings e tags
+        for (Publication pub : newUser.getPublications()) {
+            pub.getAuthors().remove(oldUser);
+            pub.getAuthors().add(newUser);
+        }
+        for (Comment c : newUser.getComments()) {
+            c.setUser(newUser);
+        }
+        for (Rating r : newUser.getRatings()) {
+            r.setUser(newUser);
+        }
+        for (Tag t : newUser.getSubscribedTags()) {
+            t.getSubscriptions().remove(oldUser);
+            t.getSubscriptions().add(newUser);
+        }
+
+        // remover usuário antigo e persistir o novo
+        entityManager.remove(oldUser);
+        entityManager.persist(newUser);
+    }
+
 }

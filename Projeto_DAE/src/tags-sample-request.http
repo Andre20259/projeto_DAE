@@ -2,13 +2,13 @@
 POST http://localhost:8081/Projeto_DAE/api/auth/login
 Content-Type: application/json
 
-{ "username": "johndoe", "password": "password123" }
+{ "username": "johndoe123", "password": "password123" }
 
 
 ### Create Tag
 POST http://localhost:8081/Projeto_DAE/api/tags
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4NjQ4MiwiZXhwIjoxNzY5MTkwMDgyfQ.7pvZ3eGxQ764pfdg518PzsyZiHu0OCPVnWOOzPJyFQMcPZilZf_MvsFX2VU2DC3e
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTkyNTgyLCJleHAiOjE3NjkxOTYxODJ9.y6F4wFvf1R9EXqMIXq0svm5JGP-VgVcZIj9dXXhGB3F5Q7nHPfZTPNvbaUxOcwIc
 
 { "name": "AI" }
 
