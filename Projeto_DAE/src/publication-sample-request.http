@@ -1,6 +1,6 @@
 ### Upload publication
 POST http://localhost:8081/Projeto_DAE/api/publications HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEzMjcxOCwiZXhwIjoxNzY5MTM2MzE4fQ.wtq6LxusIffBr_zk7BAuczI4RRQR_EpnUdtVNP6AZ0uqSc3ED416il0tR0Ny_r03
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE3NzY3MSwiZXhwIjoxNzY5MTgxMjcxfQ.O3k946vbGdzK6tUKW4Ug2ZL1bk42fICo6r2A4ATNsufYCjPyVvCjhKtz96smYOYS
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
