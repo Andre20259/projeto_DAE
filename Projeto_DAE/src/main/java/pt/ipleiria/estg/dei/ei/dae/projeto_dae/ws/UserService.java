@@ -82,6 +82,16 @@ public class UserService {
     }
 
     @OPTIONS
+    @Path("/{id}/role")
+    @PermitAll
+    public Response optionsSingleR() {
+        return Response.ok()
+                .header("Allow", "GET, PATCH, POST, PUT, DELETE, OPTIONS")
+                .build();
+    }
+
+
+    @OPTIONS
     @Path("/{id}/history")
     @PermitAll
     public Response optionsSingleH() {

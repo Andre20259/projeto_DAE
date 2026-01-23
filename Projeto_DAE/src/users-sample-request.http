@@ -13,7 +13,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEwN
 ###
 
 ### GET specific user by username
-GET http://localhost:8081/Projeto_DAE/api/users/admin
+GET http://localhost:8081/Projeto_DAE/api/users/johndoe
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5MTIxNiwiZXhwIjoxNzY5MTk0ODE2fQ.yBnAJbhbNzrOr7jQFuhcnSsBYqh9XrkaWnHcctfah9pKzNSuI-ocASQCi2f7-6eo
 
@@ -50,14 +50,14 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ###
 
 ### GET user activity
-GET http://localhost:8081/Projeto_DAE/api/users/admin/activity
+GET http://localhost:8081/Projeto_DAE/api/users/johndoe/activity
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5MTIxNiwiZXhwIjoxNzY5MTk0ODE2fQ.yBnAJbhbNzrOr7jQFuhcnSsBYqh9XrkaWnHcctfah9pKzNSuI-ocASQCi2f7-6eo
 
 ###
 
 ### GET user activity
-GET http://localhost:8081/Projeto_DAE/api/users/admin/history
+GET http://localhost:8081/Projeto_DAE/api/users/johndoe/history
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE5MTIxNiwiZXhwIjoxNzY5MTk0ODE2fQ.yBnAJbhbNzrOr7jQFuhcnSsBYqh9XrkaWnHcctfah9pKzNSuI-ocASQCi2f7-6eo
 
