@@ -7,17 +7,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class RatingDTO {
+    public Long id;
     public int score;
 
     public RatingDTO() {
     }
 
-    public RatingDTO(int score) {
+    public RatingDTO(long id, int score) {
+        this.id = id;
         this.score = score;
     }
 
     public static RatingDTO from(Rating rating) {
-        return new RatingDTO(rating.getScore());
+        return new RatingDTO(
+                rating.getId(),
+                rating.getScore());
     }
 
     public static List<RatingDTO> from(List<Rating> ratings) {

@@ -29,7 +29,7 @@ public class CommentBean {
         comment.setVisible(true);
         entityManager.persist(comment);
         publication.addComment(comment);
-
+        user.addComment(comment);
         return comment;
     }
 
@@ -45,15 +45,36 @@ public class CommentBean {
         return comment;
     }
 
-    public Comment editComment(Long commentId,String username, String newContent) {
+    public Comment editComment(Long commentId, Long publicationId,String username, String newContent) {
         Comment comment = entityManager.find(Comment.class, commentId);
         if (comment == null) {
             throw new RuntimeException("Comment with id " + commentId + " not found");
+        }
+        if(!comment.getPublication().getId().equals(publicationId)){
+            throw new RuntimeException("Comment with id " + commentId + " does not belong to publication with id " + publicationId);
         }
         if(!comment.getUser().getUsername().equals(username)){
             throw new RuntimeException("User " + username + " is not the author of comment with id " + commentId);
         }
         comment.setContent(newContent);
         return comment;
+    }
+
+    public void deleteComment(Long commentId, Long publicationId, String username) {
+        Comment comment = entityManager.find(Comment.class, commentId);
+        if (comment == null) {
+            throw new RuntimeException("Comment with id " + commentId + " not found");
+        }
+        if(!comment.getPublication().getId().equals(publicationId)){
+            throw new RuntimeException("Comment with id " + commentId + " does not belong to publication with id " + publicationId);
+        }
+        if(!comment.getUser().getUsername().equals(username)){
+            throw new RuntimeException("User " + username + " is not the author of comment with id " + commentId);
+        }
+        Publication publication = comment.getPublication();
+        User user = comment.getUser();
+        publication.removeComment(comment);
+        user.removeComment(comment);
+        entityManager.remove(comment);
     }
 }

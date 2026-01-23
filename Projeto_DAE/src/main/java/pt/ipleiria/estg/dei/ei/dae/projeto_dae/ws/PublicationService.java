@@ -21,13 +21,15 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Path("publications")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Authenticated
 public class PublicationService {
     @Context
     private SecurityContext securityContext;
@@ -66,18 +68,40 @@ public class PublicationService {
                 .build();
     }
 
+    @GET
+    @Path("download/{id}")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public Response download(@PathParam("id") long id)
+            throws MyEntityNotFoundException {
+        var publication = publicationBean.find(id);
+        var filePath = Paths.get(publication.getFilePath());
+        if (!Files.exists(filePath) || !Files.isRegularFile(filePath)) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("File not found" + filePath)
+                    .build();
+        }
+        var filename = publication.getFilename();
+        return Response.ok(filePath.toFile())
+                .header("Content-Disposition",
+                        "attachment;filename=\"" + filename + "\"")
+                .build();
+    }
+
     @PATCH
     @Path("/{id}")
+    @Authenticated
     @RolesAllowed({"Responsible", "Administrator"})
     public PublicationDTO updateVisibility(@PathParam("id") Long id, VisibilityDTO dto) throws MyEntityNotFoundException {
-        Publication publication = publicationBean.updateVisibility(id, dto.isVisible());
+        publicationBean.updateVisibility(id, dto.isVisible());
+        Publication publication = publicationBean.findInitialized(id);
         return PublicationDTO.from(publication);
     }
 
     @PUT
     @Path("/{id}")
+    @Authenticated
     public PublicationDTO updatePublication(@PathParam("id") Long id, PublicationCreateDTO dto) throws MyEntityNotFoundException {
-        Publication publication = publicationBean.find(id);
+        Publication publication = publicationBean.findInitialized(id);
         String username = securityContext.getUserPrincipal().getName();
 
         boolean isAuthor = publication.getAuthors() != null &&
@@ -88,14 +112,16 @@ public class PublicationService {
             throw new ForbiddenException("Only authors can update this publication");
         }
 
-        publication = publicationBean.updatePublication(id, dto);
+        publicationBean.updatePublication(id, dto);
+        publication = publicationBean.findInitialized(id);
         return PublicationDTO.from(publication);
     }
 
     @PUT
     @Path("/{id}/tags")
+    @Authenticated
     public PublicationDTO updateTags(@PathParam("id") Long id, ManageTagDTO dto) throws MyEntityNotFoundException {
-        Publication publication = publicationBean.find(id);
+        Publication publication = publicationBean.findInitialized(id);
         if (publication == null) {
             throw new MyEntityNotFoundException("Publication not found");
         }
@@ -124,14 +150,46 @@ public class PublicationService {
                 throw new BadRequestException("Invalid action: " + dto.getAction());
         }
 
-        publication = publicationBean.updateTags(id, dto);
+        publicationBean.updateTags(id, dto);
+        publication = publicationBean.findInitialized(id);
         return PublicationDTO.from(publication);
     }
 
     @GET
     @Path("/")
-    public List<PublicationDTO> getAllPublications() {
-        return PublicationDTO.from(publicationBean.findAll());
+    public Response getPublications(
+            @QueryParam("title") String title,
+            @QueryParam("author") String author,
+            @QueryParam("tag") String tag,
+            @QueryParam("area") String area,
+            @QueryParam("date") LocalDate date,
+            @QueryParam("sortBy") String sortBy,
+            @QueryParam("order") String order
+    ) {
+
+        List<Publication> publications =
+                publicationBean.findWithFilters(
+                        title, author, tag, area, date, sortBy, order
+                );
+
+        // privileged users see all comments
+        boolean privileged = securityContext.isUserInRole("RESPONSIBLE")
+                || securityContext.isUserInRole("ADMINISTRATOR");
+
+        List<PublicationDTO> dtos = PublicationDTO.from(publications);
+
+        if (!privileged) {
+            // for Colaborator and other non-privileged users keep only visible comments
+            dtos.forEach(dto -> {
+                if (dto.getComments() != null) {
+                    dto.setComments(dto.getComments().stream()
+                            .filter(c -> c.isVisible())
+                            .collect(Collectors.toList()));
+                }
+            });
+        }
+
+        return Response.ok(dtos).build();
     }
 
     @GET
@@ -152,7 +210,7 @@ public class PublicationService {
     @GET
     @Path("/{id}")
     public PublicationDTO getPublication(@PathParam("id") long id) throws MyEntityNotFoundException {
-        Publication publication = publicationBean.find(id);
+        Publication publication = publicationBean.findInitialized(id);
 
         // determine if caller is privileged; adjust role names if different in your app
         boolean privileged = securityContext.isUserInRole("RESPONSIBLE")
@@ -171,9 +229,10 @@ public class PublicationService {
 
     @GET
     @Path("/me")
+    @Authenticated
     public List<PublicationDTO> getMyPublications() {
         String username = securityContext.getUserPrincipal().getName();
-        return PublicationDTO.from(publicationBean.findByAuthor(username));
+        return PublicationDTO.from(publicationBean.findByAuthorInitialized(username));
     }
 
     @GET
@@ -184,6 +243,7 @@ public class PublicationService {
 
     @POST
     @Path("/{id}/comments")
+    @Authenticated
     public Response addComment(@PathParam("id") Long publicationId, CommentDTO dto) throws MyEntityNotFoundException {
         String username = securityContext.getUserPrincipal().getName();
         Comment comment = commentBean.create(username, publicationId, dto.content);
@@ -192,22 +252,35 @@ public class PublicationService {
 
     @PUT
     @Path("/{id}/comments/{commentId}")
+    @Authenticated
     public Response editComment(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
         String username = securityContext.getUserPrincipal().getName();
-        Comment comment = commentBean.editComment(commentId, username, dto.content);
+        Comment comment = commentBean.editComment(commentId,publicationId, username, dto.content);
         return Response.ok(CommentDTO.from(comment)).build();
     }
 
     @PUT
     @Path("/{id}/comments/{commentId}/visibility")
+    @Authenticated
     @RolesAllowed({"Administrator", "Responsible"})
-    public Response setVisibility(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
+    public Response setVisibilityComments(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId, CommentDTO dto) {
         Comment updatedComment = commentBean.setVisible(commentId, publicationId, dto.isVisible());
         return Response.ok(CommentDTO.from(updatedComment)).build();
     }
 
+    @DELETE
+    @Path("/{id}/comments/{commentId}")
+    @Authenticated
+    public Response deleteComment(@PathParam("id") Long publicationId, @PathParam("commentId") Long commentId) {
+        String username = securityContext.getUserPrincipal().getName();
+        commentBean.deleteComment(commentId, publicationId, username);
+        return Response.ok("{\"message\":\"Comment deleted.\"}").build();
+    }
+
+
     @POST
     @Path("/{id}/ratings")
+    @Authenticated
     public Response addRating(@PathParam("id") Long publicationId, RatingDTO dto) throws MyEntityNotFoundException {
         String username = securityContext.getUserPrincipal().getName();
         Rating rating = ratingBean.create(username, publicationId, dto.score);
@@ -216,18 +289,22 @@ public class PublicationService {
 
     @PUT
     @Path("/{id}/ratings/{ratingId}")
+    @Authenticated
     public Response editRating(@PathParam("id") Long publicationId, @PathParam("ratingId") Long ratingId, RatingDTO dto) {
         String username = securityContext.getUserPrincipal().getName();
-        ratingBean.delete(ratingId);
-        Rating rating = ratingBean.create(username, publicationId, dto.score);
+        //ratingBean.delete(ratingId, publicationId, username);
+        //Rating rating = ratingBean.create(username, publicationId, dto.score);
+        Rating rating = ratingBean.editRating(ratingId,publicationId, username, dto.score);
         return Response.ok(RatingDTO.from(rating)).build();
     }
 
     @DELETE
     @Path("/{id}/ratings/{ratingId}")
+    @Authenticated
     public Response deleteRating(@PathParam("id") Long publicationId, @PathParam("ratingId") Long ratingId) {
-        ratingBean.delete(ratingId);
-        return Response.noContent().build();
+        String username = securityContext.getUserPrincipal().getName();
+        ratingBean.delete(ratingId, publicationId, username);
+        return Response.ok("{\"message\":\"Rating deleted.\"}").build();
     }
 }
 

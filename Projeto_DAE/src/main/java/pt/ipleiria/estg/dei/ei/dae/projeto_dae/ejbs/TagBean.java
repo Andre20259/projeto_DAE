@@ -31,8 +31,18 @@ public class TagBean {
         if (tag == null) {
             throw new RuntimeException("Tag " + name + " not found");
         }
+        if (!tag.isVisible()) {
+            throw new IllegalArgumentException("Tag not available: " + name);
+        }
         return tag;
     }
+
+    public List<Tag> findVisible() {
+        return entityManager
+                .createQuery("SELECT t FROM Tag t WHERE t.visible = true", Tag.class)
+                .getResultList();
+    }
+
 
     public void delete(String name){
         Tag tag = find(name);
