@@ -21,6 +21,7 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.exceptions.MyEntityNotFoundException;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.ws.EmailService;
 
 
 import java.io.IOException;
@@ -32,9 +33,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Stateless
 public class PublicationBean {
@@ -43,6 +42,8 @@ public class PublicationBean {
     private UserBean userBean;
     @EJB
     private TagBean tagBean;
+    @EJB
+    private EmailService emailService;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -99,6 +100,20 @@ public class PublicationBean {
                 tagEntities
         );
         entityManager.persist(publication);
+
+        // Notify subscribers of tags
+        List<String> recipients = new ArrayList<>();
+        for (Tag t : tagEntities) {
+            if (t.getSubscriptions() == null) continue;
+            for (User u : t.getSubscriptions()) {
+                if (u != null && u.getEmail() != null && !u.getEmail().isBlank()) {
+                    recipients.add(u.getEmail());
+                }
+            }
+        }
+        if (!recipients.isEmpty()) {
+            emailService.sendPublicationNotification(recipients, publication);
+        }
 
         return  publication;
     }
