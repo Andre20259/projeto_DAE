@@ -1,6 +1,6 @@
 ### Upload publication
 POST http://localhost:8081/Projeto_DAE/api/publications HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4MTg2OCwiZXhwIjoxNzY5MTg1NDY4fQ.9oRJ2Ew7K8ktOgGsc5hsmgrnSYJkDo1h4X9Nf9PDr9ycjxBetWPXdxR4REBghBmG
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lIiwiaWF0IjoxNzY5MTg2ODI5LCJleHAiOjE3NjkxOTA0Mjl9.qi-SzHhm-5lO4Rk1X-St-qhjDIzRhs_uBBLvg4Es1mywnkabv8I2GiX8sjEQpPFe
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
@@ -120,7 +120,7 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ### Create rating on publication
 POST http://localhost:8081/Projeto_DAE/api/publications/1/ratings
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTQ0MzYyLCJleHAiOjE3NjkxNDc5NjJ9.wTNJW4WDpEgp2sBQ1GHq1qFTh6mzy4ibKhlwcB0iO0zH4yg9NPU9L3O1HaQLlslu
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4Njg0OSwiZXhwIjoxNzY5MTkwNDQ5fQ.yy9w5gLkDWmvvNGrr7J0SAKwMZxvuGL1s14oYhekqDQrirjLFmD3YxkG1tK9Zvx9
 
 {
   "score": 4
