@@ -5,7 +5,7 @@
         PGPC
       </NuxtLink>
 
-      <div v-if="username" class="ml-8 flex gap-6 text-sm font-medium">
+      <div v-if="currentUsername" class="ml-8 flex gap-6 text-sm font-medium">
         <NuxtLink to="/publications" class="text-gray-400 hover:text-white transition">
           Publications
         </NuxtLink>
@@ -22,7 +22,7 @@
       </div>
 
       <div class="ml-auto flex items-center gap-4 text-sm">
-        <template v-if="username && name">
+        <template v-if="currentUsername && name">
           <button
               @click="goToProfile"
               class="text-gray-300 hover:text-white font-medium border-r border-gray-700 pr-4"
@@ -193,6 +193,8 @@ const changingPass = ref(false)
 const passwordMsg = ref('')
 const passwordError = ref(false)
 
+const name = ref('')
+const role = ref('')
 // Forms
 const profileForm = reactive({ name: '', email: '', username: '', isActive: true })
 const passwordForm = reactive({ oldPassword: '', newPassword: '' })
@@ -200,6 +202,8 @@ const passwordForm = reactive({ oldPassword: '', newPassword: '' })
 onMounted(() => {
   if (process.client) {
     currentUsername.value = sessionStorage.getItem('username') || ''
+    name.value = sessionStorage.getItem('name') || ''
+    role.value = sessionStorage.getItem('role') || ''
     token.value = sessionStorage.getItem('auth_token') || ''
 
     if (!token.value) {

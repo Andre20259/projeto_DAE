@@ -132,13 +132,8 @@ const api = config.public.apiBase
 
 const name = ref('')
 const role = ref('')
-
-onMounted(() => {
-  if (!process.client) return
-
-  name.value = sessionStorage.getItem('name') || ''
-  role.value = sessionStorage.getItem('role') || ''
-})
+const username = ref('')
+const token = ref('')
 
 
 // form state
@@ -156,11 +151,12 @@ const selectedFile = ref(null)
 const errorMessage = ref('')
 const successMessage = ref('')
 const loading = ref(false)
-
 onMounted(() => {
   // ensure user is logged in
-  const token = sessionStorage.getItem('auth_token')
-  const username = sessionStorage.getItem('username')
+  token.value = sessionStorage.getItem('auth_token')
+  username.value = sessionStorage.getItem('username')
+  name.value = sessionStorage.getItem('name') || ''
+  role.value = sessionStorage.getItem('role') || ''
   if (!token || !username) {
     router.push('/login')
   }
