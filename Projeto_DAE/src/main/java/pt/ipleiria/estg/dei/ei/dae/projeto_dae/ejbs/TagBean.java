@@ -3,6 +3,7 @@ package pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
 
@@ -37,6 +38,14 @@ public class TagBean {
         return tag;
     }
 
+    public Tag findAny(String name){
+        Tag tag = entityManager.find(Tag.class, name);
+        if (tag == null) {
+            throw new RuntimeException("Tag " + name + " not found");
+        }
+        return tag;
+    }
+
     public List<Tag> findVisible() {
         return entityManager
                 .createQuery("SELECT t FROM Tag t WHERE t.visible = true", Tag.class)
@@ -45,12 +54,40 @@ public class TagBean {
 
 
     public void delete(String name){
-        Tag tag = find(name);
+        Tag tag = findAny(name);
+
+        for (Publication pub : tag.getPublications()) {
+            pub.getTags().remove(tag);
+            entityManager.merge(pub);
+        }
+        tag.getPublications().clear();
+
+        for (User user : tag.getSubscriptions()) {
+            user.getSubscribedTags().remove(tag);
+            entityManager.merge(user);
+        }
+        tag.getSubscriptions().clear();
+
         entityManager.remove(tag);
     }
 
     public Tag setVisible(String tagName, boolean visible) {
-        Tag tag = find(tagName);
+        Tag tag = findAny(tagName);
+
+        if (!visible) {
+            for (Publication pub : tag.getPublications()) {
+                pub.getTags().remove(tag);
+                entityManager.merge(pub);
+            }
+            tag.getPublications().clear();
+
+            for (User user : tag.getSubscriptions()) {
+                user.getSubscribedTags().remove(tag);
+                entityManager.merge(user);
+            }
+            tag.getSubscriptions().clear();
+        }
+
         tag.setVisible(visible);
         return tag;
     }

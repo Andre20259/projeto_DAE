@@ -4,6 +4,7 @@ import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Rating;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.User;
@@ -28,6 +29,18 @@ public class RatingBean {
         if(user == null) {
             throw new RuntimeException("User " + username + " not found");
         }
+
+        TypedQuery<Rating> query = entityManager.createQuery(
+                "SELECT r FROM Rating r WHERE r.user.username = :username AND r.publication.id = :pubId",
+                Rating.class
+        );
+        query.setParameter("username", username);
+        query.setParameter("pubId", publicationId);
+
+        if (!query.getResultList().isEmpty()) {
+            throw new IllegalArgumentException("User " + username + " has already rated this publication");
+        }
+
         Rating rating = new Rating(user, publication, score);
         entityManager.persist(rating);
         publication.addRating(rating);
