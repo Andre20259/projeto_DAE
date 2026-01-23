@@ -76,6 +76,7 @@ public class PublicationService {
 
     @PUT
     @Path("/{id}")
+    @Authenticated
     public PublicationDTO updatePublication(@PathParam("id") Long id, PublicationCreateDTO dto) throws MyEntityNotFoundException {
         Publication publication = publicationBean.find(id);
         String username = securityContext.getUserPrincipal().getName();
@@ -94,6 +95,7 @@ public class PublicationService {
 
     @PUT
     @Path("/{id}/tags")
+    @Authenticated
     public PublicationDTO updateTags(@PathParam("id") Long id, ManageTagDTO dto) throws MyEntityNotFoundException {
         Publication publication = publicationBean.find(id);
         if (publication == null) {

@@ -29,6 +29,42 @@ Accept: application/json
 GET http://localhost:8081/Projeto_DAE/api/publications/1
 Accept: application/json
 
+### Get my publications
+GET http://localhost:8081/Projeto_DAE/api/publications/me
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTI3NzI1LCJleHAiOjE3NjkxMzEzMjV9.2Q-S0dFc2UJyYBP2EZBPY1AqZjGgP-RbxYMEDeynMkVJMnUAkeXERnQshLgApFnT
+
+### Associate tags to publication
+PUT http://localhost:8081/Projeto_DAE/api/publications/1/tags
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTI3NzI1LCJleHAiOjE3NjkxMzEzMjV9.2Q-S0dFc2UJyYBP2EZBPY1AqZjGgP-RbxYMEDeynMkVJMnUAkeXERnQshLgApFnT
+
+{
+  "tags": ["Science"]
+}
+
+### Update publication
+PUT http://localhost:8081/Projeto_DAE/api/publications/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTMwMzE0LCJleHAiOjE3NjkxMzM5MTR9.PhRajBcCTymZFkPVGEunEzbSPGeEeEmc23noF24FnWbDtYixJb0MWwdLbBJnWvdc
+
+{
+  "title": "Updated Teste",
+  "description": "Updated teste",
+  "area": "Artificial Intelligence",
+  "authors": ["johndoe123"],
+  "tags": ["AI"]
+}
+
+### Update publication visibility
+PATCH http://localhost:8081/Projeto_DAE/api/publications/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEzMDUzMCwiZXhwIjoxNzY5MTM0MTMwfQ.hxKU6QSIzGft3bJyBE9QHIxxc4jnuFUc1546ER78mGmeePp1mbhywqezLpnpf1H8
+
+{
+  "visible": "false"
+}
+
 
 ### Create comment on publication
 POST http://localhost:8081/Projeto_DAE/api/publications/1/comments

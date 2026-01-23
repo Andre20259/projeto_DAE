@@ -11,7 +11,7 @@ POST http://localhost:8081/Projeto_DAE/api/tags
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyNzcwOSwiZXhwIjoxNzY5MTMxMzA5fQ.6MfKWgJSQadG1EkMwmybIlJrkbLyRpYtKhaneMScbtCoQlsPxsmltVbgM8GHC3l2
 
-{ "name": "AI" }
+{ "name": "Science" }
 
 ### Get All Tags
 GET http://localhost:8081/Projeto_DAE/api/tags
