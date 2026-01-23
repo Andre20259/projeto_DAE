@@ -137,7 +137,7 @@ public class PublicationService {
             @QueryParam("author") String author,
             @QueryParam("tag") String tag,
             @QueryParam("area") String area,
-            @QueryParam("date") LocalDateTime date,
+            @QueryParam("date") LocalDate date,
             @QueryParam("sortBy") String sortBy,
             @QueryParam("order") String order
     ) {

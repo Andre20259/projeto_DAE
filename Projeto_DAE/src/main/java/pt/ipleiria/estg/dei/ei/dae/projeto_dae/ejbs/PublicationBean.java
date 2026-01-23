@@ -100,7 +100,7 @@ public class PublicationBean {
             String author,
             String tag,
             String area,
-            LocalDateTime date,
+            LocalDate date,
             String sortBy,
             String order
     ) {
@@ -119,9 +119,11 @@ public class PublicationBean {
         if (area != null && !area.isBlank()) {
             jpql.append(" AND LOWER(p.area) = :area");
         }
+
         if (date != null) {
-            jpql.append(" AND p.uploadDate = :date");
+            jpql.append(" AND p.uploadDate >= :startDate AND p.uploadDate < :endDate");
         }
+
         if (joinAuthors) {
             jpql.append(" AND LOWER(a.username) = :author");
         }
@@ -129,15 +131,17 @@ public class PublicationBean {
             jpql.append(" AND LOWER(t.name) = :tag");
         }
 
-        // decide sort expression safely
+        // Sorting
         String sortExpr = "p.id";
         if ("title".equalsIgnoreCase(sortBy)) sortExpr = "p.title";
         else if ("date".equalsIgnoreCase(sortBy)) sortExpr = "p.uploadDate";
         else if ("area".equalsIgnoreCase(sortBy)) sortExpr = "p.area";
+
         String sortOrder = "DESC".equalsIgnoreCase(order) ? "DESC" : "ASC";
         jpql.append(" ORDER BY ").append(sortExpr).append(" ").append(sortOrder);
 
-        TypedQuery<Publication> q = entityManager.createQuery(jpql.toString(), Publication.class);
+        TypedQuery<Publication> q =
+                entityManager.createQuery(jpql.toString(), Publication.class);
 
         if (title != null && !title.isBlank()) {
             q.setParameter("title", "%" + title.toLowerCase() + "%");
@@ -145,9 +149,13 @@ public class PublicationBean {
         if (area != null && !area.isBlank()) {
             q.setParameter("area", area.toLowerCase());
         }
+
+
         if (date != null) {
-            q.setParameter("date", date);
+            q.setParameter("startDate", date.atStartOfDay());
+            q.setParameter("endDate", date.plusDays(1).atStartOfDay());
         }
+
         if (joinAuthors) {
             q.setParameter("author", author.toLowerCase());
         }
@@ -157,6 +165,7 @@ public class PublicationBean {
 
         return q.getResultList();
     }
+
 
     public Publication find(Long id) {
         return entityManager.find(Publication.class, id);
