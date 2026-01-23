@@ -50,8 +50,8 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ###
 
 ### GET user activity
-GET http://localhost:8081/Projeto_DAE/api/users/johndoe/activity
+GET http://localhost:8081/Projeto_DAE/api/users/admin/activity
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyODA3OCwiZXhwIjoxNzY5MTMxNjc4fQ.ZdT0EzGc_-mpzIm_Kydix-2Pm79DqgYJELCSbXCsETUvmiFl_KzABAxz1YNtiAsW
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4NTYyMSwiZXhwIjoxNzY5MTg5MjIxfQ.zrh8IOGRiQLKmB6xQKEvXm_73csxzUro6WRLndEoaR8SOSUy9ytlgGYmpfcyq19F
 
 ###

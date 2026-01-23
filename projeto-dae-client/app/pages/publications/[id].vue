@@ -57,9 +57,10 @@
                 <template v-for="i in 5" :key="i">
                   <button
                       :aria-label="`Rate ${i} stars`"
-                      @click="submitRating(i)"
-                      class="text-yellow-400 text-2xl leading-none focus:outline-none"
-                      :class="{'opacity-100': i <= selectedRating, 'opacity-40': i > selectedRating}"
+                      @click="handleRatingClick(i)"
+                      class="text-2xl leading-none focus:outline-none"
+                      :class="i <= selectedRating ? 'text-yellow-400' : 'text-gray-500'"
+                      :disabled="ratingLoading"
                   >
                     ★
                   </button>
@@ -68,26 +69,39 @@
                   (Your selection: {{ selectedRating || '—' }})
                 </div>
               </div>
-              <p v-if="ratingMessage" class="text-xs mt-1" :class="ratingMessageError ? 'text-red-400' : 'text-green-400'">
+              <p v-if="ratingMessage" class="text-xs mt-1" :class="ratingError ? 'text-red-400' : 'text-green-400'">
                 {{ ratingMessage }}
               </p>
             </div>
 
             <!-- Comments -->
             <div class="mt-4">
-              <h3 class="text-white font-semibold mb-2">Comments</h3>
+              <h3 class="text-white font-semibold mb-3">Comments</h3>
 
               <div v-if="!(publication.comments && publication.comments.length)" class="text-gray-400 mb-3">
                 No comments yet.
               </div>
 
               <div v-for="c in publication.comments" :key="c.id" class="mb-3 border border-gray-700 p-3 rounded bg-gray-900">
-                <div class="flex justify-between items-center">
-                  <div class="text-gray-200 font-medium">{{ c.author }}</div>
-                  <div class="flex items-center gap-2">
-                    <div class="text-gray-400 text-xs mr-3">{{ formatDateTime(c.created_at) }}</div>
+                <div class="flex justify-between items-start">
+                  <div>
+                    <div class="text-gray-200 font-medium">{{ c.author }}</div>
+                    <div class="text-gray-400 text-xs mt-1">{{ formatDateTime(c.created_at) }}</div>
+                  </div>
 
-                    <!-- EDIT BUTTON: visible when comment.author matches session username -->
+                  <div class="flex items-center gap-2">
+                    <!-- Visibility toggle (only for Responsible or Administrator) -->
+                    <button
+                        v-if="canToggleVisibility"
+                        @click="toggleVisibility(c)"
+                        :disabled="togglingVisibilityId === c.id"
+                        class="text-xs px-2 py-1 rounded border border-gray-600 bg-gray-800 hover:bg-gray-700 text-gray-200"
+                        :title="c.visible ? 'Hide comment' : 'Show comment'"
+                    >
+                      {{ togglingVisibilityId === c.id ? '...' : (c.visible ? 'Visible' : 'Hidden') }}
+                    </button>
+
+                    <!-- Edit button (only owner) -->
                     <button
                         v-if="isMyComment(c)"
                         @click="startEdit(c)"
@@ -95,10 +109,20 @@
                     >
                       Edit
                     </button>
+
+                    <!-- Delete button (owner OR Administrator) -->
+                    <button
+                        v-if="canDeleteComment(c)"
+                        @click="deleteComment(c)"
+                        :disabled="deletingCommentId === c.id"
+                        class="text-xs text-red-400 hover:underline"
+                    >
+                      {{ deletingCommentId === c.id ? 'Deleting...' : 'Delete' }}
+                    </button>
                   </div>
                 </div>
 
-                <div class="text-gray-300 mt-1">{{ c.content }}</div>
+                <div class="text-gray-300 mt-3">{{ c.content }}</div>
               </div>
 
               <!-- Create / Edit comment -->
@@ -173,7 +197,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter, useRuntimeConfig } from '#imports'
 
 const route = useRoute()
@@ -198,10 +222,14 @@ const commentLoading = ref(false)
 const commentMessage = ref('')
 const commentMessageError = ref(false)
 
+const deletingCommentId = ref(null)
+const togglingVisibilityId = ref(null)
+
 /* RATING */
 const selectedRating = ref(0)
+const ratingLoading = ref(false)
 const ratingMessage = ref('')
-const ratingMessageError = ref(false)
+const ratingError = ref(false)
 
 /* SUMMARY */
 const summaryLoading = ref(false)
@@ -219,9 +247,14 @@ onMounted(() => {
 async function fetchPublication() {
   loading.value = true
   try {
-    publication.value = await $fetch(`${api}/publications/${id}`, {
+    const res = await $fetch(`${api}/publications/${id}`, {
       headers: token.value ? { Authorization: `Bearer ${token.value}` } : {}
     })
+    publication.value = res
+
+    // initialise selectedRating from server-side rating (if any)
+    const ur = findUserRating(publication.value)
+    selectedRating.value = ur ? (ur.score ?? ur.rating ?? ur.value ?? 0) : 0
   } catch (err) {
     publication.value = null
     console.error('Failed to fetch publication', err)
@@ -232,9 +265,16 @@ async function fetchPublication() {
 
 /* COMMENTS helpers */
 function isMyComment(c) {
-  // API returns { author: "username", ... }
   return c && c.author === username.value
 }
+
+function canDeleteComment(c) {
+  return isMyComment(c) || role.value === 'Administrator'
+}
+
+const canToggleVisibility = computed(() => {
+  return role.value === 'Administrator' || role.value === 'Responsible'
+})
 
 function startEdit(c) {
   editingCommentId.value = c.id
@@ -290,23 +330,121 @@ async function submitComment() {
   }
 }
 
-/* RATING */
-async function submitRating(score) {
-  selectedRating.value = score
-  ratingMessage.value = ''
-  ratingMessageError.value = false
+async function deleteComment(c) {
+  const ok = confirm('Delete this comment?')
+  if (!ok) return
+
+  deletingCommentId.value = c.id
+  commentMessage.value = ''
+  commentMessageError.value = false
+
   try {
-    await $fetch(`${api}/publications/${id}/ratings`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${token.value}` },
-      body: { score }
+    await $fetch(`${api}/publications/${id}/comments/${c.id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token.value}` }
     })
-    ratingMessage.value = 'Rating submitted'
+    commentMessage.value = 'Comment deleted'
+    commentMessageError.value = false
     await fetchPublication()
   } catch (err) {
-    console.error(err)
+    console.error('Delete failed', err)
+    commentMessage.value = 'Failed to delete comment'
+    commentMessageError.value = true
+  } finally {
+    deletingCommentId.value = null
+  }
+}
+
+async function toggleVisibility(c) {
+  if (!canToggleVisibility.value) return
+
+  togglingVisibilityId.value = c.id
+  commentMessage.value = ''
+  commentMessageError.value = false
+
+  try {
+    const newVisible = !c.visible
+    await $fetch(`${api}/publications/${id}/comments/${c.id}/visibility`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token.value}` },
+      body: { visible: newVisible }
+    })
+    commentMessage.value = `Comment ${newVisible ? 'made visible' : 'hidden'}`
+    commentMessageError.value = false
+    await fetchPublication()
+  } catch (err) {
+    console.error('Toggle visibility failed', err)
+    commentMessage.value = 'Failed to toggle visibility'
+    commentMessageError.value = true
+  } finally {
+    togglingVisibilityId.value = null
+  }
+}
+
+/* RATING helpers */
+
+// find user's rating object
+function findUserRating(pub) {
+  if (!pub || !Array.isArray(pub.ratings)) return null
+  return pub.ratings.find(r => r && (r.author === username.value || r.username === username.value || r.user === username.value)) || null
+}
+
+// handle click on a star (optimistic and correct behavior)
+async function handleRatingClick(score) {
+  if (ratingLoading.value) return
+  ratingLoading.value = true
+  ratingMessage.value = ''
+  ratingError.value = false
+
+  const prevSelection = selectedRating.value
+  selectedRating.value = score // optimistic
+
+  try {
+    const ur = findUserRating(publication.value)
+
+    if (!ur) {
+      // No existing rating -> create
+      await $fetch(`${api}/publications/${id}/ratings`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token.value}` },
+        body: { score }
+      })
+      ratingMessage.value = 'Rating created'
+    } else {
+      const ratingId = ur.id
+      const existingScore = ur.score ?? ur.rating ?? ur.value ?? null
+
+      if (existingScore === score) {
+        // same score clicked -> delete rating
+        await $fetch(`${api}/publications/${id}/ratings/${ratingId}`, {
+          method: 'DELETE',
+          headers: { Authorization: `Bearer ${token.value}` }
+        })
+        selectedRating.value = 0
+        ratingMessage.value = 'Rating removed'
+      } else {
+        // different score -> update
+        await $fetch(`${api}/publications/${id}/ratings/${ratingId}`, {
+          method: 'PUT',
+          headers: { Authorization: `Bearer ${token.value}` },
+          body: { score }
+        })
+        selectedRating.value = score
+        ratingMessage.value = 'Rating updated'
+      }
+    }
+
+    // refresh server state (avg rating, ratings list)
+    await fetchPublication()
+  } catch (err) {
+    console.error('Rating action failed', err)
     ratingMessage.value = 'Failed to submit rating'
-    ratingMessageError.value = true
+    ratingError.value = true
+    // revert optimistic selection to last known server value
+    const ur2 = findUserRating(publication.value)
+    selectedRating.value = ur2 ? (ur2.score ?? ur2.rating ?? ur2.value ?? 0) : prevSelection
+  } finally {
+    ratingLoading.value = false
   }
 }
 
@@ -316,7 +454,7 @@ async function generateSummary() {
   summaryLoading.value = true
   try {
     const dto = await $fetch(`${api}/publications/${id}/summary`, {
-      headers: { Authorization: `Bearer ${token.value}` }
+      headers: token.value ? { Authorization: `Bearer ${token.value}` } : {}
     })
     if (dto && typeof dto.summary === 'string') {
       if (!publication.value) publication.value = {}
