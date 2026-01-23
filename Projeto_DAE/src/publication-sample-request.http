@@ -13,7 +13,7 @@ Content-Disposition: form-data; name="publication"
 Content-Type: application/json
 
 {
-  "title": "Teste",
+  "title": "Teste 2",
   "description": "Descrição teste",
   "area": "AI",
   "authors": ["admin"],
@@ -23,6 +23,11 @@ Content-Type: application/json
 
 ### Get all publications
 GET http://localhost:8081/Projeto_DAE/api/publications
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4MTg2OCwiZXhwIjoxNzY5MTg1NDY4fQ.9oRJ2Ew7K8ktOgGsc5hsmgrnSYJkDo1h4X9Nf9PDr9ycjxBetWPXdxR4REBghBmG
+
+### Get hidden publications
+GET http://localhost:8081/Projeto_DAE/api/publications/hidden
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4MTg2OCwiZXhwIjoxNzY5MTg1NDY4fQ.9oRJ2Ew7K8ktOgGsc5hsmgrnSYJkDo1h4X9Nf9PDr9ycjxBetWPXdxR4REBghBmG
 
@@ -77,10 +82,10 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4M
 ### Create comment on publication
 POST http://localhost:8081/Projeto_DAE/api/publications/1/comments
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTI1NTM5LCJleHAiOjE3NjkxMjkxMzh9.HkAUoyACgLAFUoaJM0AJ-GfKiR5JtgCHNyatdZ9exyjPtMYBrhlJ70Md4GI4IYCo
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4MTg2OCwiZXhwIjoxNzY5MTg1NDY4fQ.9oRJ2Ew7K8ktOgGsc5hsmgrnSYJkDo1h4X9Nf9PDr9ycjxBetWPXdxR4REBghBmG
 
 {
-  "content": "Great publication!"
+  "content": "Very good publication!"
 }
 
 ###Update comment on publication
@@ -93,9 +98,9 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyN
 }
 
 ### Set visible comment on publication
-PUT http://localhost:8081/Projeto_DAE/api/publications/2/comments/1/visibility
+PUT http://localhost:8081/Projeto_DAE/api/publications/1/comments/1/visibility
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTEyNjE4OSwiZXhwIjoxNzY5MTI5Nzg5fQ.KDoXocMAXuAAFdK4WonteO4OC_GTmGFOYpZagTdVUiG8RwDrgMZNohimAXrQAN8e
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4MTg2OCwiZXhwIjoxNzY5MTg1NDY4fQ.9oRJ2Ew7K8ktOgGsc5hsmgrnSYJkDo1h4X9Nf9PDr9ycjxBetWPXdxR4REBghBmG
 
 {
   "visible": "false"

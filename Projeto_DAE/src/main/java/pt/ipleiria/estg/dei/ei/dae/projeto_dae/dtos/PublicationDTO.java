@@ -19,13 +19,14 @@ public class PublicationDTO {
     public List<CommentDTO> comments;
     public List<RatingDTO> ratings;
     public float averageRating;
+    public boolean isVisible;
 
     public PublicationDTO() {}
 
     public PublicationDTO(Long id, String title, String filename, String uploadDate,
                           String description, String summary, String area, List<UserDTO> authors,
                           List<TagDTO> tags, List<CommentDTO> comments,
-                          List<RatingDTO> ratings, float averageRating) {
+                          List<RatingDTO> ratings, float averageRating, boolean isVisible) {
         this.id = id;
         this.title = title;
         this.filename = filename;
@@ -38,6 +39,7 @@ public class PublicationDTO {
         this.comments = comments;
         this.ratings = ratings;
         this.averageRating = averageRating;
+        this.isVisible = isVisible;
     }
 
     public static PublicationDTO from(Publication publication){
@@ -53,7 +55,8 @@ public class PublicationDTO {
                 TagDTO.from(publication.getTags()),
                 CommentDTO.from(publication.getComments()),
                 RatingDTO.from(publication.getRatings()),
-                publication.getAverageRating()
+                publication.getAverageRating(),
+                publication.isVisible()
         );
     }
 

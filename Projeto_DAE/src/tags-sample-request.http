@@ -1,9 +1,8 @@
 ### REQUEST JWT TOKEN
 POST http://localhost:8081/Projeto_DAE/api/auth/login
 Content-Type: application/json
-Accept: application/json
 
-{ "username": "johndoe123", "password": "password123" }
+{ "username": "johndoe", "password": "password123" }
 
 
 ### Create Tag

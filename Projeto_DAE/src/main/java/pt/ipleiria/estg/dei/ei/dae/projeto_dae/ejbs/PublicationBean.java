@@ -103,6 +103,12 @@ public class PublicationBean {
         return  publication;
     }
 
+    public List<Publication> findHiddenPublications() {
+        return entityManager
+                .createQuery("SELECT p FROM Publication p WHERE p.isVisible = false", Publication.class)
+                .getResultList();
+    }
+
     public List<Publication> findWithFilters(
             String title,
             String author,
@@ -119,7 +125,7 @@ public class PublicationBean {
         if (joinAuthors) jpql.append(" JOIN p.authors a");
         if (joinTags) jpql.append(" JOIN p.tags t");
 
-        jpql.append(" WHERE 1=1");
+        jpql.append(" WHERE p.isVisible = true AND 1=1");
 
         if (title != null && !title.isBlank()) {
             jpql.append(" AND LOWER(p.title) LIKE :title");
