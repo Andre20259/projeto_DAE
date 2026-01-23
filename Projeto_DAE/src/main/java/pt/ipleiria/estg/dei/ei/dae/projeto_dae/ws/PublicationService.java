@@ -182,15 +182,27 @@ public class PublicationService {
 
     @GET
     @Path("/")
+    @Authenticated
     public Response getPublications(
             @QueryParam("title") String title,
             @QueryParam("author") String author,
             @QueryParam("tag") String tag,
             @QueryParam("area") String area,
-            @QueryParam("date") LocalDate date,
+            @QueryParam("date") String dateStr,
             @QueryParam("sortBy") String sortBy,
             @QueryParam("order") String order
     ) {
+
+        LocalDate date = null;
+        if (dateStr != null && !dateStr.isBlank()) {
+            try {
+                date = LocalDate.parse(dateStr);
+            } catch (Exception e) {
+                throw new BadRequestException(
+                        "Invalid date format. Expected yyyy-MM-dd"
+                );
+            }
+        }
 
         List<Publication> publications =
                 publicationBean.findWithFilters(
