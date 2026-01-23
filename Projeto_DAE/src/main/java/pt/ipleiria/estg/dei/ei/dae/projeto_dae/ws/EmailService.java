@@ -5,6 +5,7 @@ import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Publication;
+import pt.ipleiria.estg.dei.ei.dae.projeto_dae.entities.Tag;
 
 import java.util.List;
 import java.util.Properties;
@@ -22,6 +23,36 @@ public class EmailService {
         body.append("Title: ").append(publication.getTitle()).append("\n");
         body.append("Area: ").append(publication.getArea()).append("\n\n");
         body.append("Description:\n").append(publication.getDescription()).append("\n\n");
+        body.append("View the publication in the application.");
+        String bodyText = body.toString();
+        for (String recipient : to) {
+            sendEmail(recipient, subject, bodyText);
+        }
+    }
+
+    public void sendAddTagNotification(List<String> to, Publication publication, Tag tag) {
+        String subject = "Tag "+ tag.getName() + " added to " + publication.getTitle();
+        StringBuilder body = new StringBuilder();
+        body.append("A new tag you are subscribed to was added to a publication.\n\n");
+        body.append("Title: ").append(publication.getTitle()).append("\n");
+        body.append("Area: ").append(publication.getArea()).append("\n\n");
+        body.append("Description:\n").append(publication.getDescription()).append("\n\n");
+        body.append("New Tag Added: ").append(tag.getName()).append("\n\n");
+        body.append("View the publication in the application.");
+        String bodyText = body.toString();
+        for (String recipient : to) {
+            sendEmail(recipient, subject, bodyText);
+        }
+    }
+
+    public void sendRemoveTagNotification(List<String> to, Publication publication, Tag tag) {
+        String subject = "Tag "+ tag.getName() + " removed to " + publication.getTitle();
+        StringBuilder body = new StringBuilder();
+        body.append("A new tag you are subscribed to was removed to a publication.\n\n");
+        body.append("Title: ").append(publication.getTitle()).append("\n");
+        body.append("Area: ").append(publication.getArea()).append("\n\n");
+        body.append("Description:\n").append(publication.getDescription()).append("\n\n");
+        body.append("Removed tag: ").append(tag.getName()).append("\n\n");
         body.append("View the publication in the application.");
         String bodyText = body.toString();
         for (String recipient : to) {

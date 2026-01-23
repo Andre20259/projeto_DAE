@@ -102,8 +102,17 @@ public class PublicationBean {
         entityManager.persist(publication);
 
         // Notify subscribers of tags
+        List<String> recipients = getReceipientsForTags(tagEntities);
+        if (!recipients.isEmpty()) {
+            emailService.sendPublicationNotification(recipients, publication);
+        }
+
+        return  publication;
+    }
+
+    private List<String> getReceipientsForTags(List<Tag> tags) {
         List<String> recipients = new ArrayList<>();
-        for (Tag t : tagEntities) {
+        for (Tag t : tags) {
             if (t.getSubscriptions() == null) continue;
             for (User u : t.getSubscriptions()) {
                 if (u != null && u.getEmail() != null && !u.getEmail().isBlank()) {
@@ -111,11 +120,7 @@ public class PublicationBean {
                 }
             }
         }
-        if (!recipients.isEmpty()) {
-            emailService.sendPublicationNotification(recipients, publication);
-        }
-
-        return  publication;
+        return new ArrayList<>(recipients);
     }
 
     public List<Publication> findHiddenPublications() {
@@ -295,6 +300,12 @@ public class PublicationBean {
                     throw new IllegalArgumentException("Publication already has tag: " + dto.getName());
                 }
                 publication.addTag(tag);
+
+                List<String> addRecipients = getReceipientsForTags(Collections.singletonList(tag));
+                if (!addRecipients.isEmpty()) {
+                    emailService.sendAddTagNotification(addRecipients, publication, tag);
+                }
+
                 break;
             case "remove":
                 if (tags == null || tags.isEmpty()) {
@@ -304,6 +315,12 @@ public class PublicationBean {
                     throw new MyEntityNotFoundException("Publication does not have tag: " + dto.getName());
                 }
                 publication.removeTag(tag);
+
+                List<String> removeRecipients = getReceipientsForTags(Collections.singletonList(tag));
+                if (!removeRecipients.isEmpty()) {
+                    emailService.sendRemoveTagNotification(removeRecipients, publication, tag);
+                }
+
                 break;
             default:
                 throw new IllegalArgumentException("Invalid action: " + dto.getAction());
