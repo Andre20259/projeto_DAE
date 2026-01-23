@@ -17,6 +17,17 @@ public class RatingBean {
     @EJB
     private PublicationBean publicationBean;
 
+    public Rating findUserRating(String username, Long publicationId) {
+        TypedQuery<Rating> query = entityManager.createQuery(
+                "SELECT r FROM Rating r WHERE r.user.username = :username AND r.publication.id = :pubId",
+                Rating.class
+        );
+        query.setParameter("username", username);
+        query.setParameter("pubId", publicationId);
+
+        return query.getResultList().stream().findFirst().orElse(null);
+    }
+
     public Rating create(String username, Long publicationId, int score) {
         if (score < 1 || score > 5) {
             throw new IllegalArgumentException("Rating must be between 1 and 5");

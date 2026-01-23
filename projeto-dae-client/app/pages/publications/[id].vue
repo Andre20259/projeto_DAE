@@ -269,6 +269,7 @@ const updatingPub = ref(false)
 const pubMessage = ref('')
 const pubMessageError = ref(false)
 const editForm = reactive({title: '', description: '', area: ''})
+const myRatingId = ref(null)
 
 // Comments State
 const commentText = ref('')
@@ -314,12 +315,30 @@ async function fetchPublication() {
     editForm.description = res.description
     editForm.area = res.area
     // Load rating
+    if (token.value) {
+      await fetchMyRating()
+    }
     const ur = res.ratings?.find(r => r.author === username.value)
     selectedRating.value = ur ? (ur.score ?? 0) : 0
   } catch (err) {
     console.error('Fetch failed', err)
   } finally {
     loading.value = false
+  }
+}
+
+async function fetchMyRating() {
+  try {
+    const res = await $fetch(`${api}/publications/${id}/ratings/me`, {
+      headers: { Authorization: `Bearer ${token.value}` }
+    })
+    // If found, update state
+    selectedRating.value = res.score
+    myRatingId.value = res.id
+  } catch (err) {
+    // If 404, the user simply hasn't rated yet
+    selectedRating.value = 0
+    myRatingId.value = null
   }
 }
 
@@ -447,29 +466,40 @@ async function deleteComment(c) {
 
 // 4. RATINGS / TAGS / SUMMARY
 async function handleRatingClick(score) {
+  if (!token.value) return // Ensure user is logged in
+
   ratingLoading.value = true
   ratingMessage.value = ''
   try {
-    const ur = publication.value.ratings?.find(r => r.author === username.value)
-    if (!ur) {
+    if (!myRatingId.value) {
+      // CREATE: Use the score clicked
       await $fetch(`${api}/publications/${id}/ratings`, {
         method: 'POST',
-        headers: {Authorization: `Bearer ${token.value}`},
-        body: {score}
+        headers: { Authorization: `Bearer ${token.value}` },
+        body: { score }
       })
-    } else if (ur.score === score) {
-      await $fetch(`${api}/publications/${id}/ratings/${ur.id}`, {
+    } else if (selectedRating.value === score) {
+      // DELETE: If they click the same star they already gave
+      await $fetch(`${api}/publications/${id}/ratings/${myRatingId.value}`, {
         method: 'DELETE',
-        headers: {Authorization: `Bearer ${token.value}`}
+        headers: { Authorization: `Bearer ${token.value}` }
       })
     } else {
-      await $fetch(`${api}/publications/${id}/ratings/${ur.id}`, {
+      // UPDATE: If they click a different star
+      await $fetch(`${api}/publications/${id}/ratings/${myRatingId.value}`, {
         method: 'PUT',
-        headers: {Authorization: `Bearer ${token.value}`},
-        body: {score}
+        headers: { Authorization: `Bearer ${token.value}` },
+        body: { score }
       })
     }
+
+    // Refresh both the publication (for avg rating) and "my rating"
     await fetchPublication()
+    await fetchMyRating()
+
+  } catch (err) {
+    ratingMessage.value = 'Failed to update rating'
+    ratingError.value = true
   } finally {
     ratingLoading.value = false
   }
