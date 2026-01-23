@@ -10,7 +10,7 @@ POST http://localhost:8081/Projeto_DAE/api/tags
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4Njg0OSwiZXhwIjoxNzY5MTkwNDQ5fQ.yy9w5gLkDWmvvNGrr7J0SAKwMZxvuGL1s14oYhekqDQrirjLFmD3YxkG1tK9Zvx9
 
-{ "name": "AI" }
+{ "name": "Teste" }
 
 ### Get All Tags
 GET http://localhost:8081/Projeto_DAE/api/tags
@@ -27,26 +27,26 @@ Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxN
 ###Get Hidden Tags
 GET http://localhost:8081/Projeto_DAE/api/tags/hidden
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE0MjEwOSwiZXhwIjoxNzY5MTQ1NzA5fQ.Fcb2NObTuxmHu4htpYlvFRysh9rAHWPOQEXvy3Azsxiu38QjF2L0Cs-eXi8PUsLA
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4Njg0OSwiZXhwIjoxNzY5MTkwNDQ5fQ.yy9w5gLkDWmvvNGrr7J0SAKwMZxvuGL1s14oYhekqDQrirjLFmD3YxkG1tK9Zvx9
 
 
 ### Remove tags
-DELETE http://localhost:8081/Projeto_DAE/api/tags/AI
+DELETE http://localhost:8081/Projeto_DAE/api/tags/Teste
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJqb2huZG9lMTIzIiwiaWF0IjoxNzY5MTE5NzYzLCJleHAiOjE3NjkxMjMzNjN9.wyoo5uHZqfHpG7qOETIYjvGSTB56tkw16beGl8hqtz74KFqnienRFS58aFFbNRu6
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4Njg0OSwiZXhwIjoxNzY5MTkwNDQ5fQ.yy9w5gLkDWmvvNGrr7J0SAKwMZxvuGL1s14oYhekqDQrirjLFmD3YxkG1tK9Zvx9
 
 
 ### Hidden Tag
-PUT http://localhost:8081/Projeto_DAE/api/tags/AI
+PUT http://localhost:8081/Projeto_DAE/api/tags/Teste
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE0MjEwOSwiZXhwIjoxNzY5MTQ1NzA5fQ.Fcb2NObTuxmHu4htpYlvFRysh9rAHWPOQEXvy3Azsxiu38QjF2L0Cs-eXi8PUsLA
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4Njg0OSwiZXhwIjoxNzY5MTkwNDQ5fQ.yy9w5gLkDWmvvNGrr7J0SAKwMZxvuGL1s14oYhekqDQrirjLFmD3YxkG1tK9Zvx9
 
 { "visible": "false" }
 
 ### Subscribe to Tag
-POST http://localhost:8081/Projeto_DAE/api/tags/AI/subscribe
+POST http://localhost:8081/Projeto_DAE/api/tags/Ma/subscribe
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE0MjEwOSwiZXhwIjoxNzY5MTQ1NzA5fQ.Fcb2NObTuxmHu4htpYlvFRysh9rAHWPOQEXvy3Azsxiu38QjF2L0Cs-eXi8PUsLA
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2OTE4Njg0OSwiZXhwIjoxNzY5MTkwNDQ5fQ.yy9w5gLkDWmvvNGrr7J0SAKwMZxvuGL1s14oYhekqDQrirjLFmD3YxkG1tK9Zvx9
 
 ### Unsubscribe from Tag
 DELETE http://localhost:8081/Projeto_DAE/api/tags/AI/unsubscribe
