@@ -2,7 +2,6 @@ package pt.ipleiria.estg.dei.ei.dae.projeto_dae.ejbs;
 
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
-import jakarta.inject.Inject;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.persistence.EntityManager;
@@ -25,14 +24,11 @@ import jakarta.ws.rs.core.Response;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
