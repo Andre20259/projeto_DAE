@@ -64,7 +64,7 @@ public class PublicationService {
     @PermitAll
     public Response optionsSingle() {
         return Response.ok()
-                .header("Allow", "GET, POST, PUT, DELETE, OPTIONS")
+                .header("Allow", "GET, PATCH, POST, PUT, DELETE, OPTIONS")
                 .build();
     }
 

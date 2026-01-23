@@ -14,7 +14,7 @@ public class CORSFilter implements ContainerResponseFilter {
                        ContainerResponseContext responseContext) throws IOException {
 
         responseContext.getHeaders().putSingle("Access-Control-Allow-Origin", "http://localhost:3000");
-        responseContext.getHeaders().putSingle("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        responseContext.getHeaders().putSingle("Access-Control-Allow-Methods", "GET, PATCH, POST, PUT, DELETE, OPTIONS");
         responseContext.getHeaders().putSingle("Access-Control-Allow-Headers", "Content-Type, Authorization");
         responseContext.getHeaders().putSingle("Access-Control-Expose-Headers", "Authorization");
         responseContext.getHeaders().putSingle("Access-Control-Allow-Credentials", "true");
