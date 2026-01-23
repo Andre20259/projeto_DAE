@@ -23,6 +23,8 @@ import pt.ipleiria.estg.dei.ei.dae.projeto_dae.security.Authenticated;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -130,8 +132,22 @@ public class PublicationService {
 
     @GET
     @Path("/")
-    public List<PublicationDTO> getAllPublications() {
-        return PublicationDTO.from(publicationBean.findAll());
+    public Response getPublications(
+            @QueryParam("title") String title,
+            @QueryParam("author") String author,
+            @QueryParam("tag") String tag,
+            @QueryParam("area") String area,
+            @QueryParam("date") LocalDateTime date,
+            @QueryParam("sortBy") String sortBy,
+            @QueryParam("order") String order
+    ) {
+
+        List<Publication> publications =
+                publicationBean.findWithFilters(
+                        title, author, tag, area, date, sortBy, order
+                );
+
+        return Response.ok(PublicationDTO.from(publications)).build();
     }
 
     @GET
